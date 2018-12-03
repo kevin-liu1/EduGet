@@ -3,7 +3,7 @@ import SignUp from './SignUp';
 import Header from './Header';
 import Footer from './Footer';
 import Grid from '@material-ui/core/Grid';
-import './App.css'
+import '../styles/App.css'
 
 class Main extends Component {
   render() {
