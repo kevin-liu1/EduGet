@@ -1,5 +1,6 @@
-#!/mnt/c/Users/iceandele/Linux/capstone/wiseturn/wiseturnenv/bin/python2
-
+#!/bin/sh
+'''exec' "/Users/jamesmilitante/Git /Capstone/wiseturn/wiseturnenv/bin/python3" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys

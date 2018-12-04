@@ -1,4 +1,4 @@
-#!/mnt/c/Users/iceandele/Linux/capstone/wiseturn/wiseturnenv/bin/python
+#!/Users/jamesmilitante/Git /Capstone/wiseturn/wiseturnenv/bin/python
 
 import sys
 import getopt

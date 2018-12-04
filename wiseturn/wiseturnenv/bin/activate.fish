@@ -1,4 +1,4 @@
-# This file must be used using `. bin/activate.fish` *within a running fish ( http://fishshell.com ) session*.
+# This file must be used using `source bin/activate.fish` *within a running fish ( http://fishshell.com ) session*.
 # Do not run it directly.
 
 function deactivate -d 'Exit virtualenv mode and return to the normal environment.'
@@ -36,7 +36,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/mnt/c/Users/iceandele/Linux/capstone/wiseturn/wiseturnenv"
+set -gx VIRTUAL_ENV "/Users/jamesmilitante/Git /Capstone/wiseturn/wiseturnenv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
@@ -64,7 +64,7 @@ if test -z "$VIRTUAL_ENV_DISABLE_PROMPT"
         if test -n ""
             printf '%s%s' "" (set_color normal)
         else
-            printf '%s(%s%s%s) ' (set_color normal) (set_color -o white) (basename "$VIRTUAL_ENV") (set_color normal)
+            printf '%s(%s) ' (set_color normal) (basename "$VIRTUAL_ENV")
         end
 
         # Restore the original $status

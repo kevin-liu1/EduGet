@@ -1,5 +1,6 @@
-#!/mnt/c/Users/iceandele/Linux/capstone/wiseturn/wiseturnenv/bin/python2
-
+#!/bin/sh
+'''exec' "/Users/jamesmilitante/Git /Capstone/wiseturn/wiseturnenv/bin/python3" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys
@@ -7,5 +8,5 @@ import sys
 from wheel.cli import main
 
 if __name__ == '__main__':
-    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
     sys.exit(main())

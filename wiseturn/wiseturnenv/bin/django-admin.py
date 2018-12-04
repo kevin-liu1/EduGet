@@ -1,4 +1,4 @@
-#!/mnt/c/Users/iceandele/Linux/capstone/wiseturn/wiseturnenv/bin/python2
+#!/Users/jamesmilitante/Git /Capstone/wiseturn/wiseturnenv/bin/python3
 from django.core import management
 
 if __name__ == "__main__":

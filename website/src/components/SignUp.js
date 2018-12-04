@@ -6,6 +6,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
+import { connect } from 'react-redux';
+import { userProfile } from '../actions/userAction'
 import '../styles/App.css'
 
 class SignUp extends Component {
@@ -24,26 +26,31 @@ class SignUp extends Component {
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangeInitPassword = this.onChangeInitPassword.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.isChecked = this.isChecked.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onChangeFirstName(event){
-    this.setState({firstName: event.target.value});
+  onChangeFirstName(e){
+    this.setState({firstName: e.target.value});
   }
-  onChangeLastName(event){
-    this.setState({lastName: event.target.value});
+  onChangeLastName(e){
+    this.setState({lastName: e.target.value});
   }
-  onChangeEmail(event){
-    this.setState({email: event.target.value});
+  onChangeEmail(e){
+    this.setState({email: e.target.value});
   }
-  onChangeInitPassword(event){
-    this.setState({initPassword: event.target.value});
+  onChangeInitPassword(e){
+    this.setState({initPassword: e.target.value});
   }
-  onChangePassword(event){
-    this.setState({password: event.target.value});
+  onChangePassword(e){
+    this.setState({password: e.target.value});
   }
-  onSubmit(event){
-    this.setState({agree: event.target.checked});
+  isChecked(e){
+    this.setState({agree: e.target.checked});
+  }
+  onSubmit(e){
+    e.preventDefault();
+    this.props.userProfile(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
   }
 
   render() {
@@ -71,7 +78,7 @@ class SignUp extends Component {
               <div className="signUpSpacing">
                 <Grid container spacing ={8} alignItems="center">
                   <Grid item>
-                    <Checkbox checked={this.state.agree} onChange={this.onSubmit}/>
+                    <Checkbox checked={this.state.agree} onChange={this.isChecked}/>
                   </Grid>
                   <Grid item>
                     <p>I agree to the <a href="none">Terms of Service</a></p>
@@ -79,7 +86,7 @@ class SignUp extends Component {
                 </Grid>
               </div>
               <div className="signUpSpacing">
-                <Button variant="contained" color="primary" fullWidth>Join Now</Button>
+                <Button variant="contained" onClick={this.onSubmit} color="primary" fullWidth>Join Now</Button>
               </div>
             </form>
           </CardContent>
@@ -89,4 +96,8 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+const mapActionsToProps = (dispatch) => ({
+  userProfile: (firstName, lastName, email, password) => dispatch(userProfile(firstName, lastName, email, password))
+})
+
+export default connect(undefined, mapActionsToProps)(SignUp);

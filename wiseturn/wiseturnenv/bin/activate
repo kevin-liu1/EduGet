@@ -40,7 +40,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/mnt/c/Users/iceandele/Linux/capstone/wiseturn/wiseturnenv"
+VIRTUAL_ENV="/Users/jamesmilitante/Git /Capstone/wiseturn/wiseturnenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

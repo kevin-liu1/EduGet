@@ -9,7 +9,6 @@ lucene-querybuilder==0.2
 neo4j-driver==1.6.2
 neomodel==3.3.0
 neotime==1.0.0
-pkg-resources==0.0.0
 python-dateutil==2.7.5
 pytz==2018.7
 requests==2.20.1
