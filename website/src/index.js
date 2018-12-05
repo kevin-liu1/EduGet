@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.css';
-import Main from './components/Main.js';
+import AppRouter from './routes/AppRouter';
 import { Provider } from 'react-redux';
 import configureStore from './store/store'
 import * as serviceWorker from './serviceWorker';
@@ -10,7 +10,7 @@ const store = configureStore();
 
 const jsx = (
   <Provider store={store}>
-    <Main/>
+    <AppRouter/>
   </Provider>
 )
 

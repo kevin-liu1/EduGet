@@ -4,10 +4,11 @@ export const login = (email,password) => ({
   password: password
 });
 
-export const userProfile = (firstName, lastName, email, password) => ({
-  type: 'INFO',
+export const signUp = (firstName, lastName, email, password, agree) => ({
+  type: 'SIGNUP',
   firstName: firstName,
   lastName: lastName,
   email: email,
-  password: password
+  password: password,
+  agree: agree
 });

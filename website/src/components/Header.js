@@ -6,7 +6,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
-import { login } from '../actions/userAction'
+import { login } from '../actions/userAction';
+import { Link } from 'react-router-dom';
 import '../styles/App.css'
 
 class Header extends Component {
@@ -51,10 +52,10 @@ class Header extends Component {
                       <Input className="signInField" variant="filled" placeholder="Password" type="password" fullWidth onChange={(event)=>this.setState({password:event.target.value})}/>
                     </Grid>
                     <Grid item>
-                      <Button variant="outlined" onClick={this.logIn} color="inherit" fullWidth>Sign In</Button>
+                      <Button variant="outlined" color="inherit" fullWidth>Sign In</Button>
                     </Grid>
                     <Grid item>
-                      <a className="forgotPw" href="none">Forgot Password?</a>
+                      <Link to="/password-reset">Forgot Password?</Link>
                     </Grid>
                   </Grid>
                 </form>

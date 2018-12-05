@@ -9,12 +9,13 @@ export default (state = userDefaultState, action) => {
       }
     case 'LOGOUT':
       return {};
-    case 'INFO':
+    case 'SIGNUP':
       return {
         firstName: action.firstName,
         lastName: action.lastName,
         email: action.email,
-        password: action.password
+        password: action.password,
+        agree: action.agree
       }
     default:
       return state;
