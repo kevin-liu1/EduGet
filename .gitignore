@@ -170,6 +170,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+wiseturnenv/
 
 
 # Spyder project settings

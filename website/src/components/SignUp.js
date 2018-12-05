@@ -4,6 +4,11 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Checkbox from '@material-ui/core/Checkbox';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signUp } from '../actions/userAction'
 import '../styles/App.css'
 
 class SignUp extends Component {
@@ -17,6 +22,36 @@ class SignUp extends Component {
       password: "",
       agree: false
     }
+    this.onChangeFirstName = this.onChangeFirstName.bind(this);
+    this.onChangeLastName = this.onChangeLastName.bind(this);
+    this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onChangeInitPassword = this.onChangeInitPassword.bind(this);
+    this.onChangePassword = this.onChangePassword.bind(this);
+    this.isChecked = this.isChecked.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  onChangeFirstName(e){
+    this.setState({firstName: e.target.value});
+  }
+  onChangeLastName(e){
+    this.setState({lastName: e.target.value});
+  }
+  onChangeEmail(e){
+    this.setState({email: e.target.value});
+  }
+  onChangeInitPassword(e){
+    this.setState({initPassword: e.target.value});
+  }
+  onChangePassword(e){
+    this.setState({password: e.target.value});
+  }
+  isChecked(e){
+    this.setState({agree: e.target.checked});
+  }
+  handleSubmit(e){
+    e.preventDefault();
+    this.props.signUp(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
   }
 
   render() {
@@ -26,26 +61,21 @@ class SignUp extends Component {
           <CardContent>
             <Typography variant="h5">Sign Up</Typography>
             <form>
-              <div className="signUpSpacing">
-                <TextField label="First Name" fullWidth onChange={(event)=>this.setState({firstName:event.target.value})}/>
-              </div>
-              <div className="signUpSpacing">
-                <TextField label="Last Name" fullWidth onChange={(event)=>this.setState({lastName:event.target.value})}/>
-              </div>
-              <div className="signUpSpacing">
-                <TextField label="E-mail" fullWidth onChange={(event)=>this.setState({email:event.target.value})}/>
-              </div>
-              <div className="signUpSpacing">
-                <TextField label="Password" type="password" fullWidth onChange={(event)=>this.setState({initPassword:event.target.value})}/>
-              </div>
-              <div className="signUpSpacing">
-                <TextField label="Re-type Password" type="password" error={!(this.state.initPassword === this.state.password)} fullWidth onChange={(event)=>this.setState({password:event.target.value})}/>
-              </div>
-              <div className="signUpSpacing">
-                <p>By clicking Join now, you agree to Wise Turn's <a href="useragreement">User Agreement</a></p>
-              </div>
-              <div className="signUpSpacing">
-                <Button variant="contained" color="primary" fullWidth>Join Now</Button>
+              <TextField className="signUpSpacing" label="First Name" autoComplete="no" fullWidth onChange={this.onChangeFirstName}/>
+              <TextField className="signUpSpacing" label="Last Name" autoComplete="no" fullWidth onChange={this.onChangeLastName}/>
+              <TextField className="signUpSpacing" label="E-mail" autoComplete="no" fullWidth onChange={this.onChangeEmail}/>
+              <TextField className="signUpSpacing" label="Password" autoComplete="no" type="password" fullWidth onChange={this.onChangeInitPassword}/>
+              <TextField className="signUpSpacing" label="Re-type Password" autoComplete="no" type="password" error={!(this.state.initPassword === this.state.password)} fullWidth onChange={this.onChangePassword}/>
+              <Grid className="signUpSpacing" container spacing ={8} alignItems="center">
+                <Grid item>
+                  <Checkbox checked={this.state.agree} onChange={this.isChecked}/>
+                </Grid>
+                <Grid item>
+                  <p>I agree to the <Link to="/user-agreement">Terms of Service</Link></p>
+                </Grid>
+              </Grid>
+              <div onClick={this.handleSubmit}>
+                <Button component={Link} to="/profile" variant="contained" color="primary" fullWidth>Join Now</Button>
               </div>
             </form>
           </CardContent>
@@ -55,4 +85,8 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+const mapActionsToProps = (dispatch) => ({
+  signUp: (firstName, lastName, email, password) => dispatch(signUp(firstName, lastName, email, password))
+})
+
+export default connect(undefined, mapActionsToProps)(SignUp);

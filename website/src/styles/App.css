@@ -41,3 +41,7 @@ a{
 a:hover{
   color: #2196f3;
 }
+
+input:-webkit-autofill {
+-webkit-box-shadow: 0 0 0 30px #FFFFFF inset;
+}
