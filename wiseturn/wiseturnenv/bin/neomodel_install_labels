@@ -1,4 +1,4 @@
-#!/mnt/c/Users/iceandele/Linux/capstone/wiseturn/wiseturnenv/bin/python2
+#!/mnt/c/Users/iceandele/Linux/capstone/wiseturn/wiseturnenv/bin/python3
 from __future__ import print_function
 from os import path, environ
 import sys
