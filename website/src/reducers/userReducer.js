@@ -17,6 +17,10 @@ export default (state = userDefaultState, action) => {
         password: action.password,
         agree: action.agree
       }
+    case 'EDITPROFILE':
+      var ret = Object.assign({},action)
+      ret['type'] = undefined;
+      return ret;
     default:
       return state;
   }

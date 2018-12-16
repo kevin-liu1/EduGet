@@ -26,7 +26,8 @@ from django.contrib import admin
 from wiseturn.auth.views import *
 
 urlpatterns = [
-	url('users/$', user_view),
-    url('users/(?P<uid>[\w]+)/$', user_detail_view),
+	url(r'^api/token/auth/', CustomAuthToken.as_view()),
+	url(r'^api/users/create/$', user_create_view),
+    url(r'^api/users/(?P<uid>[\w]+)/$', user_detail_view),
     url(r'^admin/', admin.site.urls),
 ]

@@ -40,7 +40,7 @@ class Header extends Component {
           <Toolbar>
             <Grid container spacing={24} justify="space-between" alignItems="center">
               <Grid item>
-                <Typography variant="h5" color="inherit">WiseTurn</Typography>
+                <Typography variant="h5" color="inherit">Eduget</Typography>
               </Grid>
               <Grid item>
                 <form className="headerLayout">

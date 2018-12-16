@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_neomodel',
     'rest_framework',
+    'django_extensions',
     'wiseturn'
 ]
 
@@ -52,6 +53,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'wiseturn.auth.TokenAuthentication',
+     ],
+}
+
+AUTHENTICATION_BACKENDS = ['wiseturn.auth.NodeBackend']
 
 ROOT_URLCONF = 'wiseturn.urls'
 
@@ -70,6 +79,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'wiseturn.wsgi.application'
 
@@ -122,3 +133,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#Shell Plus
+SHELL_PLUS = "ipython"
+SHELL_PLUS_DONT_LOAD = ['*']
+SHELL_PLUS_PRE_IMPORTS = (
+    ('wiseturn.models', ('*')),
+)
