@@ -53,7 +53,8 @@ class SignUp extends Component {
   handleSubmit(e){
     e.preventDefault();
     this.props.signUp(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
-    axios.post('localhost:8000/api/user/create/', {
+
+    axios.post('http://localhost:8000/api/users/create/', {
       email: this.state.email,
       first_name: this.state.firstName,
       last_name: this.state.lastName,

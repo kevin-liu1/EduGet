@@ -31,6 +31,7 @@ for model in [WTUser]:
 
 from wiseturn.auth.views import *
 
+
 urlpatterns = [
 	url(r'^api/token/auth/$', obtain_auth_token),
 	url(r'^api/users/create/$', UserCreateView.as_view()),
