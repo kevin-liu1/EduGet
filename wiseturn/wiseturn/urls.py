@@ -33,7 +33,7 @@ from wiseturn.auth.views import *
 
 urlpatterns = [
 	url(r'^api/token/auth/$', obtain_auth_token),
-	url(r'^api/users/create/$', user_create_view),
-    url(r'^api/users/(?P<uid>[\w]+)/$', user_detail_view),
+	url(r'^api/users/create/$', UserCreateView.as_view()),
+    url(r'^api/users/details/$', UserDetailView.as_view()),
     url(r'^admin/', admin.site.urls),
 ]

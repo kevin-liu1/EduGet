@@ -10,6 +10,9 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import check_password, make_password
 import django.contrib.auth.password_validation as validators
 
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 class WTUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -51,47 +54,29 @@ class WTUserSerializer(serializers.ModelSerializer):
         return instance
 
 
-@api_view(['POST'])
-def user_create_view(request):
-    """
-    Create a WTUser with fields
-    firstname = CharField(max_length=256)
-    lastname = CharField(max_length=256)
-    email = EmailField()
-    password = CharField()
-    """
-    if request.method == 'POST':
+class UserCreateView(APIView):
+    def post(self, request, format=None):
         serializer = WTUserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'PUT'])
-def user_detail_view(request, uid):
-    token = request.META['HTTP_AUTHORIZATION']
-    print(token)
 
-    """
-    Retrieve or update a WTUser with fields
-    firstname = CharField(max_length=256)
-    lastname = CharField(max_length=256)
-    email = EmailField()
-    password = CharField()
-    """
-    print(request.user)
-    print ("WTUser not found {}".format(uid))
-    try:
-        user = WTUser.objects.get(uid=uid)
-    except WTUser.DoesNotExist:
-        print ("WTUser not found {}".format(uid))
-        return Response(status=status.HTTP_404_NOT_FOUND)
+class UserDetailView(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
-    if request.method == 'GET':
+    def get_object(self, request):
+        return request.user
+
+    def get(self, request, format=None):
+        user = self.get_object(request)
         serializer = WTUserSerializer(user)
         return Response(serializer.data)
 
-    elif request.method == 'PUT':
+    def put(self, request, format=None):
+        user = self.get_object(request)
         serializer = WTUserSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
