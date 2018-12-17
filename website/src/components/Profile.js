@@ -5,7 +5,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
-import EditProfile from './EditProfile';
 import { withStyles } from '@material-ui/core/styles';
 
 // const styles = theme => ({
@@ -57,9 +56,6 @@ class Profile extends Component {
           open={this.state.open}
           onClose={this.handleClose}
         >
-          <div>
-<EditProfile />
-          </div>
         </Modal>
 
             <Typography variant="h5">{this.state.firstName} {this.state.lastName}</Typography>

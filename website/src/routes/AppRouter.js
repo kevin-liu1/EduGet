@@ -7,7 +7,6 @@ import UserAgreement from '../components/UserAgreement';
 import ResetPassword from '../components/ResetPassword';
 import Register from '../components/SignUp';
 import Login from '../components/SignIn';
-import EditProfile from '../components/EditProfile';
 import NewPassword from '../components/NewPassword';
 
 export const history = createHistory();
@@ -20,7 +19,6 @@ export const AppRouter = () => (
         <Route path='/profile' component={Profile} exact={true} />
         <Route path='/register' component={Register} exact={true}/>
         <Route path='/login' component={Login} exact={true} />
-        <Route path='/profile/edit' component={EditProfile} exact={true}/>
         <Route path='/user-agreement' component={UserAgreement} exact={true}/>
         <Route path='/password-reset' component={ResetPassword} exact={true}/>
         <Route path="/new-password" component={NewPassword} exact={true} />
