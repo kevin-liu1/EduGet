@@ -59,7 +59,7 @@ class SignUp extends Component {
       <div>
         <Card className="signUpCard" >
           <CardContent>
-            <Typography variant="h5">Sign Up</Typography>
+            <Typography variant="h5">Register</Typography>
             <form>
               <TextField className="signUpSpacing" label="First Name" autoComplete="no" fullWidth onChange={this.onChangeFirstName}/>
               <TextField className="signUpSpacing" label="Last Name" autoComplete="no" fullWidth onChange={this.onChangeLastName}/>

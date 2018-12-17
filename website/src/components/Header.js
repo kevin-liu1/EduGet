@@ -3,11 +3,11 @@ import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { login } from '../actions/userAction';
 import { Link } from 'react-router-dom';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import '../styles/App.css'
 
 class Header extends Component {
@@ -34,28 +34,29 @@ class Header extends Component {
   }
 
   render() {
+    const theme = createMuiTheme({
+      palette: {
+        primary: { main: '#4384AB' }, // change color of AppBar
+      }
+    });
+
     return (
       <div>
+      <MuiThemeProvider theme={theme}>
         <AppBar position="static">
           <Toolbar>
             <Grid container spacing={24} justify="space-between" alignItems="center">
               <Grid item>
-                <Typography variant="h5" color="inherit">WiseTurn</Typography>
+                <h2>Eduget</h2>
               </Grid>
               <Grid item>
                 <form className="headerLayout">
                   <Grid container spacing ={24} justify="space-between" alignItems="center">
                     <Grid item>
-                      <Input className="signInField" variant="filled" placeholder="Email" type="email" fullWidth onChange={(event)=>this.setState({email:event.target.value})}/>
+                      <Button component={Link} to='/login' color="inherit" fullWidth>Sign In</Button>
                     </Grid>
                     <Grid item>
-                      <Input className="signInField" variant="filled" placeholder="Password" type="password" fullWidth onChange={(event)=>this.setState({password:event.target.value})}/>
-                    </Grid>
-                    <Grid item>
-                      <Button variant="outlined" color="inherit" fullWidth>Sign In</Button>
-                    </Grid>
-                    <Grid item>
-                      <Link to="/password-reset">Forgot Password?</Link>
+                      <Button component={Link} to='/register' variant="outlined" color="inherit" fullWidth>Create Account</Button>
                     </Grid>
                   </Grid>
                 </form>
@@ -63,6 +64,7 @@ class Header extends Component {
             </Grid>
           </Toolbar>
         </AppBar>
+        </MuiThemeProvider>
       </div>
     );
   }

@@ -1,3 +1,41 @@
+body{
+  height: 100vh;
+}
+/*
+  Main Page Styles
+*/
+.mainContainer{
+  background-image: url("../assets/tyler-callahan-662157-unsplash.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  overflow: none;
+  display: flex;
+}
+.headlineOverlay{
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: none;
+}
+.headlineContainer{
+  text-align: center;
+  height: 50vh;
+  width: 75vw;
+  margin: auto;
+  overflow: none;
+  display: flex;
+}
+.headline{
+  color: white;
+}
+.getStarted{
+  color: white !important;
+}
+
+/*
+  Header styles
+*/
+
 .header{
   background-color: #2196f3;
   height: auto;
