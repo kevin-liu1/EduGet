@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signUp } from '../actions/userAction'
 import '../styles/App.css'
+import axios from 'axios';
 
 class SignUp extends Component {
   constructor(props){
@@ -52,6 +53,17 @@ class SignUp extends Component {
   handleSubmit(e){
     e.preventDefault();
     this.props.signUp(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
+    axios.post('localhost:8000/api/user/create/', {
+      email: this.state.email,
+      first_name: this.state.firstName,
+      last_name: this.state.lastName,
+      password: this.state.password
+    }).then(function (response) {
+   console.log(response);
+    })
+    .catch(function (error) {
+     console.log(error);
+   });
   }
 
   render() {
