@@ -40,8 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_neomodel',
     'rest_framework',
-    'wiseturn'
+    'rest_framework.authtoken',
+    'django_extensions',
+    'wiseturn',
 ]
+
+AUTH_USER_MODEL = 'wiseturn.WTUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,6 +75,8 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'wiseturn.wsgi.application'
 
 
@@ -90,10 +96,10 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -122,3 +128,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#Shell Plus
+SHELL_PLUS = "ipython"
+SHELL_PLUS_DONT_LOAD = ['*']
+SHELL_PLUS_PRE_IMPORTS = (
+    ('wiseturn.models', ('*')),
+)

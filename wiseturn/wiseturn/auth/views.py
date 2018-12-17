@@ -1,14 +1,25 @@
+from wiseturn.models import WTUser
+
 from rest_framework import serializers, viewsets, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
+from rest_framework.validators import UniqueValidator
+from rest_framework.authtoken.views import ObtainAuthToken
 
-from  django.contrib.auth.hashers import check_password, make_password
-from wiseturn.models import User
+from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import check_password, make_password
+import django.contrib.auth.password_validation as validators
 
-class UserSerializer(serializers.Serializer):
-    uid = serializers.CharField(max_length=256, read_only=True)
-    firstname = serializers.CharField(max_length=256)
-    lastname = serializers.CharField(max_length=256)
+
+class WTUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WTUser
+        fields = ('uid', 'first_name', 'last_name', 'email', 'password')
+        read_only_fields = ('uid',)
+        extra_kwargs = {'password': {'write_only': True}}
+
+    first_name = serializers.CharField(max_length=255)
+    last_name = serializers.CharField(max_length=255)
     email = serializers.EmailField()
     password = serializers.CharField(
 	    style={'input_type': 'password'},
@@ -17,15 +28,22 @@ class UserSerializer(serializers.Serializer):
 
     def validate_password(self, value):
     	#TODO: min password requirements
-    	pass
+    	return value
+
+    def validate_email(self, value):
+        if WTUser.objects.filter(email=value):
+            raise serializers.ValidationError("This email is already registered.")
+        return value
 
     def create(self, validated_data):
-        return User(
-        	firstname = validated_data['firstname'],
-        	lastname = validated_data['lastname'],
-        	email = validated_data['email'],
-        	password = make_password(validated_data['password']),
-        ).save()
+        user = WTUser(
+            first_name = validated_data['first_name'],
+            last_name = validated_data['last_name'],
+            email=validated_data['email'],
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
     def update(self, instance, validated_data):
         for field, value in validated_data.items():
@@ -34,19 +52,16 @@ class UserSerializer(serializers.Serializer):
 
 
 @api_view(['POST'])
-def user_view(request):
+def user_create_view(request):
     """
-    Create a user
+    Create a WTUser with fields
+    firstname = CharField(max_length=256)
+    lastname = CharField(max_length=256)
+    email = EmailField()
+    password = CharField()
     """
-
-    # if request.method == 'GET':
-    #     return Response(status=status.HTTP_404_NOT_FOUND)
-    #     users = User.nodes.all()
-    #     serializer = UserSerializer(users, many=True)
-    #     return Response(serializer.data)
-
     if request.method == 'POST':
-        serializer = UserSerializer(data=request.data)
+        serializer = WTUserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -54,22 +69,30 @@ def user_view(request):
 
 @api_view(['GET', 'PUT'])
 def user_detail_view(request, uid):
+    token = request.META['HTTP_AUTHORIZATION']
+    print(token)
+
     """
-    Retrieve, update or delete a code snippet.
+    Retrieve or update a WTUser with fields
+    firstname = CharField(max_length=256)
+    lastname = CharField(max_length=256)
+    email = EmailField()
+    password = CharField()
     """
-    print ("user not found {}".format(uid))
+    print(request.user)
+    print ("WTUser not found {}".format(uid))
     try:
-        user = User.nodes.get(uid=uid)
-    except User.DoesNotExist:
-        print ("user not found {}".format(uid))
+        user = WTUser.objects.get(uid=uid)
+    except WTUser.DoesNotExist:
+        print ("WTUser not found {}".format(uid))
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = UserSerializer(user)
+        serializer = WTUserSerializer(user)
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = UserSerializer(user, data=request.data)
+        serializer = WTUserSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

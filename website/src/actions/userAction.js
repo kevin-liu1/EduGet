@@ -12,3 +12,7 @@ export const signUp = (firstName, lastName, email, password, agree) => ({
   password: password,
   agree: agree
 });
+
+export const editProfile = (state) => (
+  Object.assign({}, {type: 'EDITPROFILE'}, state)
+)
