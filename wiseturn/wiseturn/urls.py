@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-
+from rest_framework.authtoken.views import obtain_auth_token
 
 # from rest_framework.routers import DefaultRouter
 # from wiseturn.auth.views import UserViewSet
@@ -23,10 +23,16 @@ from django.contrib import admin
 # router = DefaultRouter()
 # router.register(r'users', UserViewSet, base_name='users')
 
+from wiseturn.models import *
+
+
+for model in [WTUser]:
+    admin.site.register(model)
+
 from wiseturn.auth.views import *
 
 urlpatterns = [
-	url(r'^api/token/auth/', CustomAuthToken.as_view()),
+	url(r'^api/token/auth/$', obtain_auth_token),
 	url(r'^api/users/create/$', user_create_view),
     url(r'^api/users/(?P<uid>[\w]+)/$', user_detail_view),
     url(r'^admin/', admin.site.urls),

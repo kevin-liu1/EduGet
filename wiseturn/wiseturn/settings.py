@@ -40,9 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_neomodel',
     'rest_framework',
+    'rest_framework.authtoken',
     'django_extensions',
-    'wiseturn'
+    'wiseturn',
 ]
+
+AUTH_USER_MODEL = 'wiseturn.WTUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,14 +56,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'wiseturn.auth.TokenAuthentication',
-     ],
-}
-
-AUTHENTICATION_BACKENDS = ['wiseturn.auth.NodeBackend']
 
 ROOT_URLCONF = 'wiseturn.urls'
 
@@ -101,10 +96,10 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
