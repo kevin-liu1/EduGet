@@ -195,3 +195,5 @@ dmypy.json
 
 #idea ide folder
 .idea/
+
+.DS_Store
