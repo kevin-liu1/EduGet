@@ -47,16 +47,16 @@ class Header extends Component {
           <Toolbar>
             <Grid container spacing={24} justify="space-between" alignItems="center">
               <Grid item>
-                <h2>Eduget</h2>
+                <Link className="headerTitle" to="/">Eduget</Link>
               </Grid>
               <Grid item>
                 <form className="headerLayout">
                   <Grid container spacing ={24} justify="space-between" alignItems="center">
                     <Grid item>
-                      <Button component={Link} to='/login' color="inherit" fullWidth>Sign In</Button>
+                      <Button className="button" component={Link} to='/login' color="inherit" fullWidth>Sign In</Button>
                     </Grid>
                     <Grid item>
-                      <Button component={Link} to='/register' variant="outlined" color="inherit" fullWidth>Create Account</Button>
+                      <Button className="button" component={Link} to='/register' variant="outlined" color="inherit" fullWidth>Create Account</Button>
                     </Grid>
                   </Grid>
                 </form>

@@ -11,6 +11,9 @@ import { connect } from 'react-redux';
 import { signUp } from '../actions/userAction'
 import '../styles/App.css'
 import axios from 'axios';
+import Header from './Header';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
 
 class SignUp extends Component {
   constructor(props){
@@ -68,31 +71,44 @@ class SignUp extends Component {
   }
 
   render() {
+    const theme = createMuiTheme({
+      palette: {
+        primary: { main: '#4384AB' }, // change color of AppBar
+      }
+    });
     return (
-      <div>
-        <Card className="signUpCard" >
-          <CardContent>
-            <Typography variant="h5">Register</Typography>
-            <form>
-              <TextField className="signUpSpacing" label="First Name" autoComplete="no" fullWidth onChange={this.onChangeFirstName}/>
-              <TextField className="signUpSpacing" label="Last Name" autoComplete="no" fullWidth onChange={this.onChangeLastName}/>
-              <TextField className="signUpSpacing" label="E-mail" autoComplete="no" fullWidth onChange={this.onChangeEmail}/>
-              <TextField className="signUpSpacing" label="Password" autoComplete="no" type="password" fullWidth onChange={this.onChangeInitPassword}/>
-              <TextField className="signUpSpacing" label="Re-type Password" autoComplete="no" type="password" error={!(this.state.initPassword === this.state.password)} fullWidth onChange={this.onChangePassword}/>
-              <Grid className="signUpSpacing" container spacing ={8} alignItems="center">
-                <Grid item>
-                  <Checkbox checked={this.state.agree} onChange={this.isChecked}/>
+      <div className="signUpContainer">
+        <Header/>
+        <div className="signUpCard">
+          <Card>
+            <CardContent>
+              <Typography variant="h5">Create New Account</Typography>
+              <form>
+                <TextField className="signUpSpacing" label="First Name" autoComplete="no" fullWidth onChange={this.onChangeFirstName}/>
+                <TextField className="signUpSpacing" label="Last Name" autoComplete="no" fullWidth onChange={this.onChangeLastName}/>
+                <TextField className="signUpSpacing" label="E-mail" autoComplete="no" fullWidth onChange={this.onChangeEmail}/>
+                <TextField className="signUpSpacing" label="Password" autoComplete="no" type="password" fullWidth onChange={this.onChangeInitPassword}/>
+                <TextField className="signUpSpacing" label="Re-type Password" autoComplete="no" type="password" error={!(this.state.initPassword === this.state.password)} fullWidth onChange={this.onChangePassword}/>
+                <Grid className="signUpSpacing" container spacing ={8} alignItems="center">
+                  <Grid item>
+                    <Checkbox checked={this.state.agree} onChange={this.isChecked}/>
+                  </Grid>
+                  <Grid item>
+                    <p>I agree to the <Link to="/user-agreement">Terms of Service</Link></p>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <p>I agree to the <Link to="/user-agreement">Terms of Service</Link></p>
-                </Grid>
-              </Grid>
-              <div onClick={this.handleSubmit}>
-                <Button component={Link} to="/profile" variant="contained" color="primary" fullWidth>Join Now</Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
+                <div onClick={this.handleSubmit} className="SignUpSpacing">
+                  <MuiThemeProvider theme={theme}>
+                    <Button className="button" component={Link} to="/profile" variant="contained" size="large" color="primary">Join Now</Button>
+                  </MuiThemeProvider>
+                </div>
+                <div className="signUpSpacing">
+                  <Link to="login">Already have an account?</Link>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }

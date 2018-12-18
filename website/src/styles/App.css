@@ -41,6 +41,9 @@ body{
   height: auto;
   width: auto;
 }
+.button:hover{
+  color: white !important;
+}
 
 .headerLayout{
   float: right;
@@ -50,20 +53,47 @@ body{
   height: 50%;
 }
 .headerTitle{
-  float:left;
-  margin-left: 30px;
-  margin-top: 10px;
+  font-size: 25px;
+  color: white;
+}
+.headerTitle:hover{
   color: white;
 }
 
-.signUpCard{
+/* Sign In*/
+.signInContainer{
+  background-color: #F1F1F1;
+  height: 100vh;
+}
+.signInCard{
+  margin: 0 auto;
+  padding-top: 40px;
   text-align: center;
-  width: 400px;
+  width: 500px;
+}
+
+.signInSpacing{
+  margin-top: 30px;
+}
+.signInLinks{
+  width: 100%;
+}
+/* Sign Up*/
+.signUpContainer{
+  background-color: #F1F1F1;
+  height: 100vh;
+}
+.signUpCard{
+  margin: 0 auto;
+  padding-top: 40px;
+  text-align: center;
+  width: 500px;
 }
 
 .signUpSpacing{
-  margin-top: 10px;
+  margin-top: 30px;
 }
+
 .signInField{
   border-radius: 25;
   background-color: white;
