@@ -46,6 +46,9 @@ class WTUserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
         return self._create_user(email, password, **extra_fields)
 
+def hex_uuid():
+    return uuid.uuid4().hex
+    
 class WTUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, blank=False)
     first_name = models.CharField(max_length=255, blank=False)
@@ -63,7 +66,7 @@ class WTUser(AbstractBaseUser, PermissionsMixin):
             'Unselect this instead of deleting accounts.'
         ),
     )
-    uid = models.CharField(max_length=255, default=uuid.uuid4().hex)
+    uid = models.CharField(max_length=255, default=hex_uuid)
     USERNAME_FIELD = 'email'
     objects = WTUserManager()
 

@@ -146,7 +146,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 #Shell Plus
 SHELL_PLUS = "ipython"
@@ -154,3 +154,9 @@ SHELL_PLUS_DONT_LOAD = ['*']
 SHELL_PLUS_PRE_IMPORTS = (
     ('wiseturn.models', ('*')),
 )
+
+
+try:
+    from wiseturn.local_settings import *
+except ImportError:
+    pass
