@@ -13,7 +13,7 @@ import '../styles/App.css'
 import axios from 'axios';
 import Header from './Header';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-
+import Thankyou from './Thankyou';
 
 class SignUp extends Component {
   constructor(props){
@@ -99,7 +99,7 @@ class SignUp extends Component {
                 </Grid>
                 <div onClick={this.handleSubmit} className="SignUpSpacing">
                   <MuiThemeProvider theme={theme}>
-                    <Button className="button" component={Link} to="/profile" variant="contained" size="large" color="primary">Join Now</Button>
+                    <Button className="button" component={Link} to="/Thank-you" variant="contained" size="large" color="primary">Join Now</Button>
                   </MuiThemeProvider>
                 </div>
                 <div className="signUpSpacing">
