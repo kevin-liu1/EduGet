@@ -1,7 +1,6 @@
-export const login = (email,password) => ({
+export const login = (auth) => ({
   type: 'LOGIN',
-  email: email,
-  password: password
+  auth: auth
 });
 
 export const signUp = (firstName, lastName, email, password, agree) => ({

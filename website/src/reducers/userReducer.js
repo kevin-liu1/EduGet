@@ -1,11 +1,13 @@
-const userDefaultState = {};
+const userDefaultState = {
+  isAuthenticated: false,
+
+};
 
 export default (state = userDefaultState, action) => {
   switch (action.type) {
     case 'LOGIN':
       return {
-        email: action.email,
-        password: action.password
+        isAuthenticated: action.auth
       }
     case 'LOGOUT':
       return {};

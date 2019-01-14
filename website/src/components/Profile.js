@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import { withStyles } from '@material-ui/core/styles';
+import Header from './Header';
+
 
 // const styles = theme => ({
 //   paper: {
@@ -42,9 +44,9 @@ class Profile extends Component {
 
 
   render() {
-    console.log(this.props.user.firstName);
     return (
       <div>
+        <Header/>
         <Card>
           <CardContent>
           <div onClick={this.handleOpen}>
