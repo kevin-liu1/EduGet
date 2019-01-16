@@ -46,7 +46,7 @@ class Header extends Component {
         </Grid>
         <Grid item>
           <div onClick={this.handleLogOut}>
-            <Button className="button" component={Link} to='/' color="inherit" fullWidth>Logout</Button>
+            <Button className="button" component={Link} to='/login' color="inherit" fullWidth>Logout</Button>
           </div>
         </Grid>
       </Grid>
@@ -88,6 +88,5 @@ class Header extends Component {
     );
   }
 }
-
 
 export default Header;
