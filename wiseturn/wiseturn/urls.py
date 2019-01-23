@@ -26,7 +26,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from wiseturn.models import *
 
 
-for model in [WTUser]:
+for model in [WTUser, Institution, Program]:
     admin.site.register(model)
 
 from wiseturn.auth.views import *
