@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "eduget",
+  "private_key_id": "2bda0599ababdc9a02e3a709ce1b438284850d27",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDBLVcNwYJTPdDF\nk5/DRvzm20WJxrdDdJy/iCSFbtgoUEeKsRhCbOOL129et6DyLkxe53/L8y8Wm0+K\nFlivym6qCDJ+u7HpALBKIsCNj0EhmmU60BxJ3TzRW+ODmA4qYMWPxKKrPbDt4ewL\nGUzeYDIyFVLBg7RGKdR23UhH3PTJub49sKREq/IuHC7kY0NC07YZZdnvo7g/SeC8\nHBLh/5ZuuF1+jxrQnGgTWXwoxoH3AmzeJ1eK1Vui0wqb8XuyzkFY0DIXOSvWCI5u\n/MM15NJv9xGs7YA7p5uimyye5fewQCVFSCVNNqZO2By/tDDC+DY7sv6BC6aALv1d\nOEwNMnHzAgMBAAECggEAQSmlMuuypZe1g+BPRRT+HHWc2GPiz+tXMLig8S251qd1\n6o/gig+nFjX+yGmS7f62HlFi545JtQuA4ii1k97qQ4ruVZfE5L8puGhOobHQG6C0\nQwmOcVAiwtCHR42UQbFREzUWVkNCGoxaDkhjiKPUataMiuB9gCl+FPaB+lPLcvwR\n6Ck+W5WYedXzLOVeqftLOac/AQq/QNcTvYXsyyHGI+GmMSr7LDWUl3HsE6B8Wcbl\nPmUYZ0mw8Rn/bw7YVYgdcXkwgY47h5Eq0K830GpFFJbbT/H9q3fcY6/943RXTAL9\nQVon5uSnuh/yKy0rHUQHspyZmo4krD1WsMeKFNm6CQKBgQDhZH6y5QMQP7WIlcfp\nVyv9yIrNNLaaxlys+Q6+PuqvwiByhO0zu52AaRwgw3RvICkzZC77AT74E3Sotnyj\nXuknTXHZRKCCycqQYGWlAmWesM9eOqmAT299PDa1VCqcmB1lr3v/ztBhnG66cEdI\nXg2O8y5H4101E0w06y8Hpc4ItwKBgQDbaOnLDqtfHjuy+jd9dKLOwjIW3ABwVRUf\nmw74p/Y75U2neihGBkq7vdmueeo8UOBMuBfZlf0T/ABzUtmQTpv2ZOvX/2QWAbsi\nLUbrn7AxCeG/P6s9gAVOotX6fRc/EQWz2cGGTWXbGd8da05nEDIClaBgJV4iAUW8\nOiXz3DPMpQKBgBbRoM4lx2Cewpc4asvh6m9AHWVXH+GdkYZllKuIHSR8J+LQOF+T\ncAevHIzonOIfRGySiPsajjB5b8cg6o9zrXEwMwWHICT9nwds6v2At58QUX49vClk\nYWoxbWyAP+worlk8IfatDoXDW6Z+dYkLFJ5TWm0mxKn58S4uXU2N6MUTAoGAb6DV\n6dCB0ffwyaNSHgr8VhMpJsYxlvVCtPzPxiS2O0zzkDSvTsketpvlp0YxrRQ8ueuj\nfrk3tDYvCH1rYWcNJHO+JfuysRuaWM4OWgy5uIldiE7dUYHTsWlZUoLYE+cWLqWo\nNysjmjB0emRA1GDCANydZq08UjKxhw1Sh9pNpF0CgYAGhq34QvLog2rM5WhJJufC\n1Qnbr5h1Vo0QUJuRJEfCaZh1bxbO6joZNmO2vxCBeGjfcOV2KLxGv0C7MsIpnlNq\nYp/sCM4cKlcU/1ljcOEtF5TSFFr+KXxk3iL2yqUP5jew71AHSvVBxlYxlz36aKB0\n+iC23lQRz+R62112dqHnew==\n-----END PRIVATE KEY-----\n",
+  "client_email": "eduget-service@eduget.iam.gserviceaccount.com",
+  "client_id": "114520115337926565458",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/eduget-service%40eduget.iam.gserviceaccount.com"
+}

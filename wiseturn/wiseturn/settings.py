@@ -155,6 +155,12 @@ SHELL_PLUS_PRE_IMPORTS = (
     ('wiseturn.models', ('*')),
 )
 
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+from google.oauth2 import service_account
+
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, 'eduget-2bda0599abab.json')
+)
 
 try:
     from wiseturn.local_settings import *

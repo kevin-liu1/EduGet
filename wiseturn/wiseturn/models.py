@@ -84,6 +84,39 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
 
+
+def institution_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'institution/{0}/{1}'.format(instance.name, filename)
+
+class Institution(models.Model):
+    name = models.TextField()
+    dli_number = models.TextField(unique=True, null=True)
+    founded = models.IntegerField()
+    type = models.TextField()
+
+    description = models.TextField()
+    location = models.TextField()
+
+    cost_of_living = models.DecimalField(max_digits=10, decimal_places=2)
+
+    logo = models.ImageField(upload_to=institution_directory_path)
+
+
+class Program(models.Model):
+    institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
+
+    name = models.TextField()
+    tuition = models.DecimalField(max_digits=10, decimal_places=2)
+
+    level = models.TextField()
+    discipline = models.TextField()
+    application_fee = models.DecimalField(max_digits=10, decimal_places=2)
+
+"""
+Neo4j Models to be created with post save signals
+"""
+
 class User(DjangoNode):
     uid = UniqueIdProperty()
     firstname = StringProperty(index=True, required=True)
