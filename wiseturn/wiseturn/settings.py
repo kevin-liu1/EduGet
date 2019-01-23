@@ -161,6 +161,7 @@ from google.oauth2 import service_account
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
     os.path.join(BASE_DIR, 'eduget-2bda0599abab.json')
 )
+GS_BUCKET_NAME = 'eduget'
 
 try:
     from wiseturn.local_settings import *
