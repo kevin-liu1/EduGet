@@ -32,6 +32,7 @@ export const AppRouter = () => (
         <PublicRoute path="/thank-you" component={Thankyou} exact={true} />
         <PublicRoute path="/testing" component={Testing} exact={true} /> //routing for test page
         <PublicRoute path="/unauthorized" component={Unauthorized} exact={true} />
+        <PublicRoute path="" component={Nomatch} exact={true} />
       </Switch>
     </div>
   </Router>
