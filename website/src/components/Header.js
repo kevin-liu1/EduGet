@@ -8,7 +8,25 @@ import { connect } from 'react-redux';
 import { login } from '../actions/userAction';
 import { Link } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import InputBase from '@material-ui/core/InputBase';
+import { withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/Icon';
+import MailIcon from '@material-ui/icons/Mail';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import '../styles/App.css'
+
+const styles = theme => ({
+  input: {
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+})
 
 class Header extends Component {
   constructor(props){
@@ -16,9 +34,12 @@ class Header extends Component {
     this.state={
       email:"",
       password:"",
-      auth: false
+      auth: false,
+      window: null,
     }
     this.handleLogOut = this.handleLogOut.bind(this);
+    this.toggleWindow = this.toggleWindow.bind(this);
+    this.closeWindow = this.closeWindow.bind(this);
   }
 
   componentDidMount(){
@@ -33,36 +54,75 @@ class Header extends Component {
     localStorage.removeItem('token');
   }
 
+  toggleWindow(e){
+    this.setState({window: e.currentTarget})
+  }
+  closeWindow(e){
+    this.setState({window: null})
+  }
+
   render() {
+    const { classes } = this.props;
+
     const theme = createMuiTheme({
       palette: {
         primary: { main: '#4384AB' }, // change color of AppBar
       }
     });
+
+    const {email, password, auth, window} = this.state;
+    const open = Boolean(window);
+
     const privateLink = (
-      <Grid container spacing ={24} justify="space-between" alignItems="center">
+      <Grid container spacing={24} justify="space-between" alignItems="center">
         <Grid item>
-          <Button className="button" component={Link} to='/profile' color="inherit" fullWidth>Profile</Button>
+          <Link className="headerTitle" to="/">Eduget</Link>
         </Grid>
-        <Grid item>
-          <div onClick={this.handleLogOut}>
-            <Button className="button" component={Link} to='/login' color="inherit" fullWidth>Logout</Button>
-          </div>
+        <Grid item className="searchContainer">
+          <InputBase className="search" placeholder="Search..." classes={{input: classes.input}}/>
+        </Grid>
+        <Grid item className="headerLayout">
+            <Grid container spacing ={6} justify="space-between" alignItems="center">
+              <Grid item>
+                <Button color="inherit">
+                  <MailIcon/>
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button color="inherit">
+                  <NotificationsIcon/>
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button color="inherit" aria-label="More" aria-owns={open ? 'menu' : undefined} aria-haspopup="true" onClick={this.toggleWindow}>
+                  <AccountCircle/>
+                </Button>
+              </Grid>
+              <Menu id='menu' anchorEl={window} open={open} onClose={this.closeWindow}>
+                <MenuItem component={Link} to='/profile'>Profile</MenuItem>
+                <MenuItem onClick={this.handleLogOut} component={Link} to='/login'>Log out</MenuItem>
+              </Menu>
+            </Grid>
         </Grid>
       </Grid>
     );
 
     const publicLink = (
-      <form className="headerLayout">
-        <Grid container spacing ={24} justify="space-between" alignItems="center">
-          <Grid item>
-            <Button className="button" component={Link} to='/login' color="inherit" fullWidth>Sign In</Button>
-          </Grid>
-          <Grid item>
-            <Button className="button" component={Link} to='/register' variant="outlined" color="inherit" fullWidth>Create Account</Button>
+      <Grid container spacing={24} justify="space-between" alignItems="center">
+        <Grid item>
+          <Link className="headerTitle" to="/">Eduget</Link>
+        </Grid>
+        <Grid item className="headerLayout">
+          <Grid container spacing ={24} justify="space-between" alignItems="center">
+            <Grid item>
+              <Button className="button" component={Link} to='/login' color="inherit" fullWidth>Sign In</Button>
+            </Grid>
+            <Grid item>
+              <Button className="button" component={Link} to='/register' variant="outlined" color="inherit" fullWidth>Create Account</Button>
+            </Grid>
           </Grid>
         </Grid>
-      </form>
+      </Grid>
     )
 
     return (
@@ -70,17 +130,10 @@ class Header extends Component {
       <MuiThemeProvider theme={theme}>
         <AppBar position="static">
           <Toolbar>
-            <Grid container spacing={24} justify="space-between" alignItems="center">
-              <Grid item>
-                <Link className="headerTitle" to="/">Eduget</Link>
-              </Grid>
-              <Grid item>
-                {this.state.auth?
-                  privateLink :
-                  publicLink
-                }
-              </Grid>
-            </Grid>
+            {this.state.auth?
+              privateLink :
+              publicLink
+            }
           </Toolbar>
         </AppBar>
         </MuiThemeProvider>
@@ -89,4 +142,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withStyles(styles)(Header);

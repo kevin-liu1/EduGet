@@ -43,11 +43,9 @@ class SignIn extends Component {
       username: this.state.email,
       password: this.state.password
     }).then((response) => {
-      console.log(response.data.token)
       localStorage.setItem('token', response.data.token);
       self.setState({auth: true});
       this.props.login(this.state.auth);
-
     }).catch((error)=>{
       console.log(error.response.data);
       self.setState({auth: false});
@@ -67,6 +65,7 @@ class SignIn extends Component {
     var errorStyle = {
       color: 'red'
     }
+
     return (
       <div className="signInContainer">
         <Header/>

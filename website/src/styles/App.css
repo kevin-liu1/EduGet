@@ -14,6 +14,7 @@ body{
 }
 .headlineOverlay{
   width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   overflow: none;
 }
@@ -58,6 +59,17 @@ body{
 }
 .headerTitle:hover{
   color: white;
+}
+.search{
+  background-color: white;
+  border-radius: 10px;
+  width: 100%;
+}
+.search:first-child{
+  margin-left: 10px;
+}
+.searchContainer{
+  width: 400px;
 }
 
 /* Sign In*/
