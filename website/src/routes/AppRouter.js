@@ -14,6 +14,8 @@ import Thankyou from '../components/Thankyou'; //thank you for creating a new ac
 import Nomatch from '../components/404nomatch'; //404 page not foune
 import Testing from '../components/testing';
 import Unauthorized from '../components/Unauthorized';
+import CreateProfile from '../components/CreateProfile';
+import CreateProfile1 from '../components/CreateProfile';
 
 
 export const history = createHistory();
@@ -32,6 +34,7 @@ export const AppRouter = () => (
         <PublicRoute path="/thank-you" component={Thankyou} exact={true} />
         <PublicRoute path="/testing" component={Testing} exact={true} /> //routing for test page
         <PublicRoute path="/unauthorized" component={Unauthorized} exact={true} />
+        <PublicRoute path="/create-profile" component={CreateProfile} exact={true} />
       </Switch>
     </div>
   </Router>
