@@ -9,6 +9,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signUp } from '../actions/userAction'
+import GLOBALS from '../config/common';
 import '../styles/App.css'
 import axios from 'axios';
 import Header from './Header';
@@ -56,14 +57,14 @@ class SignUp extends Component {
   handleSubmit(e){
     e.preventDefault();
     this.props.signUp(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
-
-    axios.post('http://localhost:8000/api/users/create/', {
+    axios.post(GLOBALS.API_ROOT + '/api/users/create/', {
       email: this.state.email,
       first_name: this.state.firstName,
       last_name: this.state.lastName,
       password: this.state.password
     }).then(function (response) {
    console.log(response);
+
     })
     .catch(function (error) {
      console.log(error);
