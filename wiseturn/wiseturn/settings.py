@@ -159,7 +159,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 from google.oauth2 import service_account
 
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR, 'eduget-2bda0599abab.json')
+    os.path.join(BASE_DIR, 'eduget-73730a35aa51.json')
 )
 GS_BUCKET_NAME = 'eduget'
 
