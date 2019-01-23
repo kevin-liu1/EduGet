@@ -13,8 +13,6 @@ import NewPassword from '../components/NewPassword'; //change user password
 import Thankyou from '../components/Thankyou'; //thank you for creating a new account
 import Nomatch from '../components/404nomatch'; //404 page not foune
 import Testing from '../components/testing';
-import Unauthorized from '../components/Unauthorized';
-
 
 export const history = createHistory();
 
@@ -31,7 +29,6 @@ export const AppRouter = () => (
         <PublicRoute path="/new-password" component={NewPassword} exact={true} />
         <PublicRoute path="/thank-you" component={Thankyou} exact={true} />
         <PublicRoute path="/testing" component={Testing} exact={true} /> //routing for test page
-        <PublicRoute path="/unauthorized" component={Unauthorized} exact={true} />
       </Switch>
     </div>
   </Router>
