@@ -18,6 +18,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import '../styles/App.css'
 
+import '@material-ui/icons/AccountCircle';
+
 const styles = theme => ({
   input: {
     paddingLeft: 10,
