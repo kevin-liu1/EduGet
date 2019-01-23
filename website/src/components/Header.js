@@ -15,22 +15,22 @@ class Header extends Component {
     super(props);
     this.state={
       email:"",
-      password:""
+      password:"",
+      auth: false
     }
-    this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
-    this.logIn = this.logIn.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
   }
-  onChangeEmail(e){
-    this.setState({email: e.target.value});
+
+  componentDidMount(){
+    if (localStorage.getItem('token') == null){
+      this.setState({auth: false})
+    }else{
+      this.setState({auth: true})
+    }
   }
-  onChangePassword(e){
-    this.setState({password: e.target.value});
-    console.log(this.state)
-  }
-  logIn(e){
-    e.preventDefault();
-    this.props.login(this.state.email, this.state.password);
+
+  handleLogOut(e){
+    localStorage.removeItem('token');
   }
 
   render() {
@@ -39,6 +39,31 @@ class Header extends Component {
         primary: { main: '#4384AB' }, // change color of AppBar
       }
     });
+    const privateLink = (
+      <Grid container spacing ={24} justify="space-between" alignItems="center">
+        <Grid item>
+          <Button className="button" component={Link} to='/profile' color="inherit" fullWidth>Profile</Button>
+        </Grid>
+        <Grid item>
+          <div onClick={this.handleLogOut}>
+            <Button className="button" component={Link} to='/login' color="inherit" fullWidth>Logout</Button>
+          </div>
+        </Grid>
+      </Grid>
+    );
+
+    const publicLink = (
+      <form className="headerLayout">
+        <Grid container spacing ={24} justify="space-between" alignItems="center">
+          <Grid item>
+            <Button className="button" component={Link} to='/login' color="inherit" fullWidth>Sign In</Button>
+          </Grid>
+          <Grid item>
+            <Button className="button" component={Link} to='/register' variant="outlined" color="inherit" fullWidth>Create Account</Button>
+          </Grid>
+        </Grid>
+      </form>
+    )
 
     return (
       <div>
@@ -50,16 +75,10 @@ class Header extends Component {
                 <Link className="headerTitle" to="/">Eduget</Link>
               </Grid>
               <Grid item>
-                <form className="headerLayout">
-                  <Grid container spacing ={24} justify="space-between" alignItems="center">
-                    <Grid item>
-                      <Button className="button" component={Link} to='/login' color="inherit" fullWidth>Sign In</Button>
-                    </Grid>
-                    <Grid item>
-                      <Button className="button" component={Link} to='/register' variant="outlined" color="inherit" fullWidth>Create Account</Button>
-                    </Grid>
-                  </Grid>
-                </form>
+                {this.state.auth?
+                  privateLink :
+                  publicLink
+                }
               </Grid>
             </Grid>
           </Toolbar>
@@ -70,8 +89,4 @@ class Header extends Component {
   }
 }
 
-const mapActionsToProps = (dispatch) => ({
-  login: (email,password) => dispatch(login(email,password))
-})
-
-export default connect(undefined, mapActionsToProps)(Header);
+export default Header;
