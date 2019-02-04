@@ -25,16 +25,26 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from wiseturn.models import *
 
+class CustomModelAdmin(admin.ModelAdmin):
+    def __init__(self, model, admin_site):
+        self.list_display = [model.__str__] + [field.name for field in model._meta.fields 
+        if not (field.name in ["id","hash", "password"]) and not (field.__class__.__name__ in ['TextField'])
+        ]
+        super(CustomModelAdmin, self).__init__(model, admin_site)
+        self.search_fields = [f.name for f in model._meta.fields if f.__class__.__name__ in ['CharField', 'TextField', 'EmailField']]
+
 
 for model in [WTUser, Institution, Program]:
-    admin.site.register(model)
+    admin.site.register(model, CustomModelAdmin)
 
 from wiseturn.auth.views import *
-
+from wiseturn.views import *
 
 urlpatterns = [
 	url(r'^api/token/auth/$', obtain_auth_token),
 	url(r'^api/users/create/$', UserCreateView.as_view()),
     url(r'^api/users/details/$', UserDetailView.as_view()),
+    url(r'^api/institutions/$', InstitutionListView.as_view()),
+    url(r'^api/institutions/(?P<uid>\w+)/$', InstitutionDetailView.as_view()),
     url(r'^admin/', admin.site.urls),
 ]
