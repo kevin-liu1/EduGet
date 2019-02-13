@@ -7,6 +7,10 @@
 
 	python manage.py runserver
 
+## Install packages from requirements
+
+	pip install -r requirements.txt
+
 ## Make Migarations and Migrate
 When there has been an update to the models
 
