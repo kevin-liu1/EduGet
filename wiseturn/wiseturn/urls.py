@@ -25,16 +25,42 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from wiseturn.models import *
 
+class CustomModelAdmin(admin.ModelAdmin):
+    def __init__(self, model, admin_site):
+        self.list_display = [model.__str__] + [field.name for field in model._meta.fields 
+        if not (field.name in ["id","hash", "password"]) and not (field.__class__.__name__ in ['TextField'])
+        ]
+        super(CustomModelAdmin, self).__init__(model, admin_site)
+        self.search_fields = [f.name for f in model._meta.fields if f.__class__.__name__ in ['CharField', 'TextField', 'EmailField']]
+
 
 for model in [WTUser, Institution, Program]:
-    admin.site.register(model)
+    admin.site.register(model, CustomModelAdmin)
 
 from wiseturn.auth.views import *
+from wiseturn.views import *
+
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
+schema_view = get_schema_view(
+    openapi.Info(
+       title="Eduget API",
+       default_version='v1',
+    ),
+    public=True,
+    permission_classes = (permissions.AllowAny,)
+)
 
 
 urlpatterns = [
 	url(r'^api/token/auth/$', obtain_auth_token),
 	url(r'^api/users/create/$', UserCreateView.as_view()),
     url(r'^api/users/details/$', UserDetailView.as_view()),
+    url(r'^api/institutions/$', InstitutionListView.as_view()),
+    url(r'^api/institutions/(?P<uid>\w+)/$', InstitutionDetailView.as_view()),
+    url(r'^api/docs/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     url(r'^admin/', admin.site.urls),
 ]
