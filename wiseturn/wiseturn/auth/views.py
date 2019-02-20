@@ -1,6 +1,6 @@
-from wiseturn.models import *
+from wiseturn.models import WTUser
 
-from rest_framework import serializers, viewsets, status, generics
+from rest_framework import serializers, viewsets, status
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
 from rest_framework.validators import UniqueValidator
@@ -53,44 +53,32 @@ class WTUserSerializer(serializers.ModelSerializer):
             setattr(instance, field, value)
         return instance
 
-class UserCreateView(generics.GenericAPIView):
-    serializer_class = WTUserSerializer
+
+class UserCreateView(APIView):
     def post(self, request, format=None):
-        """
-        Create a new user
-        """
         serializer = WTUserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class UserDetailView(generics.GenericAPIView):
+
+class UserDetailView(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    serializer_class = WTUserSerializer
 
     def get_object(self, request):
         return request.user
 
     def get(self, request, format=None):
-        """
-        Returns current user info
-        """
         user = self.get_object(request)
         serializer = WTUserSerializer(user)
         return Response(serializer.data)
 
     def put(self, request, format=None):
-        """
-        Update current user info
-        """
         user = self.get_object(request)
         serializer = WTUserSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-

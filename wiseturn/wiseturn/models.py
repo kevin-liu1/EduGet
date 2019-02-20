@@ -48,34 +48,8 @@ class WTUserManager(BaseUserManager):
 
 def hex_uuid():
     return uuid.uuid4().hex
-
-class WtModel(models.Model):
-    '''
-    WtModel is the abstract ancestor class for all models. 
-    It defines __repr__ and __str__ methods which represents data in a user readable way.
-    It defines an uid field which should be used to identify all objects in the front end
-    '''
-    class Meta:
-        abstract = True # LogItModel doesn't correspond to any table in the DB
-
-    uid = models.CharField(max_length=255, default=hex_uuid)
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __str__(self):
-        return '__str__ for %s not implemented yet' % self.__class__.__name__
-
-    def save(self, *args, **kwargs):
-        # TODO: Can perform global save functionality here, like audit logs
-        return super(WtModel, self).save(*args, **kwargs)
-
-    @property
-    def classname(self):
-        return self.__class__.__name__
-
-
-class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
+    
+class WTUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, blank=False)
     first_name = models.CharField(max_length=255, blank=False)
     last_name = models.CharField(max_length=255, blank=False)
@@ -92,6 +66,7 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
             'Unselect this instead of deleting accounts.'
         ),
     )
+    uid = models.CharField(max_length=255, default=hex_uuid)
     USERNAME_FIELD = 'email'
     objects = WTUserManager()
 
@@ -114,36 +89,29 @@ def institution_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
     return 'institution/{0}/{1}'.format(instance.name, filename)
 
-class Institution(WtModel):
-    name = models.CharField(max_length=255, blank=False)
-    dli_number = models.CharField(max_length=255, unique=True, null=True)
-    founded = models.CharField(max_length=255, blank=False)
-    type = models.CharField(max_length=255, blank=False)
+class Institution(models.Model):
+    name = models.TextField()
+    dli_number = models.TextField(unique=True, null=True)
+    founded = models.IntegerField()
+    type = models.TextField()
 
-    description = models.TextField(blank=True)
-    location = models.CharField(max_length=255, blank=False)
+    description = models.TextField()
+    location = models.TextField()
 
     cost_of_living = models.DecimalField(max_digits=10, decimal_places=2)
 
     logo = models.ImageField(upload_to=institution_directory_path)
 
-    def __str__(self):
-        return self.name
 
-
-class Program(WtModel):
+class Program(models.Model):
     institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
 
-    name = models.CharField(max_length=255, blank=False)
-    description = models.TextField(blank=True)
+    name = models.TextField()
     tuition = models.DecimalField(max_digits=10, decimal_places=2)
 
-    level = models.CharField(max_length=255, blank=False)
-    discipline = models.CharField(max_length=255, blank=False)
+    level = models.TextField()
+    discipline = models.TextField()
     application_fee = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return self.name
 
 """
 Neo4j Models to be created with post save signals
