@@ -91,7 +91,6 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
             'Unselect this instead of deleting accounts.'
         ),
     )
-
     USERNAME_FIELD = 'email'
     objects = WTUserManager()
 
@@ -154,8 +153,8 @@ class Program(WtModel):
 
     tuition = models.DecimalField(max_digits=10, decimal_places=2)
 
-    level = models.CharField(max_length=255, blank=False)
-    discipline = models.CharField(max_length=255, blank=False)
+    level = models.TextField()
+    discipline = models.TextField()
     application_fee = models.DecimalField(max_digits=10, decimal_places=2)
 
     slug = models.CharField(max_length=255, unique=True)

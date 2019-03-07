@@ -1,6 +1,6 @@
-from wiseturn.models import *
+from wiseturn.models import WTUser
 
-from rest_framework import serializers, viewsets, status, generics
+from rest_framework import serializers, viewsets, status
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
 from rest_framework.validators import UniqueValidator
@@ -91,6 +91,3 @@ class UserDetailView(generics.GenericAPIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
