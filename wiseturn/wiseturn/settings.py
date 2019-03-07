@@ -38,12 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
     'django_neomodel',
     'rest_framework',
     'rest_framework.authtoken',
     'django_extensions',
     'corsheaders',
     'wiseturn',
+
 ]
 
 AUTH_USER_MODEL = 'wiseturn.WTUser'
@@ -56,7 +58,9 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.BasicAuthentication',  # enables simple command line authentication
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    )
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 25
 }
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

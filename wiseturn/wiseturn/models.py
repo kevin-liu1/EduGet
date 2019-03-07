@@ -74,7 +74,6 @@ class WtModel(models.Model):
     def classname(self):
         return self.__class__.__name__
 
-
 class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
     email = models.EmailField(unique=True, blank=False)
     first_name = models.CharField(max_length=255, blank=False)
@@ -92,6 +91,7 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
             'Unselect this instead of deleting accounts.'
         ),
     )
+
     USERNAME_FIELD = 'email'
     objects = WTUserManager()
 
@@ -116,19 +116,34 @@ def institution_directory_path(instance, filename):
 
 class Institution(WtModel):
     name = models.CharField(max_length=255, blank=False)
-    dli_number = models.CharField(max_length=255, unique=True, null=True)
-    founded = models.CharField(max_length=255, blank=False)
+    dli_number = models.CharField(max_length=255)
+    founded = models.IntegerField(null=True)
     type = models.CharField(max_length=255, blank=False)
 
     description = models.TextField(blank=True)
-    location = models.CharField(max_length=255, blank=False)
+    
+    city = models.CharField(max_length=255, blank=True)
+    country = models.CharField(max_length=255, blank=True)
+    postal = models.CharField(max_length=255, blank=True)
+    province = models.CharField(max_length=255, blank=True)
+    street = models.CharField(max_length=255, blank=True)
 
     cost_of_living = models.DecimalField(max_digits=10, decimal_places=2)
 
     logo = models.ImageField(upload_to=institution_directory_path)
 
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
+
+    slug = models.CharField(max_length=255, unique=True)
+
+    @property
+    def location(self):
+        return "{}, {}".format(self.city, self.province)
+
     def __str__(self):
         return self.name
+
 
 
 class Program(WtModel):
@@ -136,12 +151,14 @@ class Program(WtModel):
 
     name = models.CharField(max_length=255, blank=False)
     description = models.TextField(blank=True)
+
     tuition = models.DecimalField(max_digits=10, decimal_places=2)
 
     level = models.CharField(max_length=255, blank=False)
     discipline = models.CharField(max_length=255, blank=False)
     application_fee = models.DecimalField(max_digits=10, decimal_places=2)
 
+    slug = models.CharField(max_length=255, unique=True)
     def __str__(self):
         return self.name
 

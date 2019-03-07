@@ -16,17 +16,23 @@ from rest_framework.views import APIView
 
 from django.shortcuts import get_object_or_404
 
+from drf_yasg.utils import swagger_serializer_method
+
 class InstitutionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Institution
-        exclude = ('id',)
+        fields = ('uid', 'name', 'country', 'location', 'logo')
         read_only_fields = ('uid',)
 
+
 class InstitutionListView(generics.ListAPIView):
+    """
+    Returns a list of all Institutions
+    """
     model = Institution
     serializer_class = InstitutionSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         queryset = Institution.objects.all()
@@ -46,17 +52,22 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
 
     programs = serializers.SerializerMethodField()
 
+    @swagger_serializer_method(serializer_or_field=ProgramSerializer)
     def get_programs(self, instance):
-      return ProgramSerializer(instance.program_set.all(), many=True).data;
+        return ProgramSerializer(instance.program_set.all(), many=True).data
 
-class InstitutionDetailView(APIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+class InstitutionDetailView(generics.GenericAPIView):
+    serializer_class = InstitutionDetailSerializer
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
 
     def get_object(self, request, uid):
         return get_object_or_404(Institution, uid=uid)
 
     def get(self, request, uid, format=None):
-        institution = self.get_object(request, uid);
+        """
+        Returns an institution and all its programs
+        """
+        institution = self.get_object(request, uid)
         serializer = InstitutionDetailSerializer(institution)
         return Response(serializer.data)

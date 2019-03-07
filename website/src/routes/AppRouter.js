@@ -29,8 +29,8 @@ export const AppRouter = () => (
         <PublicRoute path='/password-reset' component={ResetPassword} exact={true}/>
         <PublicRoute path="/new-password" component={NewPassword} exact={true} />
         <PublicRoute path="/thank-you" component={Thankyou} exact={true} />
-        <PublicRoute path="/testing" component={Testing} exact={true} /> //routing for test page
         <PublicRoute path="/create-profile" component={CreateProfile} exact={true} />
+        <PublicRoute path="" component={Nomatch} exact={true} />
       </Switch>
     </div>
   </Router>
