@@ -1,6 +1,4 @@
 const userDefaultState = {
-  isAuthenticated: false,
-
 };
 
 export default (state = userDefaultState, action) => {
@@ -19,10 +17,16 @@ export default (state = userDefaultState, action) => {
         password: action.password,
         agree: action.agree
       }
-    case 'EDITPROFILE':
-      var ret = Object.assign({},action)
-      ret['type'] = undefined;
-      return ret;
+    case 'SUMMARY':
+      return{
+        summary: action.summary
+      }
+    case 'EDUCATION':
+      return{
+        educationlevel: action.educationlevel,
+        grade: action.grade,
+        school: action.school
+      }
     default:
       return state;
   }

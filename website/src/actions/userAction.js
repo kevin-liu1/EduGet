@@ -12,6 +12,15 @@ export const signUp = (firstName, lastName, email, password, agree) => ({
   agree: agree
 });
 
-export const editProfile = (state) => (
-  Object.assign({}, {type: 'EDITPROFILE'}, state)
-)
+export const editSummary = (summary, summaryOpen) => ({
+  type: 'SUMMARY',
+  summary: summary,
+})
+
+export const editEducation = (educationlevel, grade, school) => ({
+  type: 'EDUCATION',
+  educationlevel: educationlevel,
+  grade: grade,
+  school: school
+
+})

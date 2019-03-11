@@ -1,90 +1,77 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Modal from '@material-ui/core/Modal';
-import { withStyles } from '@material-ui/core/styles';
 import Header from './Header';
-
-
-// const styles = theme => ({
-//   paper: {
-//     position: 'absolute',
-//     width: theme.spacing.unit * 50,
-//     backgroundColor: theme.palette.background.paper,
-//     boxShadow: theme.shadows[5],
-//     padding: theme.spacing.unit * 4,
-//   },
-// });
+import Scrollspy from 'react-scrollspy';
+import Grid from '@material-ui/core/Grid';
+import profilepic from '../assets/profilepic.jpg'
+import Summary from './Summary'
+import Education from './Education'
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import '../styles/App.css'
 
 class Profile extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      id: null,
-      firstName: this.props.user.firstName,
-      lastName: this.props.user.lastName,
-      email: this.props.user.email,
-      network: [],
-      open: false,
-    }
-
-    // this.handleEdit = this.handleEdit.bind(this);
   }
-
-  handleOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
 
   render() {
     return (
-      <div>
+      <div className="wrapper">
         <Header/>
-        <Card>
-          <CardContent>
-          <div onClick={this.handleOpen}>
-            <Button variant="contained" color="primary" fullWidth>Edit</Button>
-          </div>
-          <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.open}
-          onClose={this.handleClose}
-        >
-        </Modal>
-
-            <Typography variant="h5">{this.state.firstName} {this.state.lastName}</Typography>
-            <Typography variant="subheading">{this.state.email}</Typography>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent>
-            <Typography variant="h5">Summary</Typography>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent>
-            <Typography variant="h5">Experience</Typography>
-          </CardContent>
-        </Card>
+        <div className="profileMain">
+          <Grid container spacing={24} direction="row" justify="center" alignItems="flex-start">
+            <Grid item xs={3}>
+              <Card className="profile">
+              <CardContent className="profileInfo">
+                <img className="profilePicture" src={profilepic} alt="profilepic"/>
+                <h3>Full Name</h3>
+                <Scrollspy items={ ['summary', 'education', 'experience'] } currentClassName="is-current">
+                  <li>
+                    <a href="#summary"><h4>Summary</h4></a>
+                  </li>
+                  <li>
+                    <a href="#education"><h4>Education</h4></a>
+                  </li>
+                  <li>
+                    <a href="#experience"><h4>Experience</h4></a>
+                  </li>
+                </Scrollspy>
+              </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={9}>
+              <Card >
+              <CardContent className="profileContent">
+                <div>
+                  <section id="summary" className="editSection">
+                  <div>
+                      <Summary/>
+                  </div>
+                  </section>
+                  <section id="education" className="editSection">
+                  <div>
+                      <Education/>
+                  </div>
+                  </section>
+                  <section id="experience" className="editSection">
+                  <div>
+                      <IconButton color="inherit" aria-label="Edit" className="editButton">
+                        <EditIcon/>
+                      </IconButton>
+                    <h1>Experience</h1>
+                  </div>
+                  </section>
+                </div>
+              </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state, props) => {
-  return {
-    user: state.user
-  };
-};
-
-// const SimpleModalWrapped = withStyles(styles)(Profile);
-
-export default connect(mapStateToProps)(Profile);
+export default Profile;

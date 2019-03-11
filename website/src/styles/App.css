@@ -1,6 +1,8 @@
 body{
   height: 100vh;
+  width: 100%;
 }
+
 /*
   Main Page Styles
 */
@@ -71,7 +73,9 @@ body{
 .searchContainer{
   width: 400px;
 }
-
+.logo{
+  height: 40px;
+}
 /* Sign In*/
 .signInContainer{
   background-color: #F1F1F1;
@@ -124,4 +128,53 @@ a:hover{
 
 input:-webkit-autofill {
 -webkit-box-shadow: 0 0 0 30px #FFFFFF inset;
+}
+
+/* Profile */
+.profile{
+  min-height: 590px;
+}
+.profileMain{
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  max-width: 1200px;
+}
+.profileInfo{
+  min-height: 550px;
+}
+.profileContent{
+  min-height: 550px;
+  overflow-y: auto;
+}
+.profilePicture{
+  width: 100%;
+}
+.profileField{
+  margin: 20 20 20 20;
+}
+.editProfileButton{
+  float: right;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+.closeEdit{
+  float: right;
+}
+.editButton{
+  float: right;
+}
+.editSection{
+  clear: both;
+}
+.dialog{
+  width: 600px;
+}
+
+.wrapper{
+  height: 100%;
+}
+li{
+  list-style: none;
 }

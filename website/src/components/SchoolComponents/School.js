@@ -34,12 +34,9 @@ class School extends Component {
 
   renderSchools(){
     console.log(this.state.schools)
-      this.state.schools.map((school) => {
-        var link = "/school/" + school.uid
-        console.log(school.name)
-        return(
+    return(
+      this.state.schools.map(school => {
           <Grid item xl='auto'>
-            <Link to={link}>
               <Card className="card">
                 <CardContent>
                   <div>
@@ -48,10 +45,9 @@ class School extends Component {
                   </div>
                 </CardContent>
               </Card>
-            </Link>
           </Grid>
-        );
-      }); 
+      })
+    )
   }
   render() {
     console.log(this.state.schools)
@@ -67,7 +63,8 @@ class School extends Component {
               <div className="school">
                 <CardContent>
                     <Grid container spacing={24} direction="row" justify="center" align-items="flex-start">
-                        {this.renderSchools}
+                        {!this.state.schools ? <p>Loading</p>:
+                          this.renderSchools()}
                     </Grid>
                 </CardContent>
               </div>

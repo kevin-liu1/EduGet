@@ -1,0 +1,22 @@
+.card{
+    height: 200px;
+    width: 300px;
+}
+
+.school{
+    min-height: 500px;
+    overflow: scroll;
+}
+
+.search{
+    background-color: white;
+    border-radius: 10px;
+    width: 100%;
+  }
+
+.school-container{
+    margin-top:20px;
+}
+.school-info{
+    margin-left: 20px;
+}

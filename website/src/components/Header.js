@@ -17,6 +17,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import '../styles/App.css'
+import logo from '../assets/eduget-logo.png'
 
 import '@material-ui/icons/AccountCircle';
 
@@ -78,13 +79,13 @@ class Header extends Component {
     const privateLink = (
       <Grid container spacing={24} justify="space-between" alignItems="center">
         <Grid item>
-          <Link className="headerTitle" to="/">Eduget</Link>
+          <Link className="headerTitle" to="/"><img className="logo" src={logo}/></Link>
         </Grid>
         <Grid item className="searchContainer">
           <InputBase className="search" placeholder="Search..." classes={{input: classes.input}}/>
         </Grid>
         <Grid item className="headerLayout">
-            <Grid container spacing ={6} justify="space-between" alignItems="center">
+            <Grid container spacing ={8} justify="space-between" alignItems="center">
               <Grid item>
                 <Button color="inherit">
                   <MailIcon/>
@@ -112,7 +113,7 @@ class Header extends Component {
     const publicLink = (
       <Grid container spacing={24} justify="space-between" alignItems="center">
         <Grid item>
-          <Link className="headerTitle" to="/">Eduget</Link>
+          <Link className="headerTitle" to="/"><img className="logo" src={logo}/></Link>
         </Grid>
         <Grid item className="headerLayout">
           <Grid container spacing ={24} justify="space-between" alignItems="center">

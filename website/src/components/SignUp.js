@@ -85,7 +85,7 @@ class SignUp extends Component {
           <Card>
             <CardContent>
               <Typography variant="h5">Create New Account</Typography>
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={this.handleSubmit} method="POST">
                 <TextField className="signUpSpacing" label="First Name" autoComplete="no" fullWidth onChange={this.onChangeFirstName}/>
                 <TextField className="signUpSpacing" label="Last Name" autoComplete="no" fullWidth onChange={this.onChangeLastName}/>
                 <TextField className="signUpSpacing" label="E-mail" autoComplete="no" fullWidth onChange={this.onChangeEmail}/>
@@ -101,7 +101,7 @@ class SignUp extends Component {
                 </Grid>
                 <div className="SignUpSpacing" onClick={this.handleSubmit}>
                   <MuiThemeProvider theme={theme}>
-                    <Button className="button" component={Link} to="/Submit" variant="contained" size="large" color="primary">Join Now</Button>
+                    <Button className="button" component={Link} to="/Submit" variant="contained" size="large" type="submit" color="primary">Join Now</Button>
                   </MuiThemeProvider>
                 </div>
                 <div className="signUpSpacing">
