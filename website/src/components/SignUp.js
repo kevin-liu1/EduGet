@@ -57,6 +57,7 @@ class SignUp extends Component {
   handleSubmit(e){
     e.preventDefault();
     this.props.signUp(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
+    console.log("hello")
     axios.post(GLOBALS.API_ROOT + '/api/users/create/', {
       email: this.state.email,
       first_name: this.state.firstName,
@@ -84,7 +85,7 @@ class SignUp extends Component {
           <Card>
             <CardContent>
               <Typography variant="h5">Create New Account</Typography>
-              <form>
+              <form onSubmit={this.handleSubmit}>
                 <TextField className="signUpSpacing" label="First Name" autoComplete="no" fullWidth onChange={this.onChangeFirstName}/>
                 <TextField className="signUpSpacing" label="Last Name" autoComplete="no" fullWidth onChange={this.onChangeLastName}/>
                 <TextField className="signUpSpacing" label="E-mail" autoComplete="no" fullWidth onChange={this.onChangeEmail}/>
@@ -98,9 +99,9 @@ class SignUp extends Component {
                     <p>I agree to the <Link to="/user-agreement">Terms of Service</Link></p>
                   </Grid>
                 </Grid>
-                <div onClick={this.handleSubmit} className="SignUpSpacing">
+                <div className="SignUpSpacing" onClick={this.handleSubmit}>
                   <MuiThemeProvider theme={theme}>
-                    <Button className="button" component={Link} to="/Thank-you" variant="contained" size="large" color="primary">Join Now</Button>
+                    <Button className="button" component={Link} to="/Submit" variant="contained" size="large" color="primary">Join Now</Button>
                   </MuiThemeProvider>
                 </div>
                 <div className="signUpSpacing">
