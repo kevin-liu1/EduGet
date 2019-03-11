@@ -13,7 +13,11 @@ import NewPassword from '../components/NewPassword'; //change user password
 import Thankyou from '../components/Thankyou'; //thank you for creating a new account
 import Nomatch from '../components/404nomatch'; //404 page not foune
 import Testing from '../components/testing';
-import CreateProfile from '../components/CreateProfile'
+import CreateProfile from '../components/CreateProfile';
+import Summary from '../components/Summary';
+import School from '../components/SchoolComponents/School.js';
+import SchoolPage from '../components/SchoolComponents/SchoolPage.js';
+
 
 export const history = createHistory();
 
@@ -30,7 +34,11 @@ export const AppRouter = () => (
         <PublicRoute path="/new-password" component={NewPassword} exact={true} />
         <PublicRoute path="/thank-you" component={Thankyou} exact={true} />
         <PublicRoute path="/create-profile" component={CreateProfile} exact={true} />
-        <PublicRoute path="" component={Nomatch} exact={true} />
+        <PublicRoute path="/404" component={Nomatch} exact={true} />
+        <PublicRoute path="/summary" component={Summary} exact={true} />
+        <PublicRoute path="/schools" component={School} exact={true}/> 
+        <PublicRoute path="/schools/:uid" component={SchoolPage} exact={true} />
+
       </Switch>
     </div>
   </Router>
