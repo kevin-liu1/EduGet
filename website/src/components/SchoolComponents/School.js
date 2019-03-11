@@ -15,7 +15,8 @@ class School extends Component {
   constructor(props){
     super(props);
     this.state = {
-      schools: null
+      schools: null,
+      schoolId: null
     }
     this.renderSchools = this.renderSchools.bind(this);
   }
@@ -36,7 +37,10 @@ class School extends Component {
     console.log(this.state.schools)
     return(
       this.state.schools.map(school => {
+        var link = "/schools/" + school.uid;
+        return(
           <Grid item xl='auto'>
+            <Link to={link}>
               <Card className="card">
                 <CardContent>
                   <div>
@@ -45,9 +49,11 @@ class School extends Component {
                   </div>
                 </CardContent>
               </Card>
+            </Link>
           </Grid>
+        )
       })
-    )
+    ) 
   }
   render() {
     console.log(this.state.schools)
@@ -63,8 +69,7 @@ class School extends Component {
               <div className="school">
                 <CardContent>
                     <Grid container spacing={24} direction="row" justify="center" align-items="flex-start">
-                        {!this.state.schools ? <p>Loading</p>:
-                          this.renderSchools()}
+                        {!this.state.schools ? <p>Loading.. </p> : this.renderSchools()}
                     </Grid>
                 </CardContent>
               </div>

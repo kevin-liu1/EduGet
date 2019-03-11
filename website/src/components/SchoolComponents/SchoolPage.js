@@ -18,24 +18,22 @@ class SchoolPage extends Component {
     }
     this.renderPrograms = this.renderPrograms.bind(this)
   }
-
   renderPrograms(){
     console.log(this.state.info.programs)
-    if (this.state.info.programs != null) {
+    return(
       this.state.info.programs.map((program) => {
-        console.log(program.name)
-      return(
-        <Grid item xl="auto">
-          <Card>
-            <CardContent>
-              {console.log(program.name)}
-              <p>{program.name}</p>
-            </CardContent>
-          </Card>
-        </Grid>
-      )
-      })
-    }
+        return(
+          <Grid item xl="auto">
+            <Card>
+              <CardContent>
+                {console.log(program.name)}
+                <p>{program.name}</p>
+              </CardContent>
+            </Card>
+          </Grid>
+        )
+        })
+    )
   }
   componentDidMount(){
     const {match} = this.props
@@ -79,8 +77,8 @@ class SchoolPage extends Component {
               <Card>
                 <CardContent>
                   <h1>Programs</h1>
-                  <Grid container spacing={24} direction="row" justify="center" align-items="flex-start">
-                    {this.renderPrograms()}
+                  <Grid container spacing={24} direction="column" justify="center" align-items="flex-start">
+                    {!this.state.info.programs ? <p>Loading.. </p> : this.renderPrograms()}
                   </Grid>
                 </CardContent>
               </Card>
