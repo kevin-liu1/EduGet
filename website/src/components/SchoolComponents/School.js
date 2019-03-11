@@ -16,36 +16,38 @@ class School extends Component {
     super(props);
     this.state = {
       schools: null,
-      schoolId: null
+      schoolSearch: null,
+      searchFlag: false
     }
     this.renderSchools = this.renderSchools.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.searchSchools = this.searchSchools.bind(this);
   }
 
   componentDidMount(){
-    axios.get('http://localhost:8000/api/institutions/',{
+    axios.get('http://localhost:8000/api/institutions/?limit=866',{
       headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
     }).then((response) => {
-      console.log(response.data)
       this.setState({schools: response.data.results});
-      console.log(this.state.schools)
     }).catch((error)=>{
       console.log(error);
     })
   }
 
   renderSchools(){
-    console.log(this.state.schools)
     return(
       this.state.schools.map(school => {
         var link = "/schools/" + school.uid;
+        var country = "https://www.countryflags.io/"+ school.country +"/flat/24.png"
         return(
-          <Grid item xl='auto'>
+          <Grid item xl='auto' className="card">
             <Link to={link}>
-              <Card className="card">
-                <CardContent>
+              <Card>
+                <CardContent >
                   <div>
-                    <p>{school.name}</p>
-                    <p>{school.location}</p>
+                    <img src={school.logo} alt="profilepic" className="school-logo"/>
+                    <p className="name">{school.name}</p>
+                    <p className="location"><img className="flag" src={country}/> {school.location}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -55,21 +57,51 @@ class School extends Component {
       })
     ) 
   }
+  handleSearch(e){
+    this.setState({schoolSearch: e.target.value})
+  }
+  searchSchools(){
+    return(
+    this.state.schools.map(school => {
+      if (school.name.search(new RegExp(this.state.schoolSearch, "i")) != -1){
+        this.setState({searchFlag: true})
+        var link = "/schools/" + school.uid;
+        var country = "https://www.countryflags.io/"+ school.country +"/flat/24.png"
+        return(
+          <Grid item xl='auto' className="card">
+            <Link to={link}>
+              <Card>
+                <CardContent >
+                  <div>
+                    <img src={school.logo} alt="profilepic" className="school-logo"/>
+                    <p className="name">{school.name}</p>
+                    <p className="location"><img className="flag" src={country}/> {school.location}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </Grid>
+        )
+      }
+    })
+    )
+  }
+
   render() {
-    console.log(this.state.schools)
     return (
         <div>
             <Header/>
-            <Card>
-              <CardContent>
-                <InputBase className="search" placeholder="Search..."/>
+            <Card className="searchContainer">
+              <CardContent  className="searchContent">
+                <h1>Discover Your Perfect School</h1>
+                <InputBase className="searchSchoolBar" placeholder="Search..." onChange={this.handleSearch}/>
               </CardContent>
             </Card>
             <Card>
               <div className="school">
                 <CardContent>
                     <Grid container spacing={24} direction="row" justify="center" align-items="flex-start">
-                        {!this.state.schools ? <p>Loading.. </p> : this.renderSchools()}
+                        {!this.state.schools ? <p>Loading.. </p> : !this.state.schoolSearch ? this.renderSchools() : this.searchSchools()}
                     </Grid>
                 </CardContent>
               </div>
