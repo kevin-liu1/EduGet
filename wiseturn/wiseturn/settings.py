@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['*']
 
 NEOMODEL_NEO4J_BOLT_URL = os.environ.get('NEO4J_BOLT_URL', 'bolt://neo4j:wiseturn@localhost:7687')
 
+INTERNAL_IPS  = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_extensions',
     'corsheaders',
+    'debug_toolbar',
     'wiseturn',
 
 ]
@@ -64,6 +66,7 @@ REST_FRAMEWORK = {
 }
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -159,13 +162,18 @@ SHELL_PLUS_PRE_IMPORTS = (
     ('wiseturn.models', ('*')),
 )
 
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+# DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+DEFAULT_FILE_STORAGE = 'wiseturn.storage_backends.GoogleCloudMediaStorage'
+
 from google.oauth2 import service_account
 
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
     os.path.join(BASE_DIR, 'eduget-73730a35aa51.json')
 )
 GS_BUCKET_NAME = 'eduget'
+GS_MEDIA_BUCKET_NAME  = 'eduget'
+
+MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_MEDIA_BUCKET_NAME)
 
 try:
     from wiseturn.local_settings import *
