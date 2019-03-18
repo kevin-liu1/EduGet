@@ -62,6 +62,8 @@ urlpatterns = [
     url(r'^api/users/details/$', UserDetailView.as_view()),
     url(r'^api/institutions/$', InstitutionListView.as_view()),
     url(r'^api/institutions/(?P<uid>\w+)/$', InstitutionDetailView.as_view()),
+    url(r'^api/applications/institutions/$', InstitutionApplicationListView.as_view()),
+    url(r'^api/applications/institutions/create/$', InstitutionApplicationDetailView.as_view()),
     url(r'^api/docs/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     url(r'^admin/', admin.site.urls),
 ]

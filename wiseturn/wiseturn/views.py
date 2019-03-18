@@ -58,8 +58,8 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
 
 class InstitutionDetailView(generics.GenericAPIView):
     serializer_class = InstitutionDetailSerializer
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get_object(self, request, uid):
         return get_object_or_404(Institution, uid=uid)
@@ -71,3 +71,51 @@ class InstitutionDetailView(generics.GenericAPIView):
         institution = self.get_object(request, uid)
         serializer = InstitutionDetailSerializer(institution)
         return Response(serializer.data)
+
+class InstitutionField(serializers.SlugRelatedField):
+    @swagger_serializer_method(serializer_or_field=ProgramSerializer)
+    def to_representation(self, value):
+        serializer = InstitutionSerializer(value)
+        return serializer.data
+
+    def get_queryset(self):
+        return Institution.objects.all()
+
+class InstitutionApplicationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InstitutionApplication
+        fields = '__all__'
+        read_only_fields = ('uid',)
+    
+    institution = InstitutionField(slug_field="uid")
+    user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
+    
+    def create(self, validated_data):
+        return InstitutionApplication.objects.create(
+            user = self.context['request'].user,
+            institution = validated_data['institution']
+        )
+        
+    
+    def update(self, instance, validated_data):
+        for field, value in validated_data.items():
+            setattr(instance, field, value)
+        return instance
+
+class InstitutionApplicationListView(generics.ListAPIView):
+    model = InstitutionApplication
+    serializer_class = InstitutionApplicationSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return self.request.user.institutionapplication_set.all()
+
+class InstitutionApplicationDetailView(generics.GenericAPIView):
+    serializer_class = InstitutionApplicationSerializer
+    def post(self, request, format=None):
+        serializer = InstitutionApplicationSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

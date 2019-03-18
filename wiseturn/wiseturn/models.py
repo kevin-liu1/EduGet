@@ -17,6 +17,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
+from django.utils import timezone
+
 class WTUserManager(BaseUserManager):
     """
     A custom user manager to deal with emails as unique identifiers for auth
@@ -56,7 +58,7 @@ class WtModel(models.Model):
     It defines an uid field which should be used to identify all objects in the front end
     '''
     class Meta:
-        abstract = True # LogItModel doesn't correspond to any table in the DB
+        abstract = True
 
     uid = models.CharField(max_length=255, default=hex_uuid)
 
@@ -143,8 +145,6 @@ class Institution(WtModel):
     def __str__(self):
         return self.name
 
-
-
 class Program(WtModel):
     institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
 
@@ -153,13 +153,39 @@ class Program(WtModel):
 
     tuition = models.DecimalField(max_digits=10, decimal_places=2)
 
-    level = models.TextField()
-    discipline = models.TextField()
+    level = models.CharField(max_length=255, blank=False)
+    discipline = models.CharField(max_length=255, blank=False)
     application_fee = models.DecimalField(max_digits=10, decimal_places=2)
 
     slug = models.CharField(max_length=255, unique=True)
     def __str__(self):
         return self.name
+
+class Application(WtModel):
+    class Meta:
+        abstract = True
+
+    user = models.ForeignKey('WtUser', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    modified = models.DateTimeField(auto_now=True)
+    SUBMITTED = 'SUB'
+    PENDING = 'PEN'
+    REVIEW = 'REV'
+    APPROVED = 'APP'
+    STATUS_CHOICES = (
+        (SUBMITTED, 'Submitted'),
+        (PENDING, 'Pending'),
+        (REVIEW, 'Under Review'),
+        (APPROVED, 'Approved'),
+    )
+    status = models.CharField(
+        max_length = 3,
+        choices = STATUS_CHOICES,
+        default = SUBMITTED
+    )
+
+class InstitutionApplication(Application):
+    institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
 
 """
 Neo4j Models to be created with post save signals
@@ -170,9 +196,9 @@ class User(DjangoNode):
     firstname = StringProperty(index=True, required=True)
     lastname = StringProperty(index=True, required=True)
     email = EmailProperty(unique_index=True, required=True)
-    password = StringProperty(requried=True)
+    password = StringProperty(required=True)
 
-    _token = RelationshipTo('Token', 'OWNS_TOKEN', cardinality=One)
+    _token = RelationshipTo('Token', 'OWNS_TOKEN')
 
     class Meta:
         app_label = 'wiseturn'

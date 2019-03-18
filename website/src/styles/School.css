@@ -17,6 +17,12 @@
 .school-container{
     margin-top:20px;
 }
+
 .school-info{
     margin-left: 20px;
+    width: 300px;
+}
+
+.school-info img {
+    max-width: 100%;
 }

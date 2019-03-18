@@ -26,8 +26,9 @@ class SchoolPage extends Component {
           <Grid item xl="auto">
             <Card>
               <CardContent>
-                {console.log(program.name)}
-                <p>{program.name}</p>
+                <h2 class="program-title">{program.name}</h2>
+                <p class="program-description" dangerouslySetInnerHTML={{__html: program.description}}></p>
+
               </CardContent>
             </Card>
           </Grid>
@@ -61,9 +62,9 @@ class SchoolPage extends Component {
               <Card>
               <CardContent>
                 <img src={this.state.info.logo} alt="profilepic"/>
-                <h3>{this.state.info.name}</h3>
-                <h6>Founded in {this.state.info.founded}</h6>
-                <h6>{this.state.info.location}</h6>
+                <h3><img src={`https://www.countryflags.io/${this.state.info.country}/flat/24.png`} /> {this.state.info.name}</h3>
+                <p>Founded in {this.state.info.founded}</p>
+                <p>{[this.state.info.street, this.state.info.city, this.state.info.province].join(", ")}</p>
               </CardContent>
               </Card>
             </Grid>
@@ -71,7 +72,8 @@ class SchoolPage extends Component {
               <Card >
               <CardContent >
                 <h1>About</h1>
-                {this.state.info.description}           
+                <div dangerouslySetInnerHTML={{__html: this.state.info.description}} />
+   
               </CardContent>
               </Card>
               <Card>
