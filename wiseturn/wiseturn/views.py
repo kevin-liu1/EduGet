@@ -73,7 +73,6 @@ class InstitutionDetailView(generics.GenericAPIView):
         return Response(serializer.data)
 
 class InstitutionField(serializers.SlugRelatedField):
-    @swagger_serializer_method(serializer_or_field=ProgramSerializer)
     def to_representation(self, value):
         serializer = InstitutionSerializer(value)
         return serializer.data
