@@ -35,7 +35,7 @@ class CustomModelAdmin(admin.ModelAdmin):
         self.search_fields = [f.name for f in model._meta.fields if f.__class__.__name__ in ['CharField', 'TextField', 'EmailField']]
 
 
-for model in [WTUser, Institution, Program, InstitutionAdmin, InstitutionApplication]:
+for model in [WTUser, Institution, Program, Company, JobPosting, InstitutionAdmin, CompanyAdmin, ProgramApplication, JobApplication]:
     admin.site.register(model, CustomModelAdmin)
 
 from wiseturn.auth.views import *
@@ -63,10 +63,10 @@ urlpatterns = [
     url(r'^api/institutions/$', InstitutionListView.as_view()),
     url(r'^api/institutions/(?P<uid>\w+)/$', InstitutionDetailView.as_view()),
     url(r'^api/institutions/(?P<institution_uid>\w+)/programs/(?P<program_uid>\w+)/$', ProgramDetailView.as_view()),
-    url(r'^api/applications/institutions/$', InstitutionApplicationListView.as_view()),
-    url(r'^api/applications/institutions/create/$', InstitutionApplicationDetailView.as_view()),
+    url(r'^api/applications/programs/$', ProgramApplicationListView.as_view()),
+    url(r'^api/applications/programs/create/$', ProgramApplicationDetailView.as_view()),
     # institution admin pages
-    url(r'^api/institution-admin/applications/$', InstitutionApplicationAdminListView.as_view()),
+    url(r'^api/institution-admin/applications/$', ProgramApplicationAdminListView.as_view()),
 
     # admin pages
     url(r'^api/docs/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

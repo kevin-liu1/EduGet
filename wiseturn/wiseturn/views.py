@@ -85,27 +85,27 @@ class ProgramDetailView(generics.GenericAPIView):
         serializer = ProgramSerializer(program)
         return Response(serializer.data)
 
-class InstitutionField(serializers.SlugRelatedField):
+class ProgramField(serializers.SlugRelatedField):
     def to_representation(self, value):
-        serializer = InstitutionSerializer(value)
+        serializer = ProgramSerializer(value)
         return serializer.data
 
     def get_queryset(self):
-        return Institution.objects.all()
+        return Program.objects.all()
 
-class InstitutionApplicationSerializer(serializers.ModelSerializer):
+class ProgramApplicationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = InstitutionApplication
+        model = ProgramApplication
         fields = '__all__'
         read_only_fields = ('uid',)
     
-    institution = InstitutionField(slug_field="uid")
+    program = ProgramField(slug_field="uid")
     user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
     
     def create(self, validated_data):
-        return InstitutionApplication.objects.create(
+        return ProgramApplication.objects.create(
             user = self.context['request'].user,
-            institution = validated_data['institution']
+            program = validated_data['program']
         )
         
     
@@ -114,28 +114,28 @@ class InstitutionApplicationSerializer(serializers.ModelSerializer):
             setattr(instance, field, value)
         return instance
 
-class InstitutionApplicationListView(generics.ListAPIView):
-    model = InstitutionApplication
-    serializer_class = InstitutionApplicationSerializer
-    authentication_classes = (TokenAuthentication,)
+class ProgramApplicationListView(generics.ListAPIView):
+    model = ProgramApplication
+    serializer_class = ProgramApplicationSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return get_object_or_404(InstitutionAdmin, wtuser_ptr=self.request.user).institution.application_set.all()
+        return self.request.user.programapplication_set.all()
 
-class InstitutionApplicationAdminListView(generics.ListAPIView):
-    model = InstitutionApplication
-    serializer_class = InstitutionApplicationSerializer
-    authentication_classes = (TokenAuthentication,)
+class ProgramApplicationAdminListView(generics.ListAPIView):
+    model = ProgramApplication
+    serializer_class = ProgramApplicationSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return self.request.user.institutionapplication_set.all()
+        user = get_object_or_404(InstitutionAdmin, wtuser_ptr=self.request.user)
+        return ProgramApplication.objects.filter(program__institution=user.institution)
+        
 
-class InstitutionApplicationDetailView(generics.GenericAPIView):
-    serializer_class = InstitutionApplicationSerializer
+class ProgramApplicationDetailView(generics.GenericAPIView):
+    serializer_class = ProgramApplicationSerializer
     def post(self, request, format=None):
-        serializer = InstitutionApplicationSerializer(data=request.data, context={'request': request})
+        serializer = ProgramApplicationSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

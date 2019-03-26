@@ -1,0 +1,149 @@
+digraph model_graph {
+  // Dotfile by Django-Extensions graph_models
+  // Created: 2019-03-26 03:21
+  // Cli Options: wiseturn -e --dot
+
+  fontname = "helvetica"
+  fontsize = 8
+  splines  = true
+
+  node [
+    fontname = "helvetica"
+    shape = "plaintext"
+    fontsize = 8
+  ]
+
+  edge [
+    fontname = "helvetica"
+    fontsize = 8
+  ]
+
+  // Labels
+
+
+  wiseturn_models_WtModel [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>WtModel</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8">uid</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR>
+    </TABLE>
+    >]
+
+  django_contrib_auth_base_user_AbstractBaseUser [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>AbstractBaseUser</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">last_login</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">DateTimeField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">password</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR>
+    </TABLE>
+    >]
+
+  django_contrib_auth_models_PermissionsMixin [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>PermissionsMixin</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">is_superuser</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">BooleanField</FONT></FONT></TD></TR>
+    </TABLE>
+    >]
+
+  wiseturn_models_Application [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>Application</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><b>user</b></FONT></TD><TD><FONT point-size="8"><b>ForeignKey (None)</b></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">created</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">DateTimeField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">modified</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">DateTimeField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">status</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8"><i>uid</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR>
+    </TABLE>
+    >]
+
+  wiseturn_models_WTUser [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>WTUser</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><b>id</b></FONT></TD><TD><FONT point-size="8"><b>AutoField</b></FONT></TD></TR><TR><TD><FONT point-size="8">email</FONT></TD><TD><FONT point-size="8">EmailField</FONT></TD></TR><TR><TD><FONT point-size="8">first_name</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">is_active</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">BooleanField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">is_staff</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">BooleanField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>is_superuser</i></FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>BooleanField</i></FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>last_login</i></FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>DateTimeField</i></FONT></FONT></TD></TR><TR><TD><FONT point-size="8">last_name</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8"><i>password</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR><TR><TD><FONT point-size="8"><i>uid</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR>
+    </TABLE>
+    >]
+
+  wiseturn_models_InstitutionAdmin [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>InstitutionAdmin</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><b>wtuser_ptr</b></FONT></TD><TD><FONT point-size="8"><b>OneToOneField (id)</b></FONT></TD></TR><TR><TD><FONT point-size="8"><b>institution</b></FONT></TD><TD><FONT point-size="8"><b>ForeignKey (id)</b></FONT></TD></TR>
+    </TABLE>
+    >]
+
+  wiseturn_models_CompanyAdmin [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>CompanyAdmin</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><b>wtuser_ptr</b></FONT></TD><TD><FONT point-size="8"><b>OneToOneField (id)</b></FONT></TD></TR><TR><TD><FONT point-size="8"><b>company</b></FONT></TD><TD><FONT point-size="8"><b>ForeignKey (id)</b></FONT></TD></TR>
+    </TABLE>
+    >]
+
+  wiseturn_models_Institution [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>Institution</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><b>id</b></FONT></TD><TD><FONT point-size="8"><b>AutoField</b></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">city</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">cost_of_living</FONT></TD><TD><FONT point-size="8">DecimalField</FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">country</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">description</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">TextField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">dli_number</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8">founded</FONT></TD><TD><FONT point-size="8">IntegerField</FONT></TD></TR><TR><TD><FONT point-size="8">latitude</FONT></TD><TD><FONT point-size="8">FloatField</FONT></TD></TR><TR><TD><FONT point-size="8">logo</FONT></TD><TD><FONT point-size="8">ImageField</FONT></TD></TR><TR><TD><FONT point-size="8">longitude</FONT></TD><TD><FONT point-size="8">FloatField</FONT></TD></TR><TR><TD><FONT point-size="8">name</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">postal</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">province</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">slug</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">street</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">type</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8"><i>uid</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR>
+    </TABLE>
+    >]
+
+  wiseturn_models_Program [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>Program</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><b>id</b></FONT></TD><TD><FONT point-size="8"><b>AutoField</b></FONT></TD></TR><TR><TD><FONT point-size="8"><b>institution</b></FONT></TD><TD><FONT point-size="8"><b>ForeignKey (id)</b></FONT></TD></TR><TR><TD><FONT point-size="8">application_fee</FONT></TD><TD><FONT point-size="8">DecimalField</FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">description</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">TextField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">discipline</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8">level</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8">name</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8">slug</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8">tuition</FONT></TD><TD><FONT point-size="8">DecimalField</FONT></TD></TR><TR><TD><FONT point-size="8"><i>uid</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR>
+    </TABLE>
+    >]
+
+  wiseturn_models_Company [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>Company</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><b>id</b></FONT></TD><TD><FONT point-size="8"><b>AutoField</b></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">city</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">cost_of_living</FONT></TD><TD><FONT point-size="8">DecimalField</FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">country</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">description</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">TextField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">latitude</FONT></TD><TD><FONT point-size="8">FloatField</FONT></TD></TR><TR><TD><FONT point-size="8">logo</FONT></TD><TD><FONT point-size="8">ImageField</FONT></TD></TR><TR><TD><FONT point-size="8">longitude</FONT></TD><TD><FONT point-size="8">FloatField</FONT></TD></TR><TR><TD><FONT point-size="8">name</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">postal</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">province</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">size</FONT></TD><TD><FONT point-size="8">IntegerField</FONT></TD></TR><TR><TD><FONT point-size="8">slug</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">street</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><i>uid</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR>
+    </TABLE>
+    >]
+
+  wiseturn_models_JobPosting [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>JobPosting</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><b>id</b></FONT></TD><TD><FONT point-size="8"><b>AutoField</b></FONT></TD></TR><TR><TD><FONT point-size="8"><b>company</b></FONT></TD><TD><FONT point-size="8"><b>ForeignKey (id)</b></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">description</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">TextField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">name</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8">salary</FONT></TD><TD><FONT point-size="8">DecimalField</FONT></TD></TR><TR><TD><FONT point-size="8">slug</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8"><i>uid</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR>
+    </TABLE>
+    >]
+
+  wiseturn_models_ProgramApplication [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>ProgramApplication</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><b>id</b></FONT></TD><TD><FONT point-size="8"><b>AutoField</b></FONT></TD></TR><TR><TD><FONT point-size="8"><b>program</b></FONT></TD><TD><FONT point-size="8"><b>ForeignKey (id)</b></FONT></TD></TR><TR><TD><FONT point-size="8"><i><b>user</b></i></FONT></TD><TD><FONT point-size="8"><i><b>ForeignKey (id)</b></i></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>created</i></FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>DateTimeField</i></FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>modified</i></FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>DateTimeField</i></FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><i>status</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR><TR><TD><FONT point-size="8"><i>uid</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR>
+    </TABLE>
+    >]
+
+  wiseturn_models_JobApplication [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>JobApplication</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><b>id</b></FONT></TD><TD><FONT point-size="8"><b>AutoField</b></FONT></TD></TR><TR><TD><FONT point-size="8"><b>job_posting</b></FONT></TD><TD><FONT point-size="8"><b>ForeignKey (id)</b></FONT></TD></TR><TR><TD><FONT point-size="8"><i><b>user</b></i></FONT></TD><TD><FONT point-size="8"><i><b>ForeignKey (id)</b></i></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>created</i></FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>DateTimeField</i></FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>modified</i></FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>DateTimeField</i></FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><i>status</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR><TR><TD><FONT point-size="8"><i>uid</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR>
+    </TABLE>
+    >]
+
+
+
+  // Relations
+wiseturn_models_Application -> wiseturn_models_WTUser
+  [label=""] [arrowhead=none, arrowtail=dot, dir=both];
+wiseturn_models_Application -> wiseturn_models_WtModel
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+wiseturn_models_WTUser -> django_contrib_auth_models_Group
+  [label=""] [arrowhead=dot arrowtail=dot, dir=both];
+wiseturn_models_WTUser -> django_contrib_auth_models_Permission
+  [label=""] [arrowhead=dot arrowtail=dot, dir=both];
+wiseturn_models_WTUser -> django_contrib_auth_base_user_AbstractBaseUser
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+wiseturn_models_WTUser -> django_contrib_auth_models_PermissionsMixin
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+wiseturn_models_WTUser -> wiseturn_models_WtModel
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+wiseturn_models_InstitutionAdmin -> wiseturn_models_Institution
+  [label=""] [arrowhead=none, arrowtail=dot, dir=both];
+wiseturn_models_InstitutionAdmin -> wiseturn_models_WTUser
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+wiseturn_models_CompanyAdmin -> wiseturn_models_Company
+  [label=""] [arrowhead=none, arrowtail=dot, dir=both];
+wiseturn_models_CompanyAdmin -> wiseturn_models_WTUser
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+wiseturn_models_Institution -> wiseturn_models_WtModel
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+wiseturn_models_Program -> wiseturn_models_Institution
+  [label=""] [arrowhead=none, arrowtail=dot, dir=both];
+wiseturn_models_Program -> wiseturn_models_WtModel
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+wiseturn_models_Company -> wiseturn_models_WtModel
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+wiseturn_models_JobPosting -> wiseturn_models_Company
+  [label=""] [arrowhead=none, arrowtail=dot, dir=both];
+wiseturn_models_JobPosting -> wiseturn_models_WtModel
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+wiseturn_models_ProgramApplication -> wiseturn_models_Program
+  [label=""] [arrowhead=none, arrowtail=dot, dir=both];
+wiseturn_models_ProgramApplication -> wiseturn_models_Application
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+wiseturn_models_JobApplication -> wiseturn_models_JobPosting
+  [label=""] [arrowhead=none, arrowtail=dot, dir=both];
+wiseturn_models_JobApplication -> wiseturn_models_Application
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+
+
+}

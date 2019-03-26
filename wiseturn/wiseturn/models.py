@@ -107,6 +107,9 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
 
 class InstitutionAdmin(WTUser):
     institution = models.ForeignKey('Institution')
+    
+class CompanyAdmin(WTUser):
+    company = models.ForeignKey('Company')
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -164,6 +167,46 @@ class Program(WtModel):
     def __str__(self):
         return self.name
 
+class Company(WtModel):
+    name = models.CharField(max_length=255, blank=False)
+    size = models.IntegerField(null=True)
+
+    description = models.TextField(blank=True)
+    
+    city = models.CharField(max_length=255, blank=True)
+    country = models.CharField(max_length=255, blank=True)
+    postal = models.CharField(max_length=255, blank=True)
+    province = models.CharField(max_length=255, blank=True)
+    street = models.CharField(max_length=255, blank=True)
+
+    cost_of_living = models.DecimalField(max_digits=10, decimal_places=2)
+
+    logo = models.ImageField(upload_to=institution_directory_path)
+
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
+
+    slug = models.CharField(max_length=255, unique=True)
+
+    @property
+    def location(self):
+        return "{}, {}".format(self.city, self.province)
+
+    def __str__(self):
+        return self.name
+
+class JobPosting(WtModel):
+    company = models.ForeignKey('Company', on_delete=models.CASCADE)
+
+    name = models.CharField(max_length=255, blank=False)
+    description = models.TextField(blank=True)
+
+    salary = models.DecimalField(max_digits=10, decimal_places=2)
+
+    slug = models.CharField(max_length=255, unique=True)
+    def __str__(self):
+        return self.name
+
 class Application(WtModel):
     class Meta:
         abstract = True
@@ -187,8 +230,14 @@ class Application(WtModel):
         default = SUBMITTED
     )
 
-class InstitutionApplication(Application):
-    institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
+class ProgramApplication(Application):
+    program = models.ForeignKey('Program', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{} | {} ({})".format(self.user, self.institution.name, self.status)
+
+class JobApplication(Application):
+    job_posting = models.ForeignKey('JobPosting', on_delete=models.CASCADE)
 
     def __str__(self):
         return "{} | {} ({})".format(self.user, self.institution.name, self.status)
