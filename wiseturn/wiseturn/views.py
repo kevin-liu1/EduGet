@@ -72,6 +72,19 @@ class InstitutionDetailView(generics.GenericAPIView):
         serializer = InstitutionDetailSerializer(institution)
         return Response(serializer.data)
 
+class ProgramDetailView(generics.GenericAPIView):
+    serializer_class = ProgramSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, request, uid):
+        return get_object_or_404(Program, uid=uid)
+
+    def get(self, request, institution_uid, program_uid, format=None):
+        program = self.get_object(request, program_uid)
+        serializer = ProgramSerializer(program)
+        return Response(serializer.data)
+
 class InstitutionField(serializers.SlugRelatedField):
     def to_representation(self, value):
         serializer = InstitutionSerializer(value)
@@ -102,6 +115,15 @@ class InstitutionApplicationSerializer(serializers.ModelSerializer):
         return instance
 
 class InstitutionApplicationListView(generics.ListAPIView):
+    model = InstitutionApplication
+    serializer_class = InstitutionApplicationSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return get_object_or_404(InstitutionAdmin, wtuser_ptr=self.request.user).institution.application_set.all()
+
+class InstitutionApplicationAdminListView(generics.ListAPIView):
     model = InstitutionApplication
     serializer_class = InstitutionApplicationSerializer
     authentication_classes = (TokenAuthentication,)

@@ -105,6 +105,9 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
     def get_short_name(self):
         return self.first_name
 
+class InstitutionAdmin(WTUser):
+    institution = models.ForeignKey('Institution')
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
@@ -186,6 +189,9 @@ class Application(WtModel):
 
 class InstitutionApplication(Application):
     institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{} | {} ({})".format(self.user, self.institution.name, self.status)
 
 """
 Neo4j Models to be created with post save signals
