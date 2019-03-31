@@ -26,9 +26,8 @@ class SchoolPage extends Component {
           <Grid item xl="auto">
             <Card>
               <CardContent>
-                <h2 class="program-title">{program.name}</h2>
+                <h2 class="program-title"><a href={`/schools/${this.state.info.uid}/programs/${program.uid}`}>{program.name}</a><span class="program-price">${program.tuition}</span></h2>
                 <p class="program-description" dangerouslySetInnerHTML={{__html: program.description}}></p>
-
               </CardContent>
             </Card>
           </Grid>
@@ -73,7 +72,6 @@ class SchoolPage extends Component {
               <CardContent >
                 <h1>About</h1>
                 <div dangerouslySetInnerHTML={{__html: this.state.info.description}} />
-   
               </CardContent>
               </Card>
               <Card>
