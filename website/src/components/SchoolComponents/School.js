@@ -75,7 +75,6 @@ class School extends Component {
                   <p className="location">
                     <img className="flag" src={country} /> {school.location}
                   </p>
-                  <p><strong>Cost of living:</strong> {school.name}</p>
                 </div>
               </CardContent>
             </Card>
