@@ -243,13 +243,13 @@ class ProgramApplication(Application):
     program = models.ForeignKey('Program', on_delete=models.CASCADE)
 
     def __str__(self):
-        return "{} | {} ({})".format(self.user, self.institution.name, self.status)
+        return "{} | {} ({})".format(self.user, self.program.name, self.status)
 
 class JobApplication(Application):
     job_posting = models.ForeignKey('JobPosting', on_delete=models.CASCADE)
 
     def __str__(self):
-        return "{} | {} ({})".format(self.user, self.institution.name, self.status)
+        return "{} | {} ({})".format(self.user, self.job_posting.name, self.status)
 
 """
 Neo4j Models to be created with post save signals
