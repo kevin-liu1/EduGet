@@ -30,6 +30,17 @@
 .school-info{
     margin-left: 20px;
     width: 300px;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+}
+
+@media (max-width: 959px){
+    .school-info{
+        margin-top: 0 !important;
+    }
 }
 
 .school-info img {
@@ -65,6 +76,11 @@
 }
 
 
+.program-title{
+    font-size: 20px;
+    width: 100%;
+}
+
 .program-price {
     font-weight: normal;
     float: right;
@@ -73,3 +89,4 @@
 .program-description h4{
     display: none;
 }
+

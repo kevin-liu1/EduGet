@@ -70,7 +70,10 @@ class Header extends Component {
     const theme = createMuiTheme({
       palette: {
         primary: { main: '#4384AB' }, // change color of AppBar
-      }
+      },
+      typography: {
+        useNextVariants: true,
+      },
     });
 
     const {email, password, auth, window} = this.state;
@@ -81,9 +84,9 @@ class Header extends Component {
         <Grid item>
           <Link className="headerTitle" to="/"><img className="logo" src={logo}/></Link>
         </Grid>
-        <Grid item className="searchContainer">
+        {/* <Grid item className="searchContainer">
           <InputBase className="search" placeholder="Search..." classes={{input: classes.input}}/>
-        </Grid>
+        </Grid> */}
         <Grid item className="headerLayout">
             <Grid container spacing ={8} justify="space-between" alignItems="center">
               <Grid item>

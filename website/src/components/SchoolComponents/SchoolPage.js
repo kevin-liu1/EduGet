@@ -1,36 +1,49 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Header from '../Header.js'
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import InputBase from '@material-ui/core/InputBase';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import "../../styles/School.css";
 import axios from 'axios';
+import Button from '@material-ui/core/Button';
 
 class SchoolPage extends Component {
   constructor(props){
     super(props);
     this.state = {
-      info: {}
+      info: {},
+      marginTop: 0,
     }
     this.renderPrograms = this.renderPrograms.bind(this)
+    this.handleScroll = this.handleScroll.bind(this)
   }
   renderPrograms(){
-    console.log(this.state.info.programs)
+    
     return(
       this.state.info.programs.map((program) => {
         return(
-          <Grid item xl="auto">
-            <Card>
-              <CardContent>
-                <h2 class="program-title"><a href={`/schools/${this.state.info.uid}/programs/${program.uid}`}>{program.name}</a><span class="program-price">${program.tuition}</span></h2>
-                <p class="program-description" dangerouslySetInnerHTML={{__html: program.description}}></p>
-              </CardContent>
-            </Card>
+
+          <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <h2 class="program-title">{program.name}<span class="program-price">${program.tuition}</span></h2>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+          <Grid direction="column" justify="right">
+          <p class="program-description" dangerouslySetInnerHTML={{__html: program.description}}></p>
+          {/* <MuiThemeProvider theme={styles}> */}
+          <Button variant="contained" color="primary" style={{float: "right", backgroundColor: "#4384AB"}}>
+            Apply
+          </Button>
+          {/* </MuiThemeProvider> */}
           </Grid>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
         )
         })
     )
@@ -47,17 +60,29 @@ class SchoolPage extends Component {
         });
     }).catch((error)=>{
       console.log(error.response.data);
+    });
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll () {
+    let scrollTop = window.scrollY;
+    console.log(scrollTop)
+    this.setState({
+      marginTop: scrollTop + 'px',
     })
   }
 
 
   render() {
+    const divStyle = {
+        marginTop: this.state.marginTop
+    };
     return (
       <div>
         <Header/>
-        <div className="school-container">
+        <div className="body-wrapper">
           <Grid container spacing={24} direction="row" justify="center" alignItems="flex-start">
-            <Grid item xl="auto" className="school-info">
+            <Grid item xs={12} md={3} className="school-info" style={divStyle}>
               <Card>
               <CardContent>
                 <img src={this.state.info.logo} alt="profilepic"/>
@@ -67,19 +92,15 @@ class SchoolPage extends Component {
               </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={9} className="school-desc">
+            <Grid item xs={12} md={9} className="school-desc">
               <Card >
               <CardContent >
                 <h1>About</h1>
                 <div dangerouslySetInnerHTML={{__html: this.state.info.description}} />
-              </CardContent>
-              </Card>
-              <Card>
-                <CardContent>
+
                   <h1>Programs</h1>
-                  <Grid container spacing={24} direction="column" justify="center" align-items="flex-start">
-                    {!this.state.info.programs ? <p>Loading.. </p> : this.renderPrograms()}
-                  </Grid>
+                  
+                  {!this.state.info.programs ? <p>Loading.. </p> : this.renderPrograms()}
                 </CardContent>
               </Card>
             </Grid>

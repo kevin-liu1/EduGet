@@ -3,6 +3,19 @@ body{
   width: 100%;
 }
 
+header{ 
+  position: fixed !important;
+  top: 0;
+  background-color: #4384AB;
+}
+
+.body-wrapper {
+  max-width: 1200px;
+  margin: auto;
+  margin-top: 80px;
+  padding: 0 20px;
+}
+
 /*
   Main Page Styles
 */

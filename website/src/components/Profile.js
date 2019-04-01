@@ -20,7 +20,7 @@ class Profile extends Component {
     return (
       <div className="wrapper">
         <Header/>
-        <div className="profileMain">
+        <div className="body-wrapper">
           <Grid container spacing={24} direction="row" justify="center" alignItems="flex-start">
             <Grid item xs={3}>
               <Card className="profile">

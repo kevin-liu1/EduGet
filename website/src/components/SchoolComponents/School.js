@@ -65,6 +65,7 @@ class School extends Component {
             <Card>
               <CardContent>
                 <div>
+                  
                   <img
                     src={school.logo}
                     alt="profilepic"
@@ -74,6 +75,7 @@ class School extends Component {
                   <p className="location">
                     <img className="flag" src={country} /> {school.location}
                   </p>
+                  <p><strong>Cost of living:</strong> {school.name}</p>
                 </div>
               </CardContent>
             </Card>
@@ -129,6 +131,7 @@ class School extends Component {
     return (
       <div>
         <Header />
+        <div className="body-wrapper">
         <Card className="searchContainer">
           <CardContent className="searchContent">
             <h1>Discover Your Perfect School</h1>
@@ -158,6 +161,7 @@ class School extends Component {
             </CardContent>
           </div>
         </Card>
+        </div>
       </div>
     );
   }
