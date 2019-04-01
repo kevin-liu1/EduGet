@@ -17,6 +17,7 @@ import CreateProfile from '../components/CreateProfile';
 import Summary from '../components/Summary';
 import School from '../components/SchoolComponents/School.js';
 import SchoolPage from '../components/SchoolComponents/SchoolPage.js';
+import SchoolAdmin from '../components/SchoolComponents/SchoolAdmin.js';
 
 
 export const history = createHistory();
@@ -38,7 +39,7 @@ export const AppRouter = () => (
         <PublicRoute path="/summary" component={Summary} exact={true} />
         <PublicRoute path="/schools" component={School} exact={true}/> 
         <PublicRoute path="/schools/:uid" component={SchoolPage} exact={true} />
-
+        <PublicRoute path="/schools-admin/:uid" component={SchoolAdmin} exact={true} />
       </Switch>
     </div>
   </Router>
