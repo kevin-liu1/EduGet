@@ -94,7 +94,7 @@ class UserDetailView(generics.GenericAPIView):
         Update current user info
         """
         user = self.get_object(request)
-        serializer = WTUserSerializer(user, data=request.data)
+        serializer = WTUserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
