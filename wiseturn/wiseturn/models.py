@@ -116,7 +116,15 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
 
 class InstitutionAdmin(WTUser):
     institution = models.ForeignKey('Institution')
-    
+
+def makeInstitutionAdmin(user, institution):
+    admin = InstitutionAdmin(wtuser_ptr_id=user.pk, institution=institution)
+    admin.__dict__.update(user.__dict__)
+    admin.save()
+
+def removeInstitutionAdmin(user):
+    user.institutionadmin.delete()
+
 class CompanyAdmin(WTUser):
     company = models.ForeignKey('Company')
 
