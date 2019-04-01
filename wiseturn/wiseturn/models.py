@@ -93,6 +93,15 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
             'Unselect this instead of deleting accounts.'
         ),
     )
+
+    zippostal = models.CharField(max_length=255, blank=False)
+    phonenumber = models.IntegerField()
+    city = models.CharField(max_length=255, blank=False)
+    birthday = models.DateField()
+    country_of_origin = models.CharField(max_length=255, blank=False)
+    education_level = models.CharField(max_length=255, blank=False)
+    grade = models.IntegerField()
+
     USERNAME_FIELD = 'email'
     objects = WTUserManager()
 

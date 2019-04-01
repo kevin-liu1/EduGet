@@ -14,20 +14,31 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
+from drf_yasg.utils import swagger_serializer_method
+from wiseturn.views import InstitutionSerializer
+
 class WTUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = WTUser
-        fields = ('uid', 'first_name', 'last_name', 'email', 'password')
-        read_only_fields = ('uid',)
+        fields = ('email', 'first_name', 'last_name', 'zippostal', 'phonenumber', 'grade',
+        'city', 'birthday', 'country_of_origin', 'education_level', 'password', 'admin_institution')
+        read_only_fields = ('uid', 'admin_institution')
         extra_kwargs = {'password': {'write_only': True}}
 
-    first_name = serializers.CharField(max_length=255)
-    last_name = serializers.CharField(max_length=255)
     email = serializers.EmailField()
     password = serializers.CharField(
 	    style={'input_type': 'password'},
 	    write_only=True
 	)
+
+    admin_institution = serializers.SerializerMethodField()
+
+    @swagger_serializer_method(serializer_or_field=InstitutionSerializer)
+    def get_admin_institution(self, instance):
+        try:
+            return InstitutionSerializer(instance.institutionadmin.institution).data
+        except:
+            return None
 
     def validate_password(self, value):
     	#TODO: min password requirements
@@ -39,11 +50,8 @@ class WTUserSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        user = WTUser(
-            first_name = validated_data['first_name'],
-            last_name = validated_data['last_name'],
-            email=validated_data['email'],
-        )
+        
+        user = WTUser(**validated_data)
         user.set_password(validated_data['password'])
         user.save()
         return user

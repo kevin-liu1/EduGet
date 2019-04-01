@@ -12,6 +12,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import "../../styles/School.css";
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
+import ReactMapGL, {Marker} from 'react-map-gl';
+import Icon from '@material-ui/core/Icon';
 
 class SchoolPage extends Component {
   constructor(props){
@@ -19,6 +21,7 @@ class SchoolPage extends Component {
     this.state = {
       info: {},
       marginTop: 0,
+      viewport: {}
     }
     this.renderPrograms = this.renderPrograms.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
@@ -31,11 +34,11 @@ class SchoolPage extends Component {
 
           <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <h2 class="program-title">{program.name}<span class="program-price">${program.tuition}</span></h2>
+            <h2 className="program-title">{program.name}<span className="program-price">${program.tuition}</span></h2>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-          <Grid direction="column" justify="right">
-          <p class="program-description" dangerouslySetInnerHTML={{__html: program.description}}></p>
+          <Grid direction="column">
+          <p className="program-description" dangerouslySetInnerHTML={{__html: program.description}}></p>
           {/* <MuiThemeProvider theme={styles}> */}
           <Button variant="contained" color="primary" style={{float: "right", backgroundColor: "#4384AB"}}>
             Apply
@@ -58,6 +61,15 @@ class SchoolPage extends Component {
       this.setState({
           info: response.data
         });
+        this.setState({
+          viewport : {
+            width: "100%",
+            height: 400,
+            latitude: response.data.latitude,
+            longitude: response.data.longitude,
+            zoom: 12
+          }
+        })
     }).catch((error)=>{
       console.log(error.response.data);
     });
@@ -66,7 +78,6 @@ class SchoolPage extends Component {
 
   handleScroll () {
     let scrollTop = window.scrollY;
-    console.log(scrollTop)
     this.setState({
       marginTop: scrollTop + 'px',
     })
@@ -79,16 +90,23 @@ class SchoolPage extends Component {
     };
     return (
       <div>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
         <Header/>
         <div className="body-wrapper">
           <Grid container spacing={24} direction="row" justify="center" alignItems="flex-start">
-            <Grid item xs={12} md={3} className="school-info" style={divStyle}>
+            <Grid item xs={9} md={3} className="school-info" style={divStyle}>
               <Card>
               <CardContent>
+              {this.state.info.name ?
+                <div>
                 <img src={this.state.info.logo} alt="profilepic"/>
                 <h3><img src={`https://www.countryflags.io/${this.state.info.country}/flat/24.png`} /> {this.state.info.name}</h3>
                 <p>Founded in {this.state.info.founded}</p>
                 <p>{[this.state.info.street, this.state.info.city, this.state.info.province].join(", ")}</p>
+                {this.state.info.dli_number ? <p><strong>DLI Number</strong>: {this.state.info.dli_number}</p>  : ""}
+                {this.state.info.cost_of_living ? <p><strong>Cost of Living</strong>: {this.state.info.cost_of_living}</p>  : ""}
+                </div> : ""
+              }
               </CardContent>
               </Card>
             </Grid>
@@ -98,9 +116,19 @@ class SchoolPage extends Component {
                 <h1>About</h1>
                 <div dangerouslySetInnerHTML={{__html: this.state.info.description}} />
 
-                  <h1>Programs</h1>
+                <h2>Location</h2>
+                <ReactMapGL mapboxApiAccessToken={"pk.eyJ1IjoiaWNlYW5kZWxlIiwiYSI6ImNqb2F1dXFoazF3Ynozdm5sZDBtcW1xbnQifQ.MvnPlcX-tgVTqx-Vd-is-w"}
+                  {...this.state.viewport}
+                  onViewportChange={(viewport) => this.setState({viewport})}>
+                  <Marker latitude={this.state.info.latitude} longitude={this.state.info.longitude} offsetLeft={-20} offsetTop={-10}>
+                  <Icon className="material-icons" color="primary" style={{color: "#4384AB"}}>
+                    school
+                  </Icon>
+                  </Marker>
+                </ReactMapGL>
+                <h2>Programs</h2>
                   
-                  {!this.state.info.programs ? <p>Loading.. </p> : this.renderPrograms()}
+                {!this.state.info.programs ? <p>Loading.. </p> : this.renderPrograms()}
                 </CardContent>
               </Card>
             </Grid>
@@ -110,5 +138,7 @@ class SchoolPage extends Component {
     );
   }
 }
+
+
 
 export default withRouter(SchoolPage);
