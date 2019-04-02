@@ -11,6 +11,7 @@ import axios from "axios";
 import SchoolPage from "./SchoolPage.js";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import InfiniteLoader from "react-infinite-loader";
+import TextField from '@material-ui/core/TextField';
 
 class School extends Component {
   constructor(props) {
@@ -60,7 +61,7 @@ class School extends Component {
       var country =
         "https://www.countryflags.io/" + school.country + "/flat/24.png";
       return (
-        <Grid item xl="auto" className="card">
+        <Grid item xl="auto" className="card" key={school.uid}>
           <Link to={link}>
             <Card>
               <CardContent>
@@ -131,17 +132,18 @@ class School extends Component {
       <div>
         <Header />
         <div className="body-wrapper">
-        <Card className="searchContainer">
           <CardContent className="searchContent">
             <h1>Discover Your Perfect School</h1>
-            <InputBase
+            <TextField
+              id="filled-search"
+              label="Search"
+              type="search"
+              margin="normal"
               className="searchSchoolBar"
-              placeholder="Search..."
               onChange={this.handleChange}
             />
           </CardContent>
-        </Card>
-        <Card>
+  
           <div className="school">
             <CardContent>
               <Grid
@@ -159,7 +161,6 @@ class School extends Component {
               </Grid>
             </CardContent>
           </div>
-        </Card>
         </div>
       </div>
     );

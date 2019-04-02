@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import "../../styles/School.css";
 import axios from 'axios';
@@ -32,18 +31,17 @@ class SchoolPage extends Component {
       this.state.info.programs.map((program) => {
         return(
 
-          <ExpansionPanel>
+          <ExpansionPanel key={program.uid}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <h2 className="program-title">{program.name}<span className="program-price">${program.tuition}</span></h2>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-          <Grid direction="column">
+          <Grid direction="column" container>
           <p className="program-description" dangerouslySetInnerHTML={{__html: program.description}}></p>
-          {/* <MuiThemeProvider theme={styles}> */}
-          <Button variant="contained" color="primary" style={{float: "right", backgroundColor: "#4384AB"}}>
+          <Button variant="contained" color="primary" style={{alignSelf: "flex-end", backgroundColor: "#4384AB"}}>
             Apply
           </Button>
-          {/* </MuiThemeProvider> */}
+
           </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -117,6 +115,7 @@ class SchoolPage extends Component {
                 <div dangerouslySetInnerHTML={{__html: this.state.info.description}} />
 
                 <h2>Location</h2>
+                {!this.state.info.name ? <p>Loading.. </p> :
                 <ReactMapGL mapStyle='mapbox://styles/iceandele/cjtytiw8800st1fl2215j3pku' mapboxApiAccessToken={"pk.eyJ1IjoiaWNlYW5kZWxlIiwiYSI6ImNqb2F1dXFoazF3Ynozdm5sZDBtcW1xbnQifQ.MvnPlcX-tgVTqx-Vd-is-w"}
                   {...this.state.viewport}
                   onViewportChange={(viewport) => this.setState({viewport})}>
@@ -126,6 +125,7 @@ class SchoolPage extends Component {
                   </Icon>
                   </Marker>
                 </ReactMapGL>
+                }
                 <h2>Programs</h2>
                   
                 {!this.state.info.programs ? <p>Loading.. </p> : this.renderPrograms()}
