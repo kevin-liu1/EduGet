@@ -32,6 +32,10 @@ install python packages
 
 # Running and Building
 
+### Use Virtual Environment
+
+	source wiseturnenv/bin/activate
+
 ### Running Backend Server
 
 	python manage.py runserver
@@ -41,18 +45,32 @@ install python packages
 	pip install -r requirements.txt
 
 ### Make Migrations and Migrate
-When there has been an update to the models
+makemigrations when you modify models.py
+migrate to apply changes to your database
 
 	python manage.py makemigrations
 	python manage.py migrate
 
 ### Load Test Data
 
-	python manage.py loaddata testdata.json
+	python manage.py loaddata testdata2.json
+
+### Create Super User
+
+	python manage.py createsuperuser
+	
+### Creating and removing Institution Admins
+	
+	python manage.py shell_plus
+	
+	user = WTUser.objects.first()  # instead of first() you can do WTUser.objects.get(email="...")
+	
+	makeInstitutionAdmin(user, Institution.objects.first())  # instead of first() you can do Institution.objects.get(uid="...")
+	removeInstitutionAdmin(user)
 
 ### Run the React app in the development mode
 
-    npm start
+	npm start
 
 ### Builds the React app for production
 	npm run build
