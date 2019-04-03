@@ -93,6 +93,15 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
             'Unselect this instead of deleting accounts.'
         ),
     )
+
+    zippostal = models.CharField(max_length=255, blank=True)
+    phonenumber = models.IntegerField(null=True)
+    city = models.CharField(max_length=255, blank=True)
+    birthday = models.DateField(null=True)
+    country_of_origin = models.CharField(max_length=255, blank=True)
+    education_level = models.CharField(max_length=255, blank=True)
+    grade = models.IntegerField(null=True)
+
     USERNAME_FIELD = 'email'
     objects = WTUserManager()
 
@@ -107,7 +116,19 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
 
 class InstitutionAdmin(WTUser):
     institution = models.ForeignKey('Institution')
-    
+
+def makeInstitutionAdmin(user, institution):
+    admin = InstitutionAdmin(wtuser_ptr_id=user.pk, institution=institution)
+    admin.__dict__.update(user.__dict__)
+    admin.save()
+
+def removeInstitutionAdmin(user):
+    _user = WTUser()
+    _user.__dict__.update(user.__dict__)
+    user.delete()
+    _user.save()
+
+
 class CompanyAdmin(WTUser):
     company = models.ForeignKey('Company')
 
@@ -234,13 +255,13 @@ class ProgramApplication(Application):
     program = models.ForeignKey('Program', on_delete=models.CASCADE)
 
     def __str__(self):
-        return "{} | {} ({})".format(self.user, self.institution.name, self.status)
+        return "{} | {} ({})".format(self.user, self.program.name, self.status)
 
 class JobApplication(Application):
     job_posting = models.ForeignKey('JobPosting', on_delete=models.CASCADE)
 
     def __str__(self):
-        return "{} | {} ({})".format(self.user, self.institution.name, self.status)
+        return "{} | {} ({})".format(self.user, self.job_posting.name, self.status)
 
 """
 Neo4j Models to be created with post save signals
