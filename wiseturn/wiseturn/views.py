@@ -111,6 +111,7 @@ class ProgramApplicationSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         for field, value in validated_data.items():
             setattr(instance, field, value)
+        instance.save()
         return instance
 
 class ProgramApplicationListView(generics.ListAPIView):
