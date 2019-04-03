@@ -74,10 +74,6 @@ class MyApplications extends Component {
       <div id="Page">
 
               <Grid container direction="column" justify="center" alignItems="center">
-                <Header/>
-                  <Grid item>
-                      <h1>Here is a list of your applications</h1>
-                  </Grid>
                   <Grid item>
                       <Table>
                           <TableHead>
