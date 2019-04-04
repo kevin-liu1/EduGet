@@ -28,6 +28,7 @@ export const AppRouter = () => (
       <Switch>
         <PublicRoute path='/' component={Main} exact={true} />
         <PrivateRoute path='/profile' component={Profile} exact={true} />
+        {/* <PrivateRoute path='/applications' component={Applications} exact={true} /> */}
         <PublicRoute path='/register' component={Register} exact={true}/>
         <PublicRoute path='/login' component={Login} exact={true} />
         <PublicRoute path='/user-agreement' component={UserAgreement} exact={true}/>

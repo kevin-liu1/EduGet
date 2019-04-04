@@ -8,6 +8,7 @@
     "axios": "^0.18.0",
     "html-to-react": "^1.3.4",
     "react": "^16.8.4",
+    "react-debounce-input": "^3.2.0",
     "react-dom": "^16.8.4",
     "react-infinite-loader": "^1.0.3",
     "react-infinite-scroller": "^1.2.4",

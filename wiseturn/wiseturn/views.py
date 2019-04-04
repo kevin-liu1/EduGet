@@ -13,6 +13,7 @@ import django.contrib.auth.password_validation as validators
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework import filters
 
 from django.shortcuts import get_object_or_404
 
@@ -21,7 +22,7 @@ from drf_yasg.utils import swagger_serializer_method
 class InstitutionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Institution
-        fields = ('uid', 'name', 'country', 'location', 'logo')
+        fields = ('uid', 'name', 'country', 'location', 'logo', 'cost_of_living')
         read_only_fields = ('uid',)
 
 
@@ -30,13 +31,11 @@ class InstitutionListView(generics.ListAPIView):
     Returns a list of all Institutions
     """
     model = Institution
+    queryset = Institution.objects.all()
     serializer_class = InstitutionSerializer
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        queryset = Institution.objects.all()
-        return queryset
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter,)
+    search_fields = ('name',)
+    ordering_fields = '__all__'
 
 class ProgramSerializer(serializers.ModelSerializer):
     class Meta:

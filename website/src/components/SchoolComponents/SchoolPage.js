@@ -13,6 +13,12 @@ import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import ReactMapGL, {Marker} from 'react-map-gl';
 import Icon from '@material-ui/core/Icon';
+import GLOBALS from '../../config/common';
+import Snackbar from '@material-ui/core/Snackbar';
+import green from '@material-ui/core/colors/green';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
 
 class SchoolPage extends Component {
   constructor(props){
@@ -20,13 +26,28 @@ class SchoolPage extends Component {
     this.state = {
       info: {},
       marginTop: 0,
-      viewport: {}
+      viewport: {},
+      open: false,
     }
     this.renderPrograms = this.renderPrograms.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
   }
+
+  submitApplication(id){
+    axios.post(GLOBALS.API_ROOT + "/api/applications/programs/create/", {
+      program: id
+    }
+    ,{
+      headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
+    }).then((response) => {
+      console.log(response.data);
+      this.setState({open: true})
+    }).catch((error)=>{
+      console.log(error.response.data);
+    });
+  }
+
   renderPrograms(){
-    
     return(
       this.state.info.programs.map((program) => {
         return(
@@ -38,7 +59,7 @@ class SchoolPage extends Component {
           <ExpansionPanelDetails>
           <Grid direction="column" container>
           <p className="program-description" dangerouslySetInnerHTML={{__html: program.description}}></p>
-          <Button variant="contained" color="primary" style={{alignSelf: "flex-end", backgroundColor: "#4384AB"}}>
+          <Button variant="contained" color="primary" style={{alignSelf: "flex-end", backgroundColor: "#4384AB"}} onClick={(e) => this.submitApplication(program.uid, e)}>
             Apply
           </Button>
 
@@ -52,7 +73,7 @@ class SchoolPage extends Component {
   componentDidMount(){
     const {match} = this.props
     const id = match.params.uid
-    axios.get('http://localhost:8000/api/institutions/'+id,{
+    axios.get(GLOBALS.API_ROOT + "/api/institutions/" +id,{
       headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
     }).then((response) => {
       console.log(response.data)
@@ -81,11 +102,19 @@ class SchoolPage extends Component {
     })
   }
 
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ open: false });
+  };
+
 
   render() {
     const divStyle = {
         marginTop: this.state.marginTop
     };
+    
     return (
       <div>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
@@ -133,6 +162,27 @@ class SchoolPage extends Component {
               </Card>
             </Grid>
           </Grid>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            open={this.state.open}
+            onClose={this.handleClose}
+            // style={{backgroundColor: "#43a047"}}
+            // bodyStyle={{ backgroundColor: 'green'}}
+            message={<span id="message-id">Application Submitted Successfully</span>}
+            action={[
+              <IconButton
+                key="close"
+                aria-label="Close"
+                color="inherit"
+                onClick={this.handleClose}
+              >
+                <CloseIcon />
+              </IconButton>,
+            ]}
+          />
         </div>
       </div>
     );

@@ -12,6 +12,7 @@ import Header from './Header';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { login } from '../actions/userAction';
+import GLOBALS from '../config/common';
 
 class SignIn extends Component {
   constructor(props){
@@ -39,7 +40,7 @@ class SignIn extends Component {
     e.preventDefault();
     var self = this;
     //send to database
-    axios.post('http://localhost:8000/api/token/auth/',{
+    axios.post(GLOBALS.API_ROOT + "/api/token/auth/",{
       username: this.state.email,
       password: this.state.password
     }).then((response) => {
@@ -69,6 +70,7 @@ class SignIn extends Component {
     return (
       <div className="signInContainer">
         <Header/>
+        <div className="body-wrapper">
         <div className="signInCard">
           <Card>
             <CardContent>
@@ -95,6 +97,7 @@ class SignIn extends Component {
                </form>
             </CardContent>
           </Card>
+        </div>
         </div>
       </div>
     );

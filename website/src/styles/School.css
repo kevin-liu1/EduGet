@@ -1,5 +1,5 @@
-.card{
-    height: auto;
+.school-card{
+    height: 100%;
     width: 300px;
 }
 
@@ -91,3 +91,6 @@
     display: none;
 }
 
+.mapbox-marker{
+    
+}
