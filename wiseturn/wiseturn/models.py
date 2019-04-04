@@ -241,18 +241,37 @@ class Application(WtModel):
     PENDING = 'PEN'
     REVIEW = 'REV'
     APPROVED = 'APP'
+    WAITLIST = 'WAI'
+    REJECTED = 'REJ'
+    WITHDRAWN = 'WIT'
+    ACCEPT = 'ACC'
     STATUS_CHOICES = (
         (SUBMITTED, 'Submitted'),
         (PENDING, 'Pending'),
         (REVIEW, 'Under Review'),
         (APPROVED, 'Approved'),
+        (WAITLIST, 'Waitlist'),
+        (REJECTED, 'Rejected')
     )
+
     status = models.CharField(
         max_length = 3,
         choices = STATUS_CHOICES,
         default = SUBMITTED
     )
 
+    APPLICANT_CHOICES = (
+        (ACCEPT, 'Accepted Offer'),
+        (WITHDRAWN, 'Withdrawn'),
+        (PENDING, 'PENDING')
+    )
+
+    applicant_status = models.CharField(
+        max_length = 3,
+        choices = APPLICANT_CHOICES,
+        default = PENDING
+    )
+    
 class ProgramApplication(Application):
     program = models.ForeignKey('Program', on_delete=models.CASCADE)
 
