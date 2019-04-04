@@ -131,11 +131,30 @@ class ProgramApplicationAdminListView(generics.ListAPIView):
         return ProgramApplication.objects.filter(program__institution=user.institution)
         
 
-class ProgramApplicationDetailView(generics.GenericAPIView):
+class ProgramApplicationCreateView(generics.GenericAPIView):
     serializer_class = ProgramApplicationSerializer
     def post(self, request, format=None):
         serializer = ProgramApplicationSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ProgramApplicationDetailView(generics.GenericAPIView):
+    serializer_class = ProgramApplicationSerializer
+    def put(self, request, uid, format=None):
+        application = get_object_or_404(ProgramApplication, uid=uid)
+        
+        data = {}
+
+        try:
+            if request.institutionadmin.institution == application.program.institution:
+                data['status'] = request.data['status']
+        except:
+            data['applicant_status'] =  request.data['status']
+
+        serializer = ProgramApplicationSerializer(application, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
