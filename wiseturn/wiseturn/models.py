@@ -245,6 +245,7 @@ class Application(WtModel):
     REJECTED = 'REJ'
     WITHDRAWN = 'WIT'
     ACCEPT = 'ACC'
+    
     STATUS_CHOICES = (
         (SUBMITTED, 'Submitted'),
         (PENDING, 'Pending'),
@@ -271,7 +272,7 @@ class Application(WtModel):
         choices = APPLICANT_CHOICES,
         default = PENDING
     )
-    
+
 class ProgramApplication(Application):
     program = models.ForeignKey('Program', on_delete=models.CASCADE)
 
