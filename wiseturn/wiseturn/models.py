@@ -101,6 +101,8 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
     country_of_origin = models.CharField(max_length=255, blank=True)
     education_level = models.CharField(max_length=255, blank=True)
     grade = models.IntegerField(null=True)
+    school = models.CharField(max_length=255, blank=True)
+    
 
     USERNAME_FIELD = 'email'
     objects = WTUserManager()
