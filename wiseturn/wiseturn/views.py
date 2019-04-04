@@ -148,10 +148,12 @@ class ProgramApplicationDetailView(generics.GenericAPIView):
         data = {}
 
         try:
-            if request.institutionadmin.institution == application.program.institution:
-                data['status'] = request.data['status']
-        except:
-            data['applicant_status'] =  request.data['status']
+            if request.user.institutionadmin.institution == application.program.institution:
+                data['status'] = request.data.get('status', "")
+            else:
+                data['applicant_status'] = request.data.get('applicant_status', "")
+        except AttributeError:
+            data['applicant_status'] = request.data.get('applicant_status', "")
 
         serializer = ProgramApplicationSerializer(application, data=data, partial=True)
         if serializer.is_valid():
