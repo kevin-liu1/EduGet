@@ -16,13 +16,36 @@ from rest_framework.views import APIView
 from rest_framework import filters
 
 from django.shortcuts import get_object_or_404
-
+from django.db.models import F
 from drf_yasg.utils import swagger_serializer_method
+
+class NullsAlwaysLastOrderingFilter(filters.OrderingFilter):
+    """ Use Django 1.11 nulls_last feature to force nulls to bottom in all orderings. """
+    def filter_queryset(self, request, queryset, view):
+        ordering = self.get_ordering(request, queryset, view)
+
+        if ordering:
+            f_ordering = []
+            for o in ordering:
+                if not o:
+                    continue
+                if o[0] == '-':
+                    f_ordering.append(F(o[1:]).desc(nulls_last=True))
+                else:
+                    f_ordering.append(F(o).asc(nulls_last=True))
+
+            return queryset.order_by(*f_ordering)
+
+        return queryset
 
 class InstitutionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Institution
-        fields = ('uid', 'name', 'country', 'location', 'logo', 'cost_of_living')
+        fields = ('uid', 'name', 'country', 'location', 'logo', 'cost_of_living',
+        'scores_overall_rank', 'scores_teaching_rank','scores_teaching_rank', 'scores_research_rank',
+        'scores_citations_rank', 'scores_industry_income_rank', 'scores_international_outlook_rank',
+        'stats_number_students', 'stats_student_staff_ratio', 'stats_pc_intl_students',
+        'stats_female_male_ratio')
         read_only_fields = ('uid',)
 
 
@@ -33,7 +56,7 @@ class InstitutionListView(generics.ListAPIView):
     model = Institution
     queryset = Institution.objects.all()
     serializer_class = InstitutionSerializer
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter,)
+    filter_backends = (filters.SearchFilter, NullsAlwaysLastOrderingFilter,)
     search_fields = ('name',)
     ordering_fields = '__all__'
 

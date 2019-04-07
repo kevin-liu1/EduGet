@@ -120,6 +120,16 @@ class School extends Component {
                 </MenuItem>
                 <MenuItem value={"name"}>Name</MenuItem>
                 <MenuItem value={"cost_of_living"}>Cost of Living</MenuItem>
+                <MenuItem value={"scores_overall_rank"}>Ranking (Overall)</MenuItem>
+                <MenuItem value={"scores_teaching_rank"}>Ranking (Teaching)</MenuItem>
+                <MenuItem value={"scores_research_rank"}>Ranking (Research)</MenuItem>
+                <MenuItem value={"scores_citations_rank"}>Ranking (Citations)</MenuItem>
+                <MenuItem value={"scores_industry_income_rank"}>Ranking (Industry)</MenuItem>
+                <MenuItem value={"scores_international_outlook_rank"}>Ranking (International Outlook)</MenuItem>
+                <MenuItem value={"stats_number_students"}>Number of Students</MenuItem>
+                <MenuItem value={"stats_student_staff_ratio"}>Student Staff Ratio</MenuItem>
+                <MenuItem value={"stats_pc_intl_students"}>% International Students</MenuItem>
+                <MenuItem value={"stats_female_male_ratio"}>Female to Male Ratio</MenuItem>
                 <MenuItem value={"country"}>Country</MenuItem>
               </Select>
             </FormControl>
@@ -158,7 +168,7 @@ class List extends Component {
             <Card className="school-card">
               <CardContent>
                 <div>
-                  <img
+                  <img 
                     src={school.logo}
                     alt="profilepic"
                     className="school-logo"

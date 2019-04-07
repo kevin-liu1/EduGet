@@ -1,8 +1,10 @@
-import binascii, os, uuid
+import binascii
+import os
+import uuid
 
 from neomodel import (
-	StructuredNode, StringProperty, DateProperty, EmailProperty, UniqueIdProperty, DateTimeProperty,
-	RelationshipFrom, RelationshipTo)
+    StructuredNode, StringProperty, DateProperty, EmailProperty, UniqueIdProperty, DateTimeProperty,
+    RelationshipFrom, RelationshipTo)
 
 from neomodel.cardinality import *
 from django_neomodel import DjangoNode
@@ -19,11 +21,13 @@ from rest_framework.authtoken.models import Token
 
 from django.utils import timezone
 
+
 class WTUserManager(BaseUserManager):
     """
     A custom user manager to deal with emails as unique identifiers for auth
     instead of usernames. The default that's used is "UserManager"
     """
+
     def _create_user(self, email, password, **extra_fields):
         """
         Creates and saves a User with the given email and password.
@@ -48,8 +52,10 @@ class WTUserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
         return self._create_user(email, password, **extra_fields)
 
+
 def hex_uuid():
     return uuid.uuid4().hex
+
 
 class WtModel(models.Model):
     '''
@@ -76,6 +82,7 @@ class WtModel(models.Model):
     def classname(self):
         return self.__class__.__name__
 
+
 class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
     email = models.EmailField(unique=True, blank=False)
     first_name = models.CharField(max_length=255, blank=False)
@@ -83,7 +90,8 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
-        help_text=_('Designates whether the user can log into this admin site.'),
+        help_text=_(
+            'Designates whether the user can log into this admin site.'),
     )
     is_active = models.BooleanField(
         _('active'),
@@ -102,7 +110,6 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
     education_level = models.CharField(max_length=255, blank=True)
     grade = models.IntegerField(null=True)
     school = models.CharField(max_length=255, blank=True)
-    
 
     USERNAME_FIELD = 'email'
     objects = WTUserManager()
@@ -116,13 +123,16 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
     def get_short_name(self):
         return self.first_name
 
+
 class InstitutionAdmin(WTUser):
     institution = models.ForeignKey('Institution')
+
 
 def makeInstitutionAdmin(user, institution):
     admin = InstitutionAdmin(wtuser_ptr_id=user.pk, institution=institution)
     admin.__dict__.update(user.__dict__)
     admin.save()
+
 
 def removeInstitutionAdmin(user):
     _user = WTUser()
@@ -134,6 +144,7 @@ def removeInstitutionAdmin(user):
 class CompanyAdmin(WTUser):
     company = models.ForeignKey('Company')
 
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
@@ -144,6 +155,7 @@ def institution_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
     return 'institution/{0}/{1}'.format(instance.name, filename)
 
+
 class Institution(WtModel):
     name = models.CharField(max_length=255, blank=False)
     dli_number = models.CharField(max_length=255)
@@ -151,7 +163,7 @@ class Institution(WtModel):
     type = models.CharField(max_length=255, blank=False)
 
     description = models.TextField(blank=True)
-    
+
     city = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255, blank=True)
     postal = models.CharField(max_length=255, blank=True)
@@ -167,12 +179,30 @@ class Institution(WtModel):
 
     slug = models.CharField(max_length=255, unique=True)
 
+    scores_overall = models.FloatField(null=True)
+    scores_overall_rank = models.IntegerField(null=True)
+    scores_teaching = models.FloatField(null=True)
+    scores_teaching_rank = models.IntegerField(null=True)
+    scores_research = models.FloatField(null=True)
+    scores_research_rank = models.IntegerField(null=True)
+    scores_citations = models.FloatField(null=True)
+    scores_citations_rank = models.IntegerField(null=True)
+    scores_industry_income = models.FloatField(null=True)
+    scores_industry_income_rank = models.IntegerField(null=True)
+    scores_international_outlook = models.FloatField(null=True)
+    scores_international_outlook_rank = models.IntegerField(null=True)
+    stats_number_students = models.IntegerField(null=True)
+    stats_student_staff_ratio = models.FloatField(null=True)
+    stats_pc_intl_students = models.FloatField(null=True)
+    stats_female_male_ratio = models.CharField(max_length=255, null=True)
+
     @property
     def location(self):
         return "{}, {}".format(self.city, self.province)
 
     def __str__(self):
         return self.name
+
 
 class Program(WtModel):
     institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
@@ -187,15 +217,17 @@ class Program(WtModel):
     application_fee = models.DecimalField(max_digits=10, decimal_places=2)
 
     slug = models.CharField(max_length=255, unique=True)
+
     def __str__(self):
         return self.name
+
 
 class Company(WtModel):
     name = models.CharField(max_length=255, blank=False)
     size = models.IntegerField(null=True)
 
     description = models.TextField(blank=True)
-    
+
     city = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255, blank=True)
     postal = models.CharField(max_length=255, blank=True)
@@ -218,6 +250,7 @@ class Company(WtModel):
     def __str__(self):
         return self.name
 
+
 class JobPosting(WtModel):
     company = models.ForeignKey('Company', on_delete=models.CASCADE)
 
@@ -227,8 +260,10 @@ class JobPosting(WtModel):
     salary = models.DecimalField(max_digits=10, decimal_places=2)
 
     slug = models.CharField(max_length=255, unique=True)
+
     def __str__(self):
         return self.name
+
 
 class Application(WtModel):
     class Meta:
@@ -245,7 +280,7 @@ class Application(WtModel):
     REJECTED = 'REJ'
     WITHDRAWN = 'WIT'
     ACCEPT = 'ACC'
-    
+
     STATUS_CHOICES = (
         (SUBMITTED, 'Submitted'),
         (PENDING, 'Pending'),
@@ -256,9 +291,9 @@ class Application(WtModel):
     )
 
     status = models.CharField(
-        max_length = 3,
-        choices = STATUS_CHOICES,
-        default = SUBMITTED
+        max_length=3,
+        choices=STATUS_CHOICES,
+        default=SUBMITTED
     )
 
     APPLICANT_CHOICES = (
@@ -268,10 +303,11 @@ class Application(WtModel):
     )
 
     applicant_status = models.CharField(
-        max_length = 3,
-        choices = APPLICANT_CHOICES,
-        default = PENDING
+        max_length=3,
+        choices=APPLICANT_CHOICES,
+        default=PENDING
     )
+
 
 class ProgramApplication(Application):
     program = models.ForeignKey('Program', on_delete=models.CASCADE)
@@ -279,15 +315,18 @@ class ProgramApplication(Application):
     def __str__(self):
         return "{} | {} ({})".format(self.user, self.program.name, self.status)
 
+
 class JobApplication(Application):
     job_posting = models.ForeignKey('JobPosting', on_delete=models.CASCADE)
 
     def __str__(self):
         return "{} | {} ({})".format(self.user, self.job_posting.name, self.status)
 
+
 """
 Neo4j Models to be created with post save signals
 """
+
 
 class User(DjangoNode):
     uid = UniqueIdProperty()
@@ -304,7 +343,7 @@ class User(DjangoNode):
     @property
     def token(self):
         return self._token.single()
-    
+
     def post_create(self):
         token = Token().save()
         self._token.connect(token)

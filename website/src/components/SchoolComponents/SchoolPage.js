@@ -111,32 +111,13 @@ class SchoolPage extends Component {
 
 
   render() {
-    const divStyle = {
-        marginTop: this.state.marginTop
-    };
-    
     return (
       <div>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
         <Header/>
         <div className="body-wrapper">
           <Grid container spacing={24} direction="row" justify="center" alignItems="flex-start">
-            <Grid item xs={9} md={3} className="school-info" style={divStyle}>
-              <Card>
-              <CardContent>
-              {this.state.info.name ?
-                <div>
-                <img src={this.state.info.logo} alt="profilepic"/>
-                <h3><img src={`https://www.countryflags.io/${this.state.info.country}/flat/24.png`} /> {this.state.info.name}</h3>
-                <p>Founded in {this.state.info.founded}</p>
-                <p>{[this.state.info.street, this.state.info.city, this.state.info.province].join(", ")}</p>
-                {this.state.info.dli_number ? <p><strong>DLI Number</strong>: {this.state.info.dli_number}</p>  : ""}
-                {this.state.info.cost_of_living ? <p><strong>Cost of Living</strong>: {this.state.info.cost_of_living}</p>  : ""}
-                </div> : ""
-              }
-              </CardContent>
-              </Card>
-            </Grid>
+            <SideBar marginTop={this.state.marginTop} info={this.state.info} />
             <Grid item xs={12} md={9} className="school-desc">
               <Card >
               <CardContent >
@@ -189,6 +170,35 @@ class SchoolPage extends Component {
   }
 }
 
-
+class SideBar extends Component {
+  render() {
+    return <Grid item xs={9} md={3} className="school-info" style={{marginTop: this.props.marginTop}}>
+              <Card>
+              <CardContent>
+              {this.props.info.name ?
+                <div>
+                <img src={this.props.info.logo} alt="profilepic"/>
+                <h3><img src={`https://www.countryflags.io/${this.props.info.country}/flat/24.png`} /> {this.props.info.name}</h3>
+                <p>Founded in {this.props.info.founded}</p>
+                <p>{[this.props.info.street, this.props.info.city, this.props.info.province].join(", ")}</p>
+                {this.props.info.dli_number ? <p><strong>DLI Number</strong>: {this.props.info.dli_number}</p>  : ""}
+                {this.props.info.cost_of_living ? <p><strong>Cost of Living</strong>: {this.props.info.cost_of_living}</p>  : ""}
+                {this.props.info.scores_overall_rank? <p><strong>Ranking (Overall)</strong>: {this.props.info.scores_overall_rank}</p>  : ""}
+                {this.props.info.scores_teaching_rank? <p><strong>Ranking (Teaching)</strong>: {this.props.info.scores_teaching_rank}</p>  : ""}
+                {this.props.info.scores_research_rank? <p><strong>Ranking (Research)</strong>: {this.props.info.scores_research_rank}</p>  : ""}
+                {this.props.info.scores_citations_rank? <p><strong>Ranking (Citations)</strong>: {this.props.info.scores_citations_rank}</p>  : ""}
+                {this.props.info.scores_industry_income_rank? <p><strong>Ranking (Industry)</strong>: {this.props.info.scores_industry_income_rank}</p>  : ""}
+                {this.props.info.scores_international_outlook_rank? <p><strong>Ranking (International Outlook)</strong>: {this.props.info.scores_international_outlook_rank}</p>  : ""}
+                {this.props.info.stats_number_students? <p><strong>Number of Students</strong>: {this.props.info.stats_number_students}</p>  : ""}
+                {this.props.info.stats_student_staff_ratio? <p><strong>Student Staff Ratio</strong>: {this.props.info.stats_student_staff_ratio}</p>  : ""}
+                {this.props.info.stats_pc_intl_students? <p><strong>% International Students</strong>: {this.props.info.stats_pc_intl_students}</p>  : ""}
+                {this.props.info.stats_female_male_ratio? <p><strong>Female to Male Ratio</strong>: {this.props.info.stats_female_male_ratio}</p>  : ""}
+                </div> : ""
+              }
+              </CardContent>
+              </Card>
+            </Grid>
+  }
+}
 
 export default withRouter(SchoolPage);
