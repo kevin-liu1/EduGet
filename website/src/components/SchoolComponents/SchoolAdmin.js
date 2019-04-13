@@ -80,7 +80,6 @@ class SchoolAdmin extends Component {
     this.handleReject = this.handleReject.bind(this);
   }
   renderPrograms(){
-    console.log(this.state.info.programs)
     return(
       this.state.info.programs.map((program) => {
         return(

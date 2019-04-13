@@ -45,15 +45,12 @@ class SignIn extends Component {
       username: this.state.email,
       password: this.state.password
     }).then((response) => {
-      console.log(response)
-      console.log(response.data)
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user_info', JSON.stringify(response.data.user_info));
-      self.setState({auth: true});
       self.setState({user_info: response.data.user_info});
+      self.setState({auth: true});
       this.props.login(this.state.auth);
     }).catch((error)=>{
-      console.log(error.response.data);
       self.setState({auth: false});
       self.setState({msg: error.response.data[Object.keys(error.response.data)[0]]});
       this.props.login(this.state.auth);
@@ -71,8 +68,6 @@ class SignIn extends Component {
     var errorStyle = {
       color: 'red'
     }
-    console.log(this.state.auth)
-    console.log(this.state.user_info)
     return (
       <div className="signInContainer">
         <Header/>
