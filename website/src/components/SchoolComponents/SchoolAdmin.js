@@ -128,7 +128,15 @@ class SchoolAdmin extends Component {
         }
       })
     }).catch((error)=>{
-      console.log(error.response.data);
+      console.log(error.response);
+    })
+    axios.get(GLOBALS.API_ROOT + '/api/institution-admin/applications',{
+      headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
+    }).then((response) => {
+      console.log(response.data.results)
+      this.setState({applicants: response.data.results})
+    }).catch((error) => {
+      console.log(error.response)
     })
     window.addEventListener('scroll', this.handleScroll);
   }

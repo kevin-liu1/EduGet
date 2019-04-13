@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'debug_toolbar',
     'wiseturn',
+    'django_filters'
 
 ]
 

@@ -3,6 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import PrivateRoute from './PrivateRoute'
 import PublicRoute from './PublicRoute'
+import AdminRoute from './AdminRoute'
 import Main from '../components/Main';
 import Profile from '../components/Profile';
 import UserAgreement from '../components/UserAgreement';
@@ -48,7 +49,7 @@ export const AppRouter = () => (
         <PublicRoute path="/programs/recommended" component={ProgramRecommended} exact={true}/>
         <PublicRoute path="/programs/:uid" component={ProgramPage} exact={true} />
         <PublicRoute path="/applications" component={Applications} exact={true}/>{/* todo make it private after finish */}
-        <PublicRoute path="/schools-admin/:uid" component={SchoolAdmin} exact={true} />
+        <PrivateRoute path="/schools-admin/:uid" component={SchoolAdmin} exact={true} />
       </Switch>
     </div>
   </Router>

@@ -18,6 +18,8 @@ from rest_framework import filters
 from django.shortcuts import get_object_or_404
 from django.db.models import F
 from drf_yasg.utils import swagger_serializer_method
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 
 class NullsAlwaysLastOrderingFilter(filters.OrderingFilter):
@@ -181,7 +183,8 @@ class ProgramApplicationAdminListView(generics.ListAPIView):
     model = ProgramApplication
     serializer_class = ProgramApplicationSerializer
     permission_classes = (IsAuthenticated,)
-
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('program__uid',)
     def get_queryset(self):
         user = get_object_or_404(
             InstitutionAdmin, wtuser_ptr=self.request.user)
