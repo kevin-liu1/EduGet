@@ -60,12 +60,21 @@ urlpatterns = [
     url(r'^api/token/auth/$', obtain_auth_token),
     url(r'^api/users/create/$', UserCreateView.as_view()),
     url(r'^api/users/details/$', UserDetailView.as_view()),
+
+    # Institutions
     url(r'^api/institutions/$', InstitutionListView.as_view()),
     url(r'^api/institutions/(?P<uid>\w+)/$', InstitutionDetailView.as_view()),
-    url(r'^api/institutions/(?P<institution_uid>\w+)/programs/(?P<program_uid>\w+)/$', ProgramDetailView.as_view()),
+    
+    # Programs
+    url(r'^api/programs/$', ProgramListView.as_view()),
+    url(r'^api/programs/recommended/$', RecommendedProgramListView.as_view()),
+    url(r'^api/programs/(?P<uid>\w+)/$', ProgramDetailView.as_view()),
+
+    # Applications
     url(r'^api/applications/programs/$', ProgramApplicationListView.as_view()),
     url(r'^api/applications/programs/create/$', ProgramApplicationCreateView.as_view()),
     url(r'^api/applications/programs/(?P<uid>\w+)/$', ProgramApplicationDetailView.as_view()),
+
     # institution admin pages
     url(r'^api/institution-admin/applications/$', ProgramApplicationAdminListView.as_view()),
 

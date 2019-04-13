@@ -17,7 +17,7 @@ for institution in Institution.objects.all():
         s = schools[institution.name]
         Institution.objects.filter(pk=institution.pk).update(**{
             "scores_overall": convert(s['scores_overall']),
-            "scores_overall_rank": convert(s['scores_overall_rank']),
+            "scores_overall_rank": convert(s['scores_overall_rank']) / 10,
             "scores_teaching": convert(s['scores_teaching']),
             "scores_teaching_rank": convert(s['scores_teaching_rank']),
             "scores_research": convert(s['scores_research']),

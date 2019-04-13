@@ -94,6 +94,7 @@ class School extends Component {
         <div className="body-wrapper">
           <CardContent className="searchContent">
             <h1>Discover Your Perfect School</h1>
+            
             <TextField
               id="filled-search"
               label="Search"

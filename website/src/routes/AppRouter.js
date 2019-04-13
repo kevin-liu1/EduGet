@@ -17,6 +17,9 @@ import CreateProfile from '../components/CreateProfile';
 import Summary from '../components/Summary';
 import School from '../components/SchoolComponents/School.js';
 import SchoolPage from '../components/SchoolComponents/SchoolPage.js';
+import Program from '../components/ProgramComponents/Program.js';
+import ProgramRecommended from '../components/ProgramComponents/ProgramRecommended.js';
+import ProgramPage from '../components/ProgramComponents/ProgramPage.js';
 import Applications from '../components/MyApplications.js'
 import SchoolAdmin from '../components/SchoolComponents/SchoolAdmin.js';
 
@@ -41,6 +44,9 @@ export const AppRouter = () => (
         <PublicRoute path="/summary" component={Summary} exact={true} />
         <PublicRoute path="/schools" component={School} exact={true}/>
         <PublicRoute path="/schools/:uid" component={SchoolPage} exact={true} />
+        <PublicRoute path="/programs" component={Program} exact={true}/>
+        <PublicRoute path="/programs/recommended" component={ProgramRecommended} exact={true}/>
+        <PublicRoute path="/programs/:uid" component={ProgramPage} exact={true} />
         <PublicRoute path="/applications" component={Applications} exact={true}/>{/* todo make it private after finish */}
         <PublicRoute path="/schools-admin/:uid" component={SchoolAdmin} exact={true} />
       </Switch>
