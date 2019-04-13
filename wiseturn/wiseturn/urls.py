@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from rest_framework.authtoken.views import obtain_auth_token
 from django.conf import settings
 
 # from rest_framework.routers import DefaultRouter
@@ -57,8 +56,11 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-    url(r'^api/token/auth/$', obtain_auth_token),
+    # Sign in
+    url(r'^api/token/auth/$', CustomObtainAuthToken.as_view()),
+    # Sign up
     url(r'^api/users/create/$', UserCreateView.as_view()),
+    # View own profile
     url(r'^api/users/details/$', UserDetailView.as_view()),
 
     # Institutions

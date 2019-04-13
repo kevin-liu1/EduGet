@@ -21,7 +21,8 @@ class SignIn extends Component {
       email: "",
       password: "",
       auth: "",
-      msg: ""
+      msg: "",
+      user_info: {}
     }
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
@@ -44,8 +45,12 @@ class SignIn extends Component {
       username: this.state.email,
       password: this.state.password
     }).then((response) => {
+      console.log(response)
+      console.log(response.data)
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user_info', JSON.stringify(response.data.user_info));
       self.setState({auth: true});
+      self.setState({user_info: response.data.user_info});
       this.props.login(this.state.auth);
     }).catch((error)=>{
       console.log(error.response.data);
@@ -66,7 +71,8 @@ class SignIn extends Component {
     var errorStyle = {
       color: 'red'
     }
-
+    console.log(this.state.auth)
+    console.log(this.state.user_info)
     return (
       <div className="signInContainer">
         <Header/>
@@ -83,8 +89,8 @@ class SignIn extends Component {
                     <Button className="button" variant="contained" size="large" color="primary" type="submit">Sign In</Button>
                   </MuiThemeProvider>
                   {
-                    this.state.auth?
-                    <Redirect to="profile"/> :
+                    this.state.auth? ( this.state.user_info.admin_institution ? <Redirect to={`/schools-admin/${this.state.user_info.admin_institution.uid}`}/> :
+                    <Redirect to="/programs/recommended"/>) :
                     <p style={errorStyle}>{this.state.msg}</p>
                   }
                 </div>

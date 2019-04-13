@@ -16,20 +16,32 @@ from rest_framework.views import APIView
 
 from drf_yasg.utils import swagger_serializer_method
 from wiseturn.views import InstitutionSerializer
+from rest_framework.authtoken.models import Token
+
+
+class CustomObtainAuthToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key, 'user_info': WTUserSerializer(user).data})
+
 
 class WTUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = WTUser
         fields = ('email', 'first_name', 'last_name', 'zippostal', 'phonenumber', 'grade',
-        'city', 'birthday', 'country_of_origin', 'education_level', 'school', 'password', 'admin_institution')
+                  'city', 'birthday', 'country_of_origin', 'education_level', 'school', 'password', 'admin_institution')
         read_only_fields = ('uid', 'admin_institution')
         extra_kwargs = {'password': {'write_only': True}}
 
     email = serializers.EmailField()
     password = serializers.CharField(
-	    style={'input_type': 'password'},
-	    write_only=True
-	)
+        style={'input_type': 'password'},
+        write_only=True
+    )
 
     admin_institution = serializers.SerializerMethodField()
 
@@ -41,16 +53,17 @@ class WTUserSerializer(serializers.ModelSerializer):
             return None
 
     def validate_password(self, value):
-    	#TODO: min password requirements
-    	return value
+        # TODO: min password requirements
+        return value
 
     def validate_email(self, value):
         if WTUser.objects.filter(email=value):
-            raise serializers.ValidationError("This email is already registered.")
+            raise serializers.ValidationError(
+                "This email is already registered.")
         return value
 
     def create(self, validated_data):
-        
+
         user = WTUser(**validated_data)
         user.set_password(validated_data['password'])
         user.save()
@@ -62,8 +75,10 @@ class WTUserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
 class UserCreateView(generics.GenericAPIView):
     serializer_class = WTUserSerializer
+
     def post(self, request, format=None):
         """
         Create a new user
@@ -73,6 +88,7 @@ class UserCreateView(generics.GenericAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserDetailView(generics.GenericAPIView):
     authentication_classes = (TokenAuthentication,)
