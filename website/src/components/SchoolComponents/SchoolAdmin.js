@@ -110,7 +110,7 @@ class SchoolAdmin extends Component {
 
   componentDidMount(){
     const {match} = this.props
-    const id = match.params.uid
+    const id = JSON.parse(localStorage.getItem('user_info')).admin_institution.uid
     axios.get(GLOBALS.API_ROOT + '/api/institutions/'+id,{
       headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
     }).then((response) => {

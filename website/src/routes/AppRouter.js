@@ -41,7 +41,6 @@ export const AppRouter = () => (
         <PublicRoute path="/new-password" component={NewPassword} exact={true} />
         <PublicRoute path="/thank-you" component={Thankyou} exact={true} />
         <PublicRoute path="/create-profile" component={CreateProfile} exact={true} />
-        <PublicRoute path="/404" component={Nomatch} exact={true} />
         <PublicRoute path="/summary" component={Summary} exact={true} />
         <PublicRoute path="/schools" component={School} exact={true}/>
         <PublicRoute path="/schools/:uid" component={SchoolPage} exact={true} />
@@ -49,7 +48,8 @@ export const AppRouter = () => (
         <PublicRoute path="/programs/recommended" component={ProgramRecommended} exact={true}/>
         <PublicRoute path="/programs/:uid" component={ProgramPage} exact={true} />
         <PublicRoute path="/applications" component={Applications} exact={true}/>{/* todo make it private after finish */}
-        <PrivateRoute path="/schools-admin/:uid" component={SchoolAdmin} exact={true} />
+        <AdminRoute path="/school-admin/" component={SchoolAdmin} exact={true} />
+        <PublicRoute component={Nomatch} exact={true} />
       </Switch>
     </div>
   </Router>
