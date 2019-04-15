@@ -3,7 +3,7 @@ body{
   width: 100%;
 }
 
-header{ 
+header.body-wrapper{ 
   position: fixed !important;
   top: 0;
   background-color: #4384AB;
@@ -12,8 +12,8 @@ header{
 .body-wrapper {
   max-width: 1200px;
   margin: auto;
-  margin-top: 80px;
-  padding: 0 20px;
+  margin-top: 64px;
+  padding: 20px;
 }
 
 /*

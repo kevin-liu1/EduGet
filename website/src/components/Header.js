@@ -106,6 +106,7 @@ class Header extends Component {
               </Grid>
               <Menu id='menu' anchorEl={window} open={open} onClose={this.closeWindow}>
                 <MenuItem component={Link} to='/profile'>Profile</MenuItem>
+                <MenuItem component={Link} to='/applications'>My Applications</MenuItem>
                 <MenuItem onClick={this.handleLogOut} component={Link} to='/login'>Log out</MenuItem>
               </Menu>
             </Grid>

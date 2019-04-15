@@ -3,6 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import PrivateRoute from './PrivateRoute'
 import PublicRoute from './PublicRoute'
+import AdminRoute from './AdminRoute'
 import Main from '../components/Main';
 import Profile from '../components/Profile';
 import UserAgreement from '../components/UserAgreement';
@@ -17,11 +18,11 @@ import CreateProfile from '../components/CreateProfile';
 import Summary from '../components/Summary';
 import School from '../components/SchoolComponents/School.js';
 import SchoolPage from '../components/SchoolComponents/SchoolPage.js';
-<<<<<<< HEAD
+import Program from '../components/ProgramComponents/Program.js';
+import ProgramRecommended from '../components/ProgramComponents/ProgramRecommended.js';
+import ProgramPage from '../components/ProgramComponents/ProgramPage.js';
 import Applications from '../components/MyApplications.js'
-=======
 import SchoolAdmin from '../components/SchoolComponents/SchoolAdmin.js';
->>>>>>> 0b97374839844af995476896c47a886053ca01bc
 
 
 export const history = createHistory();
@@ -32,6 +33,7 @@ export const AppRouter = () => (
       <Switch>
         <PublicRoute path='/' component={Main} exact={true} />
         <PrivateRoute path='/profile' component={Profile} exact={true} />
+        {/* <PrivateRoute path='/applications' component={Applications} exact={true} /> */}
         <PublicRoute path='/register' component={Register} exact={true}/>
         <PublicRoute path='/login' component={Login} exact={true} />
         <PublicRoute path='/user-agreement' component={UserAgreement} exact={true}/>
@@ -39,15 +41,15 @@ export const AppRouter = () => (
         <PublicRoute path="/new-password" component={NewPassword} exact={true} />
         <PublicRoute path="/thank-you" component={Thankyou} exact={true} />
         <PublicRoute path="/create-profile" component={CreateProfile} exact={true} />
-        <PublicRoute path="/404" component={Nomatch} exact={true} />
         <PublicRoute path="/summary" component={Summary} exact={true} />
         <PublicRoute path="/schools" component={School} exact={true}/>
         <PublicRoute path="/schools/:uid" component={SchoolPage} exact={true} />
-<<<<<<< HEAD
-        <PublicRoute path="/applications" component={Applications} exact={true}/> //todo make it private after finish
-=======
-        <PublicRoute path="/schools-admin/:uid" component={SchoolAdmin} exact={true} />
->>>>>>> 0b97374839844af995476896c47a886053ca01bc
+        <PublicRoute path="/programs" component={Program} exact={true}/>
+        <PublicRoute path="/programs/recommended" component={ProgramRecommended} exact={true}/>
+        <PublicRoute path="/programs/:uid" component={ProgramPage} exact={true} />
+        <PublicRoute path="/applications" component={Applications} exact={true}/>{/* todo make it private after finish */}
+        <AdminRoute path="/school-admin/" component={SchoolAdmin} exact={true} />
+        <PublicRoute component={Nomatch} exact={true} />
       </Switch>
     </div>
   </Router>

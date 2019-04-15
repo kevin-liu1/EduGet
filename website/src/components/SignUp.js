@@ -81,6 +81,7 @@ class SignUp extends Component {
     return (
       <div className="signUpContainer">
         <Header/>
+        <div className="body-wrapper">
         <div className="signUpCard">
           <Card>
             <CardContent>
@@ -110,6 +111,7 @@ class SignUp extends Component {
               </form>
             </CardContent>
           </Card>
+          </div>
         </div>
       </div>
     );

@@ -12,6 +12,7 @@ import Header from './Header';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { login } from '../actions/userAction';
+import GLOBALS from '../config/common';
 
 class SignIn extends Component {
   constructor(props){
@@ -20,7 +21,8 @@ class SignIn extends Component {
       email: "",
       password: "",
       auth: "",
-      msg: ""
+      msg: "",
+      user_info: {}
     }
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
@@ -39,15 +41,16 @@ class SignIn extends Component {
     e.preventDefault();
     var self = this;
     //send to database
-    axios.post('http://localhost:8000/api/token/auth/',{
+    axios.post(GLOBALS.API_ROOT + "/api/token/auth/",{
       username: this.state.email,
       password: this.state.password
     }).then((response) => {
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user_info', JSON.stringify(response.data.user_info));
+      self.setState({user_info: response.data.user_info});
       self.setState({auth: true});
       this.props.login(this.state.auth);
     }).catch((error)=>{
-      console.log(error.response.data);
       self.setState({auth: false});
       self.setState({msg: error.response.data[Object.keys(error.response.data)[0]]});
       this.props.login(this.state.auth);
@@ -65,10 +68,10 @@ class SignIn extends Component {
     var errorStyle = {
       color: 'red'
     }
-
     return (
       <div className="signInContainer">
         <Header/>
+        <div className="body-wrapper">
         <div className="signInCard">
           <Card>
             <CardContent>
@@ -81,8 +84,8 @@ class SignIn extends Component {
                     <Button className="button" variant="contained" size="large" color="primary" type="submit">Sign In</Button>
                   </MuiThemeProvider>
                   {
-                    this.state.auth?
-                    <Redirect to="profile"/> :
+                    this.state.auth? ( this.state.user_info.admin_institution ? <Redirect to={`/schools-admin/${this.state.user_info.admin_institution.uid}`}/> :
+                    <Redirect to="/programs/recommended"/>) :
                     <p style={errorStyle}>{this.state.msg}</p>
                   }
                 </div>
@@ -95,6 +98,7 @@ class SignIn extends Component {
                </form>
             </CardContent>
           </Card>
+        </div>
         </div>
       </div>
     );
