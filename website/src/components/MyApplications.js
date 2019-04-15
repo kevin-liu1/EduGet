@@ -12,33 +12,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-const getApplications = ([
-  {name: "McMaster University", status: "Accepted"},
-  {name: "University of Waterloo", status: "Processing"},
-  {name: "University of Toronto", status: "Declined"}])
-
-/*
-const CustomTableCell = withStyles(theme => ({
-head: {
-  backgroundColor: theme.palette.common.black,
-  color: theme.palette.common.white,
-},
-body: {
-  fontSize: 14,
-},
-}))(TableCell);
-*/
-
-let id = 0;
-function createData(name, calories, fat, carbs, protein) {
-  id += 1;
-  return { id, name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-
-];
+import GLOBALS from '../config/common';
 
 class MyApplications extends Component {
   constructor(props){
@@ -46,33 +20,43 @@ class MyApplications extends Component {
     this.state = {
       applications: []
     }
-
-    this.currentapplications = this.currentapplications.bind(this);
   }
 
+  showChoices(choices){
+      switch (choices) {
+          case "sub":
+            return "accept";
+              break;
+      }
 
+  }
 
   //update state on load component
   componentDidMount(){
-    axios.get('http://localhost:8000/api/institution-admin/applications/',{
+    const {match} = this.props
+    const id = match.params.uid
+    axios.get(GLOBALS.API_ROOT + '/api/institution-adminc/applications/',{
       headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
     }).then((response) => {
-      console.log(response.data)
       this.setState({applications: response.data.results});
-      console.log(this.state.applications)
     }).catch((error)=>{
       console.log(error);
     })
+    window.addEventListener('scroll', this.handleScroll);
   }
 
-  currentapplications(){
-
+  handleScroll () {
+    let scrollTop = window.scrollY;
+    console.log(scrollTop)
+    this.setState({
+      marginTop: scrollTop + 'px',
+    })
   }
 
   render() {
     return (
-      <div id="Page">
-
+      <div className="body-wrapper">
+          <Header/>
               <Grid container direction="column" justify="center" alignItems="center">
                   <Grid item>
                       <Table>
@@ -80,24 +64,21 @@ class MyApplications extends Component {
                               <TableRow>
 
                                   <TableCell>Applications</TableCell>
-                                  <TableCell align="right">Calories</TableCell>
-                                  <TableCell align="right">Fat (g)</TableCell>
-                                  <TableCell align="right">Carbs (g)</TableCell>
-                                  <TableCell align="right">Protein (g)</TableCell>
+                                  <TableCell align="right">Status</TableCell>
+                                  <TableCell align="right">Status</TableCell>
+                                  <TableCell align="right">Actions</TableCell>
+
                               </TableRow>
                           </TableHead>
-                            <TableBody>
-                                {rows.map(row => (
+                          <TableBody>
+                              {this.state.applications.map(row => (
                                   <TableRow key={row.id}>
-                                    <TableCell component="th" scope="row">
-                                      {row.name}
-                                    </TableCell>
-                                    <TableCell align="right">{row.calories}</TableCell>
-                                    <TableCell align="right">{row.fat}</TableCell>
-                                    <TableCell align="right">{row.carbs}</TableCell>
-                                    <TableCell align="right">{row.protein}</TableCell>
+                                      <TableCell padding="none" size="medium">{row.program.name}</TableCell>
+                                      <TableCell padding="none" size="medium">{(row.date).substring(0, 10)}</TableCell> //yyyy-mm-dd
+                                      <TableCell padding="none" size="medium">{row.status}</TableCell>
+                                      <TableCell padding="none" size="medium">{row.status}</TableCell>
                                   </TableRow>
-                                ))}
+                              ))}
                           </TableBody>
                       </Table>
                   </Grid>
