@@ -159,8 +159,8 @@ class CreateProfile extends Component {
     axios.put(
       "http://localhost:8000/api/users/details/",
       {
-        first_name:this.firstname,
-        last_name:this.lastname,
+        first_name:this.state.firstname,
+        last_name:this.state.lastname,
         zippostal: this.state.zippostal,
         phonenumber: this.state.phonenumber,
         city: this.state.city,
