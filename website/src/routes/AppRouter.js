@@ -23,6 +23,7 @@ import ProgramRecommended from '../components/ProgramComponents/ProgramRecommend
 import ProgramPage from '../components/ProgramComponents/ProgramPage.js';
 import Applications from '../components/MyApplications.js'
 import SchoolAdmin from '../components/SchoolComponents/SchoolAdmin.js';
+import PublicProfile from '../components/PublicProfile.js'
 
 
 export const history = createHistory();
@@ -49,6 +50,7 @@ export const AppRouter = () => (
         <PublicRoute path="/programs/:uid" component={ProgramPage} exact={true} />
         <PublicRoute path="/applications" component={Applications} exact={true}/>{/* todo make it private after finish */}
         <AdminRoute path="/school-admin/" component={SchoolAdmin} exact={true} />
+        <PublicRoute path="/publicprofile" component={PublicProfile} exact={true} />
         <PublicRoute component={Nomatch} exact={true} />
       </Switch>
     </div>
