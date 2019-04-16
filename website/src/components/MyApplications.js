@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/info.css'
 import Grid from '@material-ui/core/Grid';
 import Header from './Header';
 import Footer from './Footer';
 import axios from 'axios';
+import "../styles/School.css";
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -20,14 +20,33 @@ class MyApplications extends Component {
     this.state = {
       applications: []
     }
+    this.handleScroll = this.handleScroll.bind();
   }
 
   showChoices(choices){
       switch (choices) {
-          case "sub":
-            return "accept";
-              break;
-      }
+        case 'SUB':
+            return (<TableCell padding="none" size="medium">Accept</TableCell>);
+            break;
+        case 'PEN':
+            return (<TableCell padding="none" size="medium">Accept</TableCell>);
+            break;
+        case 'APP':
+            return (<TableCell padding="none" size="medium">Accept</TableCell>);
+            break;
+        case 'WAI':
+            return (<TableCell padding="none" size="medium">Accept</TableCell>);
+            break;
+        case 'REJ':
+            return (<TableCell padding="none" size="medium">Accept</TableCell>);
+            break;
+        case 'WIT':
+            return (<TableCell padding="none" size="medium">Accept</TableCell>);
+            break;
+        case 'ACC':
+            return (<TableCell padding="none" size="medium">Accept</TableCell>);
+            break;
+    }
 
   }
 
@@ -47,7 +66,7 @@ class MyApplications extends Component {
 
   handleScroll () {
     let scrollTop = window.scrollY;
-    console.log(scrollTop)
+    console.log(scrollTop);
     this.setState({
       marginTop: scrollTop + 'px',
     })
@@ -55,34 +74,36 @@ class MyApplications extends Component {
 
   render() {
     return (
-      <div className="body-wrapper">
-          <Header/>
-              <Grid container direction="column" justify="center" alignItems="center">
-                  <Grid item>
-                      <Table>
-                          <TableHead>
-                              <TableRow>
+    <div>
+        <Header/>
+          <div className="body-wrapper">
 
-                                  <TableCell>Applications</TableCell>
-                                  <TableCell align="right">Status</TableCell>
-                                  <TableCell align="right">Status</TableCell>
-                                  <TableCell align="right">Actions</TableCell>
+                  <Grid container direction="column" justify="center" alignItems="center">
+                      <Grid item>
+                          <Table>
+                              <TableHead>
+                                  <TableRow>
+                                      <TableCell>Applications</TableCell>
+                                      <TableCell align="right">Status</TableCell>
+                                      <TableCell align="right">Status</TableCell>
+                                      <TableCell align="right">Actions</TableCell>
 
-                              </TableRow>
-                          </TableHead>
-                          <TableBody>
-                              {this.state.applications.map(row => (
-                                  <TableRow key={row.id}>
-                                      <TableCell padding="none" size="medium">{row.program.name}</TableCell>
-                                      <TableCell padding="none" size="medium">{(row.date).substring(0, 10)}</TableCell> //yyyy-mm-dd
-                                      <TableCell padding="none" size="medium">{row.status}</TableCell>
-                                      <TableCell padding="none" size="medium">{row.status}</TableCell>
                                   </TableRow>
-                              ))}
-                          </TableBody>
-                      </Table>
+                              </TableHead>
+                              <TableBody>
+                                  {this.state.applications.map(row => (
+                                      <TableRow key={row.id}>
+                                          <TableCell padding="none" size="medium">{row.program.name}</TableCell>
+                                          <TableCell padding="none" size="medium">{(row.date).substring(0, 10)}</TableCell> //yyyy-mm-dd
+                                          <TableCell padding="none" size="medium">{row.status}</TableCell>
+                                          showChoices(row.status);
+                                      </TableRow>
+                                  ))}
+                              </TableBody>
+                          </Table>
+                      </Grid>
                   </Grid>
-              </Grid>
+          </div>
       </div>
       );
       }
