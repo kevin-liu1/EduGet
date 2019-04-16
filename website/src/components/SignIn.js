@@ -58,7 +58,10 @@ class SignIn extends Component {
   }
 
   render() {
+    const user_info = JSON.parse(localStorage.getItem('user_info'));
+    const token = localStorage.getItem('token');
 
+    
     const theme = createMuiTheme({
       palette: {
         primary: { main: '#4384AB' }, // change color of AppBar
@@ -70,6 +73,11 @@ class SignIn extends Component {
     }
     return (
       <div className="signInContainer">
+        { token ? (
+          user_info && user_info.admin_institution ? 
+            <Redirect to="/school-admin" /> :
+            <Redirect to="/programs/recommended" />
+        ) : "" }
         <Header/>
         <div className="body-wrapper">
         <div className="signInCard">
@@ -84,7 +92,7 @@ class SignIn extends Component {
                     <Button className="button" variant="contained" size="large" color="primary" type="submit">Sign In</Button>
                   </MuiThemeProvider>
                   {
-                    this.state.auth? ( this.state.user_info.admin_institution ? <Redirect to={`/schools-admin/${this.state.user_info.admin_institution.uid}`}/> :
+                    this.state.auth? ( this.state.user_info.admin_institution ? <Redirect to={`/school-admin`}/> :
                     <Redirect to="/programs/recommended"/>) :
                     <p style={errorStyle}>{this.state.msg}</p>
                   }

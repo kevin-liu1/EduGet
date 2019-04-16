@@ -55,6 +55,7 @@ class Header extends Component {
 
   handleLogOut(e){
     localStorage.removeItem('token');
+    localStorage.removeItem('user_info');
   }
 
   toggleWindow(e){
@@ -78,11 +79,14 @@ class Header extends Component {
 
     const {email, password, auth, window} = this.state;
     const open = Boolean(window);
-
+    const user_info = JSON.parse(localStorage.getItem('user_info'))
     const privateLink = (
       <Grid container spacing={24} justify="space-between" alignItems="center">
         <Grid item>
-          <Link className="headerTitle" to="/"><img className="logo" src={logo}/></Link>
+          {user_info && user_info.admin_institution ? 
+            <Link className="headerTitle" to={`/school-admin`} ><img className="logo" src={logo}/></Link> :
+            <Link className="headerTitle" to="/programs/recommended"><img className="logo" src={logo}/></Link>
+          }
         </Grid>
         {/* <Grid item className="searchContainer">
           <InputBase className="search" placeholder="Search..." classes={{input: classes.input}}/>
@@ -106,7 +110,9 @@ class Header extends Component {
               </Grid>
               <Menu id='menu' anchorEl={window} open={open} onClose={this.closeWindow}>
                 <MenuItem component={Link} to='/profile'>Profile</MenuItem>
+                {user_info && user_info.admin_institution ? "" :
                 <MenuItem component={Link} to='/applications'>My Applications</MenuItem>
+                }
                 <MenuItem onClick={this.handleLogOut} component={Link} to='/login'>Log out</MenuItem>
               </Menu>
             </Grid>
