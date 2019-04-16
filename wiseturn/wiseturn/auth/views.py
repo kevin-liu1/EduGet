@@ -116,3 +116,20 @@ class UserDetailView(generics.GenericAPIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PublicUserDetailView(generics.GenericAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = WTUserSerializer
+
+
+    def get(self, request, uid, format=None):
+
+        try:
+            if request.user.institutionadmin:
+                user = get_object_or_404(WTUser, uid=uid)
+        except AttributeError:
+            return Response({"error": "not an admin"}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = WTUserSerializer(user)
+        return Response(serializer.data)

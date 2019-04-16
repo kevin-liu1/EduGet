@@ -1,5 +1,7 @@
 from wiseturn.models import *
 
+import wiseturn.auth as WiseturnAuth
+
 from rest_framework import serializers, viewsets, status, generics
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
@@ -82,6 +84,14 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
     def get_programs(self, instance):
         return ProgramSerializer(instance.program_set.all(), many=True).data
 
+class WTUserField(serializers.SlugRelatedField):
+    def to_representation(self, value):
+        serializer = WiseturnAuth.views.WTUserSerializer(value)
+        return serializer.data
+    
+    def get_queryset(self):
+        return WTUser.objects.all()
+
 
 class ProgramApplicationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -90,8 +100,7 @@ class ProgramApplicationSerializer(serializers.ModelSerializer):
         read_only_fields = ('uid',)
 
     program = ProgramField(slug_field="uid")
-    user = serializers.PrimaryKeyRelatedField(
-        read_only=True, default=serializers.CurrentUserDefault())
+    user = WTUserField(slug_field="uid", read_only=True, default=serializers.CurrentUserDefault())
 
     def create(self, validated_data):
         return ProgramApplication.objects.create(
