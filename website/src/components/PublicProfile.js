@@ -14,16 +14,19 @@ import Interest from './Interest'
 import axios from 'axios'
 import '../styles/App.css'
 
-class Profile extends Component {
+class PublicProfile extends Component {
   constructor(props){
     super(props);
     this.state={
       openeditprofile: 1,
       summary:"",
       education:"",
+      school:"",
+      grade:"",
       interest:"",
       firstname:"",
-      lastname:""
+      lastname:"",
+      interest:""
     }
 
   }
@@ -41,7 +44,10 @@ class Profile extends Component {
           education: response.data.education_level,
           interest: response.data.interest,
           firstname: response.data.first_name,
-          lastname: response.data.last_name
+          lastname: response.data.last_name,
+          interest: response.data.interest,
+          school: response.data.school,
+          grade: response.data.grade
         }
       )
 
@@ -86,26 +92,33 @@ class Profile extends Component {
 
                   <section id="summary" className="editSection">
                   <div>
-                      <Summary/>
+                      <h1>Summary</h1>
+                        <p>
+                          {this.state.summary}
+                        </p>
                   </div>
                   </section>
                   <section id="education" className="editSection">
                   <div>
-                      <Education/>
+                  <div>
+
+                    <h1>Education</h1>
+                    <h4>Education Level</h4>
+                    {this.state.education}
+                    <h4>School</h4>
+                    {this.state.school}
+                    <h4>Grade</h4>
+                    {this.state.grade}
+                  </div>
 
                   </div>
                   </section>
 
                   <section id="interest" className="editSection">
-                      <Interest/>
+                    <h1>Interests</h1>
+                    {this.state.interest}
                   </section>
-                  <br/>
-                  <br/>
-                  <div>
 
-                      <EditProfile/>
-
-                  </div>
                 </div>
               </CardContent>
               </Card>
@@ -117,4 +130,4 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+export default PublicProfile;

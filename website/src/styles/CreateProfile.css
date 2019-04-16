@@ -1,0 +1,22 @@
+div.profileCreation {
+  margin: 30px auto;
+  padding-top: 0px;
+  text-align: center;
+  width: 95%;
+}
+
+header.PCTitle{
+  font-size: 30px;
+  text-transform: capitalize;
+  font-style: normal;
+  font-family: sans-serif;
+}
+
+div.popUp{
+  width:1000px;
+}
+
+button{
+  float:left;
+  padding-bottom: 10px;
+}

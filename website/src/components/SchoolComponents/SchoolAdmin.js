@@ -3,9 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import Header from '../Header.js'
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import InputBase from '@material-ui/core/InputBase';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -15,7 +13,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
 import green from '@material-ui/core/colors/green';
@@ -33,6 +30,9 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import PropTypes from 'prop-types';
+import Tooltip from '@material-ui/core/Tooltip';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 const redbutton = createMuiTheme({ 
     root: {
@@ -63,6 +63,31 @@ const tabbar = createMuiTheme({
     palette: {primary:{main:'#4384AB'}}
 })
 
+function stableSort(array, cmp) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = cmp(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  console.log("STABLE SORT")
+  console.log(stabilizedThis.map(el => el[0]))
+  return stabilizedThis.map(el => el[0]);
+}
+
+function getSorting(order, orderBy) {
+  return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
+}
+
+function desc(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
 class SchoolAdmin extends Component {
   constructor(props){
     super(props);
@@ -70,7 +95,10 @@ class SchoolAdmin extends Component {
       info: {},
       value: 0,
       viewport: {},
-      applicants: []
+      applicants: [],
+      order: 'asc',
+      orderBy: 'program',
+      selected: []
     }
     this.renderPrograms = this.renderPrograms.bind(this)
     this.handleTab = this.handleTab.bind(this);
@@ -78,7 +106,17 @@ class SchoolAdmin extends Component {
     this.handleAccept = this.handleAccept.bind(this);
     this.handleWaitlist = this.handleWaitlist.bind(this);
     this.handleReject = this.handleReject.bind(this);
+    this.handleRequestSort = this.handleRequestSort.bind(this);
   }
+  handleRequestSort = (event, property) => {
+    const orderBy = property;
+    let order = 'desc';
+
+    if (this.state.orderBy === property && this.state.order === 'desc') {
+      order = 'asc';
+    }
+    this.setState({ order, orderBy });
+  };
   renderPrograms(){
     return(
       this.state.info.programs.map((program) => {
@@ -134,13 +172,45 @@ class SchoolAdmin extends Component {
       headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
     }).then((response) => {
       console.log(response.data.results)
+      response.data.results.forEach(function (app, i){
+        switch(response.data.results[i].status){
+          case "SUB":
+            response.data.results[i].status = "Submitted"
+            break;
+          case "PEN":
+            response.data.results[i].status = "Pending"
+            break;
+          case "REV":
+            response.data.results[i].status = "Under Review"
+            break;
+          case "APP":
+            response.data.results[i].status = "Approved"
+            break;
+          case "WAI":
+            response.data.results[i].status = "Waitlist"
+            break;
+          case "REJ":
+            response.data.results[i].status = "Reject"
+            break;
+        }
+        switch(response.data.results[i].applicant_status){
+          case "ACC":
+            response.data.results[i].applicant_status = "Accepted"
+            break;
+          case "WIT":
+            response.data.results[i].applicant_status = "Withdrawn"
+            break;
+          case "PEN":
+            response.data.results[i].applicant_status = "Pending"
+            break;
+        }
+      })
       this.setState({applicants: response.data.results})
     }).catch((error) => {
       console.log(error.response)
     })
     window.addEventListener('scroll', this.handleScroll);
   }
-
   handleScroll () {
     let scrollTop = window.scrollY;
     console.log(scrollTop)
@@ -150,13 +220,19 @@ class SchoolAdmin extends Component {
   }
 
   handleAccept(id){
-    console.log("Accept")
-    axios.put(GLOBALS.API_ROOT + '/api/applications/programs/'+id,{
+    axios.put(GLOBALS.API_ROOT + '/api/applications/programs/'+id+'/',{
       status: 'APP'
     },{
       headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
     }).then((response) => {
       console.log("Applicant was accepted")
+      let applicant = this.state.applicants.slice()
+      applicant.forEach(function (app,i){
+        if (app.uid == id ){
+          applicant[i].status = 'Approved'
+        }
+      })
+      this.setState({applicants: applicant})
     }).catch((error)=>{
       console.log(error.response.data);
     })
@@ -164,12 +240,19 @@ class SchoolAdmin extends Component {
   }
 
   handleWaitlist(id){
-    axios.put(GLOBALS.API_ROOT + '/api/applications/programs/'+id,{
+    axios.put(GLOBALS.API_ROOT + '/api/applications/programs/'+id+'/',{
       status: "WAI"
     },{
       headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
     }).then((response) => {
       console.log("Applicant is placed on waitlist")
+      let applicant = this.state.applicants.slice()
+      applicant.forEach(function (app,i){
+        if (app.uid == id ){
+          applicant[i].status = 'Waitlist'
+        }
+      })
+      this.setState({applicants: applicant})
     }).catch((error)=>{
       console.log(error.response.data);
     })
@@ -177,13 +260,19 @@ class SchoolAdmin extends Component {
   }
 
   handleReject(id){
-    console.log("Reject")
-    axios.put(GLOBALS.API_ROOT + '/api/applications/programs/'+id,{
+    axios.put(GLOBALS.API_ROOT + '/api/applications/programs/'+id+'/',{
       status: "REJ"
     },{
       headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
     }).then((response) => {
       console.log("Applicant was rejected")
+      let applicant = this.state.applicants.slice()
+      applicant.forEach(function (app,i){
+        if (app.uid == id ){
+          applicant[i].status = 'Reject'
+        }
+      })
+      this.setState({applicants: applicant})
     }).catch((error)=>{
       console.log(error.response.data);
     })
@@ -248,35 +337,34 @@ class SchoolAdmin extends Component {
                  <CardContent >
                      <h1>Applications</h1>
                      <Table>
-                         <TableHead>
-                             <TableRow>
-                                 <TableCell padding="none" >Program</TableCell>
-                                 <TableCell padding="none" >Applicant</TableCell>
-                                 <TableCell padding="none" >Date</TableCell>
-                                 <TableCell padding="none" >Status</TableCell>
-                                 <TableCell padding="none" >Action</TableCell>
-                             </TableRow>
-                         </TableHead>
+                      <EnhancedTableHead
+                        numSelected={this.state.selected.length}
+                        order={this.state.order}
+                        orderBy={this.state.orderBy}
+                        onRequestSort={this.handleRequestSort}
+                        rowCount={this.state.applicants.length}
+                      />
                          <TableBody>
-                            {this.state.applicants.map(row => (
-                                <TableRow key={row.id}>
-                                    <TableCell padding="none" size="medium">{row.program}</TableCell>
-                                    <TableCell padding="none" size="medium">{row.name}</TableCell>
-                                    <TableCell padding="none" size="medium">{row.date}</TableCell>
+                            {stableSort(this.state.applicants,getSorting(this.state.order, this.state.orderBy)).map((row) => (
+                                <TableRow key={row.uid}>
+                                    <TableCell padding="none" size="medium">{row.program.name}</TableCell>
+                                    <TableCell padding="none" size="medium">{row.user.email}</TableCell>
+                                    <TableCell padding="none" size="medium">{row.created.substring(0,10)}</TableCell>
+                                    <TableCell padding="none" size="medium">{row.applicant_status}</TableCell>
                                     <TableCell padding="none" size="medium">{row.status}</TableCell>
                                     <TableCell padding="none" size="medium">
                                     <MuiThemeProvider theme={greenbutton}>
-                                        <IconButton onClick={() => this.handleAccept(row.id)}>
+                                        <IconButton onClick={() => this.handleAccept(row.uid)}>
                                             <Check color="primary"/>
                                         </IconButton>
                                     </MuiThemeProvider>
                                     <MuiThemeProvider theme={bluebutton}>
-                                        <IconButton onClick={() => this.handleWaitlist(row.id)}>
+                                        <IconButton onClick={() => this.handleWaitlist(row.uid)}>
                                                 <People color="primary" />
                                         </IconButton>     
                                     </MuiThemeProvider>
                                     <MuiThemeProvider theme={redbutton}>
-                                        <IconButton onClick={() => this.handleReject(row.id)}>
+                                        <IconButton onClick={() => this.handleReject(row.uid)}>
                                                 <Close color="primary"/>
                                         </IconButton>
                                     </MuiThemeProvider>
@@ -452,5 +540,64 @@ class SideBar extends Component {
     );
   }
 }
+
+class EnhancedTableHead extends Component {
+  createSortHandler = property => event => {
+    this.props.onRequestSort(event, property);
+  };
+
+  render() {
+    const { order, orderBy } = this.props;
+
+    return (
+      <TableHead>
+        <TableRow>
+          {rows.map(
+            row => (
+              <TableCell
+                key={row.id}
+                align={row.numeric ? 'right' : 'left'}
+                padding={row.disablePadding ? 'none' : 'default'}
+                sortDirection={orderBy === row.id ? order : false}
+              >
+                <Tooltip
+                  title="Sort"
+                  placement={row.numeric ? 'bottom-end' : 'bottom-start'}
+                  enterDelay={300}
+                >
+                  <TableSortLabel
+                    active={orderBy === row.id}
+                    direction={order}
+                    onClick={this.createSortHandler(row.id)}
+                  >
+                    {row.label}
+                  </TableSortLabel>
+                </Tooltip>
+              </TableCell>
+            ),
+            this,
+          )}
+        </TableRow>
+      </TableHead>
+    );
+  }
+}
+
+const rows = [
+  { id: 'program', numeric: false, disablePadding: true, label: 'Program' },
+  { id: 'applicant', numeric: false, disablePadding: true, label: 'Applicant' },
+  { id: 'date', numeric: false, disablePadding: true, label: 'Date' },
+  { id: 'status', numeric: false, disablePadding: true, label: 'Status' },
+  { id: 'admin_status', numberic: false, disablePadding: true, label: 'Admin Status'},
+  { id: 'action', numeric: false, disablePadding: true, label: 'Action' }
+];
+
+EnhancedTableHead.propTypes = {
+  numSelected: PropTypes.number.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
+  order: PropTypes.string.isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
+};
 
 export default withRouter(SchoolAdmin);

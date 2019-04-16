@@ -62,6 +62,7 @@ urlpatterns = [
     url(r'^api/users/create/$', UserCreateView.as_view()),
     # View own profile
     url(r'^api/users/details/$', UserDetailView.as_view()),
+    url(r'^api/users/details/(?P<uid>\w+)/$', PublicUserDetailView.as_view()),
 
     # Institutions
     url(r'^api/institutions/$', InstitutionListView.as_view()),

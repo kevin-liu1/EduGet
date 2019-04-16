@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import EditEducation from './EditEducation'
+import EditInterest from './EditInterest'
 import axios from 'axios';
 import '../styles/App.css';
 
-class Summary extends Component {
+class Interest extends Component {
   constructor(props){
     super(props);
     this.state={
-        educationlevel: "",
-        school: "",
-        grade: ""
+        interest: "",
+        interestopen: false
     }
   }
 
@@ -26,9 +26,7 @@ class Summary extends Component {
       console.log(response);
       this.setState(
         {
-          educationlevel: response.data.education_level,
-          grade: response.data.grade,
-          school: response.data.school
+          interest: response.data.interest,
         }
       )
     })
@@ -41,24 +39,13 @@ class Summary extends Component {
     return (
 
       <div>
-        <EditEducation/>
-        <h1>Education</h1>
-        <h4>Education Level</h4>
-        {this.state.educationlevel}
-        <h4>School</h4>
-        {this.state.school}
-        <h4>Grade</h4>
-        {this.state.grade}
+        <EditInterest/>
+        <h1>Interests</h1>
+        {this.state.interest}
+
       </div>
     );
   }
 }
 
-
-const mapStateToProps = (state, props) => {
-  return {
-    user: state.user
-  }
-}
-
-export default connect(mapStateToProps)(Summary);
+export default (Interest);
