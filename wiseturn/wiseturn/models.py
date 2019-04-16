@@ -59,7 +59,7 @@ def hex_uuid():
 
 class WtModel(models.Model):
     '''
-    WtModel is the abstract ancestor class for all models. 
+    WtModel is the abstract ancestor class for all models.
     It defines __repr__ and __str__ methods which represents data in a user readable way.
     It defines an uid field which should be used to identify all objects in the front end
     '''
@@ -101,7 +101,7 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
             'Unselect this instead of deleting accounts.'
         ),
     )
-
+    summary = models.CharField(max_length=400, blank=True)
     zippostal = models.CharField(max_length=255, blank=True)
     phonenumber = models.IntegerField(null=True)
     city = models.CharField(max_length=255, blank=True)
@@ -112,7 +112,7 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
     school = models.CharField(max_length=255, blank=True)
 
     interest = models.CharField(max_length=255, blank=True)
-    
+
     USERNAME_FIELD = 'email'
     objects = WTUserManager()
 
