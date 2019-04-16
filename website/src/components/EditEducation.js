@@ -13,31 +13,36 @@ import Dialog from '@material-ui/core/Dialog';
 import CloseIcon from '@material-ui/icons/Close';
 import { connect } from 'react-redux';
 import { editEducation } from '../actions/userAction';
+import axios from 'axios'
 import '../styles/App.css'
 
 
 //options for selection
 const education = [
-{
-  value: 'SecondarySchool',
-  label: 'Secondary School',
-},
-{
-  value: 'UndergraduateDiploma',
-  label: 'Undergraduate Diploma',
-},
-{
-  value: 'UndergraduateDegree',
-  label: 'Undergraduate Degree',
-},
-{
-  value: 'Masters',
-  label: 'Masters',
-},
-{
-  value: 'PhD',
-  label: 'PhD',
-},
+  {
+    value: 'Middle School (Grade 6-8)',
+    label: 'Middle School (Grade 6-8)'
+  },
+  {
+    value: 'Secondary School (Grade 9-12) Diploma',
+    label: 'Secondary School (Grade 9-12) Diploma',
+  },
+  {
+    value: "Bachelor's Degree",
+    label: "Bachelor's Degree",
+  },
+  {
+    value: "Master's Degree",
+    label: "Master's Degree",
+  },
+  {
+    value: 'Doctoral Degree',
+    label: 'Doctoral Degree',
+  },
+  {
+    value:'',
+    label: "None"
+  }
 ];
 
 
@@ -57,26 +62,58 @@ class EditEducation extends Component {
   }
 
   //functions for user input profile information
+  componentDidMount(){
+    axios.get(
+      "http://localhost:8000/api/users/details/",
+      {
+        headers: { Authorization: "Token " + localStorage.getItem("token") }
+      })
+    .then((response) => {
+      console.log(response);
+      this.setState(
+        {
+          educationlevel: response.data.education_level,
+          grade: response.data.grade,
+          school: response.data.school
+        }
+      )
+    })
+    .catch((error) => {
+     console.log(error);
+   });
+  }
 
   handleClose(e){
     this.setState({
-      educationlevel:"",
-      grade:null,
-      school:"",
       educationOpen: false
     })
   }
   handleSave(e){
     e.preventDefault();
     this.props.editEducation(this.state.educationlevel, this.state.grade, this.state.school);
-    this.setState({
-      educationlevel:"",
-      grade:null,
-      school:"",
-      educationOpen: false
-      }
-    )
+
+      axios.put(
+        "http://localhost:8000/api/users/details/",
+        {
+          education_level: this.state.educationlevel,
+          grade: this.state.grade,
+          school: this.state.school
+
+        },
+        {
+          headers: { Authorization: "Token " + localStorage.getItem("token") }
+        })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+       console.log(error);
+     });
+
+     window.location.reload()
+
   }
+
   handleOpen(e){
     this.setState({
       educationOpen: true
@@ -106,7 +143,7 @@ class EditEducation extends Component {
         >
         <div className="dialog">
           <Card>
-            <IconButton color="inherit" aria-label="Close" className="closeEdit">
+            <IconButton color="inherit" aria-label="Close" className="closeEdit" onClick={this.handleClose}>
               <CloseIcon/>
             </IconButton>
             <CardHeader title="Edit Education"/>

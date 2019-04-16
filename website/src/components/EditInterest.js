@@ -15,7 +15,7 @@ import Dialog from '@material-ui/core/Dialog';
 import axios from 'axios'
 import '../styles/App.css';
 
-class EditSummary extends Component {
+class EditInterest extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -50,7 +50,7 @@ class EditSummary extends Component {
     axios.put(
       "http://localhost:8000/api/users/details/",
       {
-        summary: this.state.summaryField
+        interest: this.state.summaryField
 
       },
       {
@@ -93,12 +93,12 @@ class EditSummary extends Component {
             <IconButton color="inherit" aria-label="Close" className="closeEdit" onClick={this.handleClose}>
               <CloseIcon/>
             </IconButton>
-            <CardHeader title="Edit Summary" />
+            <CardHeader title="Edit Interest" />
             <Divider/>
             <MuiThemeProvider theme={theme}>
               <CardContent >
                   <TextField
-                    label="Summary"
+                    label="Interests"
                     multiline
                     onChange={this.handleChange}
                     fullWidth
@@ -131,4 +131,4 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(EditSummary);
+export default connect(mapStateToProps, mapActionsToProps)(EditInterest);

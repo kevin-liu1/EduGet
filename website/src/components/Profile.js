@@ -9,11 +9,46 @@ import Summary from './Summary'
 import Education from './Education'
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
+import EditProfile from './EditProfile'
+import Interest from './Interest'
+import axios from 'axios'
 import '../styles/App.css'
 
 class Profile extends Component {
   constructor(props){
     super(props);
+    this.state={
+      openeditprofile: 1,
+      summary:"",
+      education:"",
+      interest:"",
+      firstname:"",
+      lastname:""
+    }
+
+  }
+  componentDidMount(){
+    axios.get(
+      "http://localhost:8000/api/users/details/",
+      {
+        headers: { Authorization: "Token " + localStorage.getItem("token") }
+      })
+    .then((response) => {
+      console.log(response);
+      this.setState(
+        {
+          summary: response.data.summary,
+          education: response.data.education_level,
+          interest: response.data.interest,
+          firstname: response.data.first_name,
+          lastname: response.data.last_name
+        }
+      )
+
+    })
+    .catch((error) => {
+     console.log(error);
+   });
   }
 
   render() {
@@ -26,16 +61,19 @@ class Profile extends Component {
               <Card className="profile">
               <CardContent className="profileInfo">
                 <img className="profilePicture" src={profilepic} alt="profilepic"/>
-                <h3>Full Name</h3>
-                <Scrollspy items={ ['summary', 'education', 'experience'] } currentClassName="is-current">
+                <h3>{this.state.firstname} {this.state.lastname}</h3>
+                <Scrollspy items={ ['summary', 'education', 'interest'] } currentClassName="is-current">
                   <li>
                     <a href="#summary"><h4>Summary</h4></a>
+                    {this.state.summary}
                   </li>
                   <li>
                     <a href="#education"><h4>Education</h4></a>
+                    {this.state.education}
                   </li>
                   <li>
-                    <a href="#experience"><h4>Experience</h4></a>
+                    <a href="#interest"><h4>Interest</h4></a>
+                    {this.state.interest}
                   </li>
                 </Scrollspy>
               </CardContent>
@@ -45,6 +83,7 @@ class Profile extends Component {
               <Card >
               <CardContent className="profileContent">
                 <div>
+
                   <section id="summary" className="editSection">
                   <div>
                       <Summary/>
@@ -53,16 +92,20 @@ class Profile extends Component {
                   <section id="education" className="editSection">
                   <div>
                       <Education/>
+
                   </div>
                   </section>
-                  <section id="experience" className="editSection">
+
+                  <section id="interest" className="editSection">
+                      <Interest/>
+                  </section>
+                  <br/>
+                  <br/>
                   <div>
-                      <IconButton color="inherit" aria-label="Edit" className="editButton">
-                        <EditIcon/>
-                      </IconButton>
-                    <h1>Experience</h1>
+
+                      <EditProfile/>
+
                   </div>
-                  </section>
                 </div>
               </CardContent>
               </Card>
