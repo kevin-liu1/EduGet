@@ -17,7 +17,7 @@ from rest_framework.views import APIView
 from drf_yasg.utils import swagger_serializer_method
 from wiseturn.views import InstitutionSerializer
 from rest_framework.authtoken.models import Token
-
+from django.shortcuts import get_object_or_404
 
 class CustomObtainAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
@@ -33,7 +33,7 @@ class WTUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = WTUser
         fields = ('email', 'first_name', 'last_name', 'zippostal', 'phonenumber', 'grade', 'interest', 'summary',
-                  'city', 'birthday', 'country_of_origin', 'education_level', 'school', 'password', 'admin_institution')
+                  'city', 'birthday', 'country_of_origin', 'education_level', 'school', 'password', 'admin_institution', 'uid')
         read_only_fields = ('uid', 'admin_institution')
         extra_kwargs = {'password': {'write_only': True}}
 

@@ -3,9 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import Header from '../Header.js'
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import InputBase from '@material-ui/core/InputBase';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -15,7 +13,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
 import green from '@material-ui/core/colors/green';
@@ -73,6 +70,8 @@ function stableSort(array, cmp) {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
+  console.log("STABLE SORT")
+  console.log(stabilizedThis.map(el => el[0]))
   return stabilizedThis.map(el => el[0]);
 }
 
@@ -173,13 +172,45 @@ class SchoolAdmin extends Component {
       headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
     }).then((response) => {
       console.log(response.data.results)
+      response.data.results.forEach(function (app, i){
+        switch(response.data.results[i].status){
+          case "SUB":
+            response.data.results[i].status = "Submitted"
+            break;
+          case "PEN":
+            response.data.results[i].status = "Pending"
+            break;
+          case "REV":
+            response.data.results[i].status = "Under Review"
+            break;
+          case "APP":
+            response.data.results[i].status = "Approved"
+            break;
+          case "WAI":
+            response.data.results[i].status = "Waitlist"
+            break;
+          case "REJ":
+            response.data.results[i].status = "Reject"
+            break;
+        }
+        switch(response.data.results[i].applicant_status){
+          case "ACC":
+            response.data.results[i].applicant_status = "Accepted"
+            break;
+          case "WIT":
+            response.data.results[i].applicant_status = "Withdrawn"
+            break;
+          case "PEN":
+            response.data.results[i].applicant_status = "Pending"
+            break;
+        }
+      })
       this.setState({applicants: response.data.results})
     }).catch((error) => {
       console.log(error.response)
     })
     window.addEventListener('scroll', this.handleScroll);
   }
-
   handleScroll () {
     let scrollTop = window.scrollY;
     console.log(scrollTop)
@@ -189,7 +220,6 @@ class SchoolAdmin extends Component {
   }
 
   handleAccept(id){
-    console.log("Accept")
     axios.put(GLOBALS.API_ROOT + '/api/applications/programs/'+id+'/',{
       status: 'APP'
     },{
@@ -230,7 +260,6 @@ class SchoolAdmin extends Component {
   }
 
   handleReject(id){
-    console.log("Reject")
     axios.put(GLOBALS.API_ROOT + '/api/applications/programs/'+id+'/',{
       status: "REJ"
     },{
@@ -316,14 +345,14 @@ class SchoolAdmin extends Component {
                         rowCount={this.state.applicants.length}
                       />
                          <TableBody>
-                            {stableSort(this.state.applicants,getSorting(this.state.order, this.state.orderBy)).map(row => (
+                            {stableSort(this.state.applicants,getSorting(this.state.order, this.state.orderBy)).map((row) => (
                                 <TableRow key={row.uid}>
-                                    <TableCell padding="none" size="medium">{row.program}</TableCell>
-                                    <TableCell padding="none" size="medium">{row.name}</TableCell>
-                                    <TableCell padding="none" size="medium">{row.date}</TableCell>
+                                    <TableCell padding="none" size="medium">{row.program.name}</TableCell>
+                                    <TableCell padding="none" size="medium">{row.user.email}</TableCell>
+                                    <TableCell padding="none" size="medium">{row.created.substring(0,10)}</TableCell>
                                     <TableCell padding="none" size="medium">{row.applicant_status}</TableCell>
                                     <TableCell padding="none" size="medium">{row.status}</TableCell>
-                                    <TableCell padding="none" size="large">
+                                    <TableCell padding="none" size="medium">
                                     <MuiThemeProvider theme={greenbutton}>
                                         <IconButton onClick={() => this.handleAccept(row.uid)}>
                                             <Check color="primary"/>
@@ -556,17 +585,16 @@ class EnhancedTableHead extends Component {
 
 const rows = [
   { id: 'program', numeric: false, disablePadding: true, label: 'Program' },
-  { id: 'applicant', numeric: false, disablePadding: false, label: 'Applicant' },
-  { id: 'date', numeric: false, disablePadding: false, label: 'Date' },
-  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
-  { id: 'action', numeric: false, disablePadding: false, label: 'Action' },
-  { id: 'admin_status', numberic: false, disablePadding: false, label: 'Admin Status'}
+  { id: 'applicant', numeric: false, disablePadding: true, label: 'Applicant' },
+  { id: 'date', numeric: false, disablePadding: true, label: 'Date' },
+  { id: 'status', numeric: false, disablePadding: true, label: 'Status' },
+  { id: 'admin_status', numberic: false, disablePadding: true, label: 'Admin Status'},
+  { id: 'action', numeric: false, disablePadding: true, label: 'Action' }
 ];
 
 EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
