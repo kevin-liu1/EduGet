@@ -31,8 +31,10 @@ class PublicProfile extends Component {
 
   }
   componentDidMount(){
+    const { match } = this.props;
+    const id = match.params.uid;
     axios.get(
-      "http://localhost:8000/api/users/details/",
+      "http://localhost:8000/api/users/details/"+id+"/",
       {
         headers: { Authorization: "Token " + localStorage.getItem("token") }
       })
