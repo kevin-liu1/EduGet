@@ -7,6 +7,7 @@ import '../styles/App.css';
 import Fab from '@material-ui/core/Fab';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
 
 class Main extends Component {
   constructor(props){
@@ -28,9 +29,16 @@ class Main extends Component {
         primary: { main: '#4384AB' }, // change color of AppBar
       }
     });
+    const user_info = JSON.parse(localStorage.getItem('user_info'));
+    const token = localStorage.getItem('token');
+
     const privatePage = (
       <div>
         <Header/>
+        {
+          user_info && user_info.admin_institution ? <Redirect to={`/school-admin`}/> :
+          <Redirect to="/programs/recommended"/>
+        }
         <p>Feed</p>
       </div>
     )
