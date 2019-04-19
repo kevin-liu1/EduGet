@@ -54,71 +54,115 @@ class MyApplications extends Component {
       applications: []
     };
     this.handleScroll = this.handleScroll.bind(this);
+    this.handleAccept = this.handleAccept.bind(this);
+    this.handleRejct = this.handleReject.bind(this);
+    this.renderActions = this.renderActions.bind(this);
   }
 
-  showChoices(choices) {
-    switch (choices) {
-      case "SUB":
-        return (
+  handleAccept(id){
+    axios.put(GLOBALS.API_ROOT + '/api/applications/programs/'+id+'/',{
+      applicant_status: 'ACC'
+    },{
+      headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
+    }).then((response) => {
+      console.log("Applicant accepted offer")
+      let applicant = this.state.applications.slice()
+      applicant.forEach(function (app,i){
+        if (app.uid == id ){
+          applicant[i].applicant_status = 'Accepted'
+        }
+      })
+      this.setState({applicants: applicant})
+    }).catch((error)=>{
+      console.log(error.response);
+    })
+  }
+
+  handleReject(id){
+    axios.put(GLOBALS.API_ROOT + '/api/applications/programs/'+id+'/',{
+      applicant_status: 'WIT'
+    },{
+      headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
+    }).then((response) => {
+      console.log("Applicant withdrew")
+      let applicant = this.state.applications.slice()
+      applicant.forEach(function (app,i){
+        if (app.uid == id ){
+          applicant[i].applicant_status = 'Withdrawn'
+        }
+      })
+      this.setState({applicants: applicant})
+    }).catch((error)=>{
+      console.log(error.response);
+    })
+  }
+
+  renderActions(row){
+    if (row.status == "Approved"){
+      return(
           <TableCell padding="none" size="medium">
-            Submitted
-          </TableCell>
-        );
-        break;
-      case "PEN":
-        return (
-          <TableCell padding="none" size="medium">
-            Pending
-          </TableCell>
-        );
-        break;
-      case "APP":
-        return (
-          <TableCell padding="none" size="medium">
-            Approved
-          </TableCell>
-        );
-        break;
-      case "WAI":
-        return (
-          <TableCell padding="none" size="medium">
-            Waitlisted
-          </TableCell>
-        );
-        break;
-      case "REJ":
-        return (
-          <TableCell padding="none" size="medium">
-            Rejected
-          </TableCell>
-        );
-        break;
-      case "WIT":
-        return (
-          <TableCell padding="none" size="medium">
-            WithDrawn
-          </TableCell>
-        );
-        break;
-      case "ACC":
-        return (
-          <TableCell padding="none" size="medium">
-            Accepted
-          </TableCell>
-        );
-        break;
+            <MuiThemeProvider theme={greenbutton}>
+              <IconButton
+                onClick={() => this.handleAccept(row.uid)}
+              >
+                <Check color="primary" />
+              </IconButton>
+            </MuiThemeProvider>
+            <MuiThemeProvider theme={redbutton}>
+              <IconButton
+                onClick={() => this.handleReject(row.uid)}
+              >
+                <Close color="primary" />
+              </IconButton>
+            </MuiThemeProvider>
+          </TableCell> 
+      )
+    }
+    else{
+      return(
+        <TableCell>
+          <p>None</p>
+        </TableCell>
+      )
     }
   }
-
   //update state on load component
   componentDidMount() {
-    const { match } = this.props;
-    const id = match.params.uid;
     axios
       .get(GLOBALS.API_ROOT + "/api/applications/programs/", {
         headers: { Authorization: "Token " + localStorage.getItem("token") }
       })
       .then(response => {
+        response.data.results.forEach(function (app, i){
+          switch (response.data.results[i].status) {
+            case "SUB":
+              response.data.results[i].status = "Submitted"
+              break;
+            case "PEN":
+              response.data.results[i].status = "Pending"
+              break;
+            case "APP":
+              response.data.results[i].status = "Approved"
+              break;
+            case "WAI":
+              response.data.results[i].status = "Waitlisted"
+              break;
+            case "REJ":
+              response.data.results[i].status = "Rejected"
+              break;
+          }
+          switch(response.data.results[i].applicant_status){
+            case "ACC":
+              response.data.results[i].applicant_status = "Accepted"
+              break;
+            case "WIT":
+              response.data.results[i].applicant_status = "Withdrawn"
+              break;
+            case "PEN":
+              response.data.results[i].applicant_status = "Pending"
+              break;
+          }
+        })
         this.setState({ applications: response.data.results });
       })
       .catch(error => {
@@ -129,7 +173,6 @@ class MyApplications extends Component {
 
   handleScroll() {
     let scrollTop = window.scrollY;
-    console.log(scrollTop);
     this.setState({
       marginTop: scrollTop + "px"
     });
@@ -151,16 +194,17 @@ class MyApplications extends Component {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>School</TableCell>
-                    <TableCell>Program</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Actions</TableCell>
+                    <TableCell padding="none" size="medium">School</TableCell>
+                    <TableCell padding="none" size="medium">Program</TableCell>
+                    <TableCell padding="none" size="medium">Date</TableCell>
+                    <TableCell padding="none" size="medium">Status</TableCell>
+                    <TableCell padding="none" size="medium">Applicant Action</TableCell>
+                    <TableCell padding="none" size="medium">Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {this.state.applications.map(row => (
-                    <TableRow key={row.id}>
+                    <TableRow key={row.uid}>
                       <TableCell padding="none" size="medium">
                         {row.program.institution.name}
                       </TableCell>
@@ -171,31 +215,12 @@ class MyApplications extends Component {
                         {row.created.substring(0, 10)}
                       </TableCell>
                       <TableCell padding="none" size="medium">
-                        {this.showChoices(row.status)}
+                        {row.status}
                       </TableCell>
                       <TableCell padding="none" size="medium">
-                        <MuiThemeProvider theme={greenbutton}>
-                          <IconButton
-                            // onClick={() => this.handleAccept(row.uid)}
-                          >
-                            <Check color="primary" />
-                          </IconButton>
-                        </MuiThemeProvider>
-                        {/* <MuiThemeProvider theme={bluebutton}>
-                          <IconButton
-                            onClick={() => this.handleWaitlist(row.uid)}
-                          >
-                            <People color="primary" />
-                          </IconButton>
-                        </MuiThemeProvider> */}
-                        <MuiThemeProvider theme={redbutton}>
-                          <IconButton
-                            // onClick={() => this.handleReject(row.uid)}
-                          >
-                            <Close color="primary" />
-                          </IconButton>
-                        </MuiThemeProvider>
+                        {row.applicant_status}
                       </TableCell>
+                      {this.renderActions(row)}
                     </TableRow>
                   ))}
                 </TableBody>

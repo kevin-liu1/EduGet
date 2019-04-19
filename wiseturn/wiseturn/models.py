@@ -301,7 +301,7 @@ class Application(WtModel):
     APPLICANT_CHOICES = (
         (ACCEPT, 'Accepted Offer'),
         (WITHDRAWN, 'Withdrawn'),
-        (PENDING, 'PENDING')
+        (PENDING, 'Pending')
     )
 
     applicant_status = models.CharField(

@@ -70,8 +70,6 @@ function stableSort(array, cmp) {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  console.log("STABLE SORT")
-  console.log(stabilizedThis.map(el => el[0]))
   return stabilizedThis.map(el => el[0]);
 }
 
@@ -152,7 +150,6 @@ class SchoolAdmin extends Component {
     axios.get(GLOBALS.API_ROOT + '/api/institutions/'+id,{
       headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
     }).then((response) => {
-      console.log(response.data)
       this.setState({
           info: response.data
         });
@@ -171,7 +168,6 @@ class SchoolAdmin extends Component {
     axios.get(GLOBALS.API_ROOT + '/api/institution-admin/applications',{
       headers: {'Authorization': 'Token ' + localStorage.getItem('token')}
     }).then((response) => {
-      console.log(response.data.results)
       response.data.results.forEach(function (app, i){
         switch(response.data.results[i].status){
           case "SUB":
@@ -213,7 +209,6 @@ class SchoolAdmin extends Component {
   }
   handleScroll () {
     let scrollTop = window.scrollY;
-    console.log(scrollTop)
     this.setState({
       marginTop: scrollTop + 'px',
     })
@@ -236,7 +231,6 @@ class SchoolAdmin extends Component {
     }).catch((error)=>{
       console.log(error.response.data);
     })
-    console.log(id)
   }
 
   handleWaitlist(id){
@@ -249,14 +243,13 @@ class SchoolAdmin extends Component {
       let applicant = this.state.applicants.slice()
       applicant.forEach(function (app,i){
         if (app.uid == id ){
-          applicant[i].status = 'Waitlist'
+          applicant[i].status = 'Waitlisted'
         }
       })
       this.setState({applicants: applicant})
     }).catch((error)=>{
       console.log(error.response.data);
     })
-    console.log(id)
   }
 
   handleReject(id){
@@ -269,14 +262,13 @@ class SchoolAdmin extends Component {
       let applicant = this.state.applicants.slice()
       applicant.forEach(function (app,i){
         if (app.uid == id ){
-          applicant[i].status = 'Reject'
+          applicant[i].status = 'Rejected'
         }
       })
       this.setState({applicants: applicant})
     }).catch((error)=>{
       console.log(error.response.data);
     })
-    console.log(id)
   }
 
   render() {

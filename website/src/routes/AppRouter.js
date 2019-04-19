@@ -48,7 +48,7 @@ export const AppRouter = () => (
         <PublicRoute path="/programs" component={Program} exact={true}/>
         <PublicRoute path="/programs/recommended" component={ProgramRecommended} exact={true}/>
         <PublicRoute path="/programs/:uid" component={ProgramPage} exact={true} />
-        <PublicRoute path="/applications" component={Applications} exact={true}/>{/* todo make it private after finish */}
+        <PrivateRoute path="/applications" component={Applications} exact={true}/>{/* todo make it private after finish */}
         <AdminRoute path="/school-admin/" component={SchoolAdmin} exact={true} />
         <AdminRoute path="/profile/:uid" component={PublicProfile} exact={true} />
         <PublicRoute component={Nomatch} exact={true} />
