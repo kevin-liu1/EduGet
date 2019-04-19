@@ -53,7 +53,7 @@ class MyApplications extends Component {
     this.state = {
       applications: []
     };
-    this.handleScroll = this.handleScroll.bind();
+    this.handleScroll = this.handleScroll.bind(this);
   }
 
   showChoices(choices) {
