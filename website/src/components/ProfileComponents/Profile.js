@@ -126,13 +126,13 @@ class Profile extends Component {
               <Card className="profile">
               <CardContent className="profileInfo">
                 <input
-                    id="contained-button-file"
+                    id="contained-button-picture"
                     multiple
                     type="file"
                     style={{display: 'none'}}
                     onChange={this.picUploadHandler}
                 />
-                <label htmlFor="contained-button-file">
+                <label htmlFor="contained-button-picture">
                 <img 
                   className="profilePicture" 
                   src={this.state.profile_pic == null ? profilepic : this.state.profile_pic} 
