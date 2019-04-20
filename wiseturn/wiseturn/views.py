@@ -64,6 +64,15 @@ class ProgramSerializer(serializers.ModelSerializer):
 
     institution = InstitutionSerializer(read_only=True) 
 
+    average_applicant_grade = serializers.SerializerMethodField()
+
+    @swagger_serializer_method(serializer_or_field=serializers.IntegerField)
+    def get_average_applicant_grade(self, instance):
+        l = [app.user.grade for app in instance.programapplication_set.prefetch_related('user')]
+        if l:
+            return sum(l) / len(l) 
+
+
 class ProgramField(serializers.SlugRelatedField):
     def to_representation(self, value):
         serializer = ProgramSerializer(value)

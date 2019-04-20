@@ -82,6 +82,9 @@ class WtModel(models.Model):
     def classname(self):
         return self.__class__.__name__
 
+def wtuser_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user/{0}/{1}'.format(instance.email, filename)
 
 class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
     email = models.EmailField(unique=True, blank=False)
@@ -112,6 +115,9 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
     school = models.CharField(max_length=255, blank=True)
 
     interest = models.CharField(max_length=255, blank=True)
+
+    transcript = models.FileField(upload_to=wtuser_directory_path, null=True)
+    resume = models.FileField(upload_to=wtuser_directory_path, null=True)
 
     USERNAME_FIELD = 'email'
     objects = WTUserManager()
