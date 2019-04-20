@@ -47,13 +47,10 @@ class SignIn extends Component {
     }).then((response) => {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user_info', JSON.stringify(response.data.user_info));
-      self.setState({user_info: response.data.user_info});
-      self.setState({auth: true});
-      this.props.login(this.state.auth);
+      self.setState({user_info: response.data.user_info, auth: true});
     }).catch((error)=>{
-      self.setState({auth: false});
-      self.setState({msg: error.response.data[Object.keys(error.response.data)[0]]});
-      this.props.login(this.state.auth);
+      console.log(error);
+      self.setState({auth: false, msg: error.response.data[Object.keys(error.response.data)[0]]});
     })
   }
 
@@ -73,11 +70,11 @@ class SignIn extends Component {
     }
     return (
       <div className="signInContainer">
-        { token ? (
+        {/* { token ? (
           user_info && user_info.admin_institution ? 
             <Redirect to="/school-admin" /> :
             <Redirect to="/programs/recommended" />
-        ) : "" }
+        ) : "" } */}
         <Header/>
         <div className="body-wrapper">
         <div className="signInCard">

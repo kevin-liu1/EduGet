@@ -8,7 +8,7 @@ export const AdminRoute = ({
   ...rest
   }) => (
     <Route {...rest} component={ (props) => (
-      user != null ? (
+      localStorage.getItem('user_info') && JSON.parse(localStorage.getItem('user_info')).admin_institution != null ? (
           <Component {...props}/>
       ) : (
         <Redirect to='/login' />
@@ -16,5 +16,4 @@ export const AdminRoute = ({
     )} />
 )
 
-var user = localStorage.getItem('user_info')
 export default AdminRoute;
