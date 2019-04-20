@@ -118,6 +118,7 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
 
     transcript = models.FileField(upload_to=wtuser_directory_path, null=True)
     resume = models.FileField(upload_to=wtuser_directory_path, null=True)
+    profilepic = models.ImageField(upload_to=wtuser_directory_path, null=True)
 
     USERNAME_FIELD = 'email'
     objects = WTUserManager()

@@ -8,7 +8,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wiseturn', '0015_merge_20190416_1840'),
+        ('wiseturn', '0015_merge_20190420_0328'),
         ('wiseturn', '0016_auto_20190420_0329'),
     ]
 

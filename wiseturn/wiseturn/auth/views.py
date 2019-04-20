@@ -33,7 +33,8 @@ class WTUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = WTUser
         fields = ('email', 'first_name', 'last_name', 'zippostal', 'phonenumber', 'grade', 'interest', 'summary',
-                  'city', 'birthday', 'country_of_origin', 'education_level', 'school', 'password', 'admin_institution', 'uid')
+                  'city', 'birthday', 'country_of_origin', 'education_level', 'school', 'password', 'admin_institution', 'uid',
+                  'transcript', 'resume', 'profilepic')
         read_only_fields = ('uid', 'admin_institution')
         extra_kwargs = {'password': {'write_only': True}}
 

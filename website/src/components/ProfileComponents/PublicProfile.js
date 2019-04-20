@@ -4,7 +4,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Header from '../Header';
 import Scrollspy from 'react-scrollspy';
 import Grid from '@material-ui/core/Grid';
-import profilepic from '../../assets/profilepic.jpg'
+import profilepic from '../../assets/profilepic.png'
 import axios from 'axios'
 import GLOBALS from "../../config/common";
 import '../../styles/App.css'
@@ -14,15 +14,17 @@ class PublicProfile extends Component {
     super(props);
     this.state={
       openeditprofile: 1,
-      summary:"",
-      education:"",
-      school:"",
-      grade:"",
-      interest:"",
-      firstname:"",
-      lastname:"",
-      interest:"",
-      email:""
+      summary: "",
+      education: "",
+      school: "",
+      grade: "",
+      interest: "",
+      firstname: "",
+      lastname: "",
+      interest: "",
+      email: "",
+      transcript: "",
+      profile_pic: null,
     }
 
   }
@@ -46,7 +48,9 @@ class PublicProfile extends Component {
           interest: response.data.interest,
           school: response.data.school,
           grade: response.data.grade,
-          email: response.data.email
+          email: response.data.email,
+          transcript: response.data.transcript,
+          profile_pic: response.data.profilepic
         }
       )
 
@@ -65,7 +69,11 @@ class PublicProfile extends Component {
             <Grid item xs={3}>
               <Card className="profile">
               <CardContent className="profileInfo">
-                <img className="profilePicture" src={profilepic} alt="profilepic"/>
+                <img 
+                  className="profilePicture" 
+                  src={this.state.profile_pic == null ? profilepic : this.state.profile_pic} 
+                  alt="profilepic"
+                />
                 <h3>{this.state.firstname} {this.state.lastname}</h3>
                 <p><b>Email:</b> {this.state.email}</p>
                 <Scrollspy items={ ['summary', 'education', 'interest'] } currentClassName="is-current">
@@ -77,6 +85,9 @@ class PublicProfile extends Component {
                   </li>
                   <li>
                     <a href="#interest"><h4>Interest</h4></a>
+                  </li>
+                  <li>
+                    <a href="#documents"><h4>Transcript</h4></a>
                   </li>
                 </Scrollspy>
               </CardContent>
@@ -115,7 +126,12 @@ class PublicProfile extends Component {
                     <h1>Interests</h1>
                     {this.state.interest}
                   </section>
-
+                  <section id="documents" className="editSection">
+                  <h2>Transcript</h2>
+                    {this.state.transcript != null ? <a href={this.state.transcript}>View Transcript</a> :
+                      <p></p>
+                    }
+                  </section>
                 </div>
               </CardContent>
               </Card>
