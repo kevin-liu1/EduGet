@@ -14,7 +14,7 @@ import '../../styles/App.css'
 import GLOBALS from "../../config/common";
 import { connect } from 'react-redux';
 import Divider from '@material-ui/core/Divider';
-
+import Button from '@material-ui/core/Button';
 
 class Profile extends Component {
   constructor(props){
@@ -94,7 +94,9 @@ class Profile extends Component {
               <Card >
               <CardContent className="profileContent">
                 <div>
-
+                  <div>
+                    <CreateProfile/>
+                  </div>
                   <section id="summary" className="editSection">
                   <div>
                       <Summary/>
@@ -112,10 +114,18 @@ class Profile extends Component {
                   </section>
                   <br/>
                   <br/>
-                  <div>
-                      <CreateProfile/>
-                  </div>
-                </div>
+                  <input
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                    style={{display: 'none'}}
+                  />
+                  <label htmlFor="contained-button-file">
+                    <Button variant="contained" component="span">
+                      Upload Documents
+                    </Button>
+                  </label>
+              </div>
               </CardContent>
               </Card>
             </Grid>
