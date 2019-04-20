@@ -110,7 +110,10 @@ class ProgramPage extends Component {
                       __html: this.state.info.description
                     }}
                   />
-
+                  {this.state.info.average_applicant_grade ?
+                    <p><b>Average Grade: </b> {this.state.info.average_applicant_grade}</p> :
+                    <p></p>
+                  }
                   <Button
                     variant="contained"
                     color="primary"

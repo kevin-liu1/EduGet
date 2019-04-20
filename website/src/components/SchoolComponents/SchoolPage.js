@@ -66,6 +66,10 @@ class SchoolPage extends Component {
                 className="program-description"
                 dangerouslySetInnerHTML={{ __html: program.description }}
               />
+              {program.average_applicant_grade ?
+                <p><b>Average Grade: </b> {program.average_applicant_grade}</p> :
+                <p></p>
+              }
               <Button
                 variant="contained"
                 color="primary"
