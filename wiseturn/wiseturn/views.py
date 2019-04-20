@@ -68,7 +68,7 @@ class ProgramSerializer(serializers.ModelSerializer):
 
     @swagger_serializer_method(serializer_or_field=serializers.IntegerField)
     def get_average_applicant_grade(self, instance):
-        l = [app.user.grade for app in instance.programapplication_set.prefetch_related('user')]
+        l = [app.user.grade for app in instance.programapplication_set.prefetch_related('user') if app.user.grade]
         if l:
             return sum(l) / len(l) 
 
