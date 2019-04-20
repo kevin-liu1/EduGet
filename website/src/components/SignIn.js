@@ -70,11 +70,11 @@ class SignIn extends Component {
     }
     return (
       <div className="signInContainer">
-        {/* { token ? (
+        { token ? (
           user_info && user_info.admin_institution ? 
             <Redirect to="/school-admin" /> :
             <Redirect to="/programs/recommended" />
-        ) : "" } */}
+        ) : "" }
         <Header/>
         <div className="body-wrapper">
         <div className="signInCard">
