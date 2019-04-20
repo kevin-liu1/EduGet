@@ -1,35 +1,36 @@
 import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Header from './Header';
+import Header from '../Header';
 import Scrollspy from 'react-scrollspy';
 import Grid from '@material-ui/core/Grid';
-import profilepic from '../assets/profilepic.jpg'
-import Summary from './Summary'
-import Education from './Education'
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import EditProfile from './EditProfile'
-import Interest from './Interest'
+import profilepic from '../../assets/profilepic.jpg'
 import axios from 'axios'
-import '../styles/App.css'
+import GLOBALS from "../../config/common";
+import '../../styles/App.css'
 
-class Profile extends Component {
+class PublicProfile extends Component {
   constructor(props){
     super(props);
     this.state={
       openeditprofile: 1,
       summary:"",
       education:"",
+      school:"",
+      grade:"",
       interest:"",
       firstname:"",
-      lastname:""
+      lastname:"",
+      interest:"",
+      email:""
     }
 
   }
   componentDidMount(){
+    const { match } = this.props;
+    const id = match.params.uid;
     axios.get(
-      "http://localhost:8000/api/users/details/",
+      GLOBALS.API_ROOT + "/api/users/details/"+id+"/",
       {
         headers: { Authorization: "Token " + localStorage.getItem("token") }
       })
@@ -41,7 +42,11 @@ class Profile extends Component {
           education: response.data.education_level,
           interest: response.data.interest,
           firstname: response.data.first_name,
-          lastname: response.data.last_name
+          lastname: response.data.last_name,
+          interest: response.data.interest,
+          school: response.data.school,
+          grade: response.data.grade,
+          email: response.data.email
         }
       )
 
@@ -62,18 +67,16 @@ class Profile extends Component {
               <CardContent className="profileInfo">
                 <img className="profilePicture" src={profilepic} alt="profilepic"/>
                 <h3>{this.state.firstname} {this.state.lastname}</h3>
+                <p><b>Email:</b> {this.state.email}</p>
                 <Scrollspy items={ ['summary', 'education', 'interest'] } currentClassName="is-current">
                   <li>
                     <a href="#summary"><h4>Summary</h4></a>
-                    {this.state.summary}
                   </li>
                   <li>
                     <a href="#education"><h4>Education</h4></a>
-                    {this.state.education}
                   </li>
                   <li>
                     <a href="#interest"><h4>Interest</h4></a>
-                    {this.state.interest}
                   </li>
                 </Scrollspy>
               </CardContent>
@@ -86,26 +89,33 @@ class Profile extends Component {
 
                   <section id="summary" className="editSection">
                   <div>
-                      <Summary/>
+                      <h1>Summary</h1>
+                        <p>
+                          {this.state.summary}
+                        </p>
                   </div>
                   </section>
                   <section id="education" className="editSection">
                   <div>
-                      <Education/>
+                  <div>
+
+                    <h1>Education</h1>
+                    <h4>Education Level</h4>
+                    {this.state.education}
+                    <h4>School</h4>
+                    {this.state.school}
+                    <h4>Grade</h4>
+                    {this.state.grade}
+                  </div>
 
                   </div>
                   </section>
 
                   <section id="interest" className="editSection">
-                      <Interest/>
+                    <h1>Interests</h1>
+                    {this.state.interest}
                   </section>
-                  <br/>
-                  <br/>
-                  <div>
 
-                      <EditProfile/>
-
-                  </div>
                 </div>
               </CardContent>
               </Card>
@@ -117,4 +127,4 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+export default PublicProfile;

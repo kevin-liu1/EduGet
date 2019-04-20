@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Header from './Header'
-import Divider from '@material-ui/core/Divider';
-import GLOBALS from '../config/common';
+import GLOBALS from '../../config/common';
 import axios from 'axios';
-import '../styles/App.css'
-import '../styles/CreateProfile.css'
+import { editProfile, editInterest, editEducation } from '../../actions/userAction';
+import { connect } from 'react-redux';
+import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import '../../styles/App.css'
+import '../../styles/CreateProfile.css'
 
 //options for selection
 
@@ -68,7 +66,6 @@ const education = [
   }
 ];
 
-
 const gradingscheme = [
   {
     value: 'letter',
@@ -82,17 +79,15 @@ const gradingscheme = [
     value: 'number10',
     label: 'Number Scale: 0-10'
   }
-
 ];
-
 
 class CreateProfile extends Component {
   constructor(props){
     super(props);
     this.state={
+      createProfileOpen: false,
       page: 0,
       progressbar:0,
-
       firstname:"",
       lastname:"",
       zippostal:"",
@@ -100,29 +95,24 @@ class CreateProfile extends Component {
       city:"",
       countryoforigin: "",
       birthday:"",
-
       educationlevel:"",
       gradingscheme:"",
       grade:null,
       school:"",
-
-      interest:""
-
-
-
+      interest:"",
 
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.nextStep = this.nextStep.bind(this);
     this.previousStep = this.previousStep.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
   }
 
   componentDidMount(){
-    console.log("hello")
-
-
     axios.get(
-      "http://localhost:8000/api/users/details/",
+      GLOBALS.API_ROOT + "/api/users/details/",
       {
         headers: { Authorization: "Token " + localStorage.getItem("token") }
       })
@@ -145,19 +135,41 @@ class CreateProfile extends Component {
 
         }
       )
+      if (this.state.educationlevel=="" || this.state.school ==""){
+        this.setState({createProfileOpen: true})
+      }
+      else {
+        this.setState({createProfileOpen:false})
+      }
     })
     .catch((error) => {
      console.log(error);
    });
   }
 
+  handleClose(e){
+    this.setState({
+      createProfileOpen: false
+    })
+  }
+
+  handleSave(e){
+    e.preventDefault();
+    this.setState({
+      createProfileOpen: false
+      }
+    )
+  }
+  handleOpen(e){
+    this.setState({
+      createProfileOpen: true
+    })
+  }
 
   handleSubmit(e){
     e.preventDefault();
-    console.log("hello")
-
     axios.put(
-      "http://localhost:8000/api/users/details/",
+      GLOBALS.API_ROOT + "/api/users/details/",
       {
         first_name:this.state.firstname,
         last_name:this.state.lastname,
@@ -175,11 +187,17 @@ class CreateProfile extends Component {
       {
         headers: { Authorization: "Token " + localStorage.getItem("token") }
       })
-    .then(function (response) {
-    console.log(response);
-
+    .then((response) => {
+      console.log(response);
+      this.setState({
+        createProfileOpen: false
+      })
+      this.props.editProfile(this.state.firstname, this.state.lastname, this.state.phonenumber,
+        this.state.city, this.state.countryoforigin, this.state.age)
+      this.props.editInterest(this.state.interest)
+      this.props.editEducation(this.state.educationlevel, this.state.grade, this.state.school)
     })
-    .catch(function (error) {
+    .catch((error) => {
      console.log(error);
    });
   }
@@ -213,18 +231,12 @@ class CreateProfile extends Component {
     this.setState({})
   }
 
-
-
-
   render() {
     const theme = createMuiTheme({
       palette: {
         primary: { main: '#4384AB' }, // change color of AppBar
       }
     });
-    const { selectedDate } = this.state;
-    const { classes } = this.props;
-
     var renderMsg = () => {
       switch(this.state.page){
         case 0:
@@ -288,8 +300,6 @@ class CreateProfile extends Component {
 
              <TextField className="profileSpacing" label="Birthday" autoComplete="no"
             fullWidth value={this.state.age} type="date" InputLabelProps={{ shrink: true }} margin="normal" onChange={this.handleChange('birthday')}/>
-
-
             </form>
             <p/>
 
@@ -392,9 +402,7 @@ class CreateProfile extends Component {
               <p>Just one last step</p>
               <TextField className="profileSpacing" label="What field are you interested in" autoComplete="no"
                fullWidth value={this.state.interest} onChange={this.handleChange('interest')}/>
-
                <p/>
-
               <Grid
                 container
                 direction="row"
@@ -417,10 +425,24 @@ class CreateProfile extends Component {
     }
     return (
       <div>
+        <MuiThemeProvider theme={theme}>
+          <Button variant="contained" color="primary" aria-label="Edit" className="closeEdit" onClick={this.handleOpen}>
+              Edit Profile
+          </Button>
+        </MuiThemeProvider>
+        <Dialog
+            onClose={this.handleClose}
+            open={this.state.createProfileOpen}
+            onExiting={this.handleClose}
+            maxWidth='xl'
+            fullWidth
+        >
         <div className='profileCreation'>
-
           <p/>
           <Card>
+            <IconButton color="inherit" aria-label="Close" className="closeEdit" onClick={this.handleClose}>
+              <CloseIcon/>
+            </IconButton>
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
                   Edit Your Profile
@@ -449,16 +471,26 @@ class CreateProfile extends Component {
                 <LinearProgress variant="determinate" color="primary" value={this.state.page*33.33}/>
               </MuiThemeProvider>
               {renderMsg()}
-
             </CardContent>
           </Card>
-
         </div>
-      </div>
-
+      </Dialog>
+    </div>
     );
   }
 }
 
+const mapActionsToProps = (dispatch) => ({
+  editProfile: (firstname, lastname, phonenumber, city, country, age) => 
+  dispatch(editProfile(firstname, lastname, phonenumber, city, country, age)),
+  editInterest: (interestField) => dispatch(editInterest(interestField)),
+  editEducation: (educationlevel, grade, school) => dispatch(editEducation(educationlevel, grade, school))
+})
 
-export default CreateProfile;
+const mapStateToProps = (state, props) => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(CreateProfile);

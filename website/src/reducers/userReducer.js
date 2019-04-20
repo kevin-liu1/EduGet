@@ -27,6 +27,18 @@ export default (state = userDefaultState, action) => {
         grade: action.grade,
         school: action.school
       }
+    case 'INTEREST':
+      return{
+        interestField: action.interestField
+      }
+    case 'EDITPROFILE':
+      return{
+        firstname: action.firstName,
+        lastname: action.lastName,
+        phone: action.phonenumber,
+        city: action.city,
+        age: action.age,
+      }
     default:
       return state;
   }

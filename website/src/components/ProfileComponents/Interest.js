@@ -1,24 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import EditEducation from './EditEducation'
 import EditInterest from './EditInterest'
 import axios from 'axios';
-import '../styles/App.css';
+import GLOBALS from "../../config/common";
+import '../../styles/App.css';
 
 class Interest extends Component {
   constructor(props){
     super(props);
     this.state={
         interest: "",
-        interestopen: false
     }
   }
 
   componentDidMount(){
-    console.log("hello")
-
     axios.get(
-      "http://localhost:8000/api/users/details/",
+      GLOBALS.API_ROOT + "/api/users/details/",
       {
         headers: { Authorization: "Token " + localStorage.getItem("token") }
       })
@@ -35,17 +32,27 @@ class Interest extends Component {
    });
   }
 
+  componentWillReceiveProps(prop){
+    console.log(prop.user.interestField)
+    if(prop.user.interestField){
+      this.setState({interest: prop.user.interestField})
+    }
+  }
   render() {
     return (
-
       <div>
         <EditInterest/>
         <h1>Interests</h1>
         {this.state.interest}
-
       </div>
     );
   }
 }
 
-export default (Interest);
+const mapStateToProps = (state, props) => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(Interest);

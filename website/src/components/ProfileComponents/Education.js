@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import EditEducation from './EditEducation'
 import axios from 'axios';
-import '../styles/App.css';
+import GLOBALS from "../../config/common";
+import '../../styles/App.css';
 
-class Summary extends Component {
+class Education extends Component {
   constructor(props){
     super(props);
     this.state={
@@ -18,7 +19,7 @@ class Summary extends Component {
     console.log("hello")
 
     axios.get(
-      "http://localhost:8000/api/users/details/",
+      GLOBALS.API_ROOT + "/api/users/details/",
       {
         headers: { Authorization: "Token " + localStorage.getItem("token") }
       })
@@ -35,6 +36,24 @@ class Summary extends Component {
     .catch((error) => {
      console.log(error);
    });
+  }
+  
+  componentWillReceiveProps(prop){
+    if (prop.user.educationlevel){
+      this.setState({
+        educationlevel: prop.user.educationlevel
+      })
+    }
+    if (prop.user.grade){
+      this.setState({
+        grade: prop.user.grade
+      })
+    }
+    if (prop.user.school){
+      this.setState({
+        school: prop.user.school
+      })
+    }
   }
 
   render() {
@@ -61,4 +80,4 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default connect(mapStateToProps)(Summary);
+export default connect(mapStateToProps)(Education);

@@ -1,40 +1,43 @@
 import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Header from './Header';
+import Header from '../Header';
 import Scrollspy from 'react-scrollspy';
 import Grid from '@material-ui/core/Grid';
-import profilepic from '../assets/profilepic.jpg'
+import profilepic from '../../assets/profilepic.jpg'
 import Summary from './Summary'
 import Education from './Education'
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import EditProfile from './EditProfile'
+import CreateProfile from './CreateProfile'
 import Interest from './Interest'
 import axios from 'axios'
-import '../styles/App.css'
+import '../../styles/App.css'
+import GLOBALS from "../../config/common";
+import { connect } from 'react-redux';
+import Divider from '@material-ui/core/Divider';
 
-class PublicProfile extends Component {
+
+class Profile extends Component {
   constructor(props){
     super(props);
     this.state={
       openeditprofile: 1,
       summary:"",
-      education:"",
-      school:"",
-      grade:"",
-      interest:"",
+      educationlevel:"",
+      interestField:"",
       firstname:"",
       lastname:"",
-      interest:""
+      phone: "",
+      city: "",
+      age: "",
+      grade: "",
+      school: "",
+      email: ""
     }
 
   }
   componentDidMount(){
-    const { match } = this.props;
-    const id = match.params.uid;
     axios.get(
-      "http://localhost:8000/api/users/details/"+id+"/",
+      GLOBALS.API_ROOT + "/api/users/details/",
       {
         headers: { Authorization: "Token " + localStorage.getItem("token") }
       })
@@ -43,13 +46,11 @@ class PublicProfile extends Component {
       this.setState(
         {
           summary: response.data.summary,
-          education: response.data.education_level,
-          interest: response.data.interest,
+          educationlevel: response.data.education_level,
+          interestField: response.data.interest,
           firstname: response.data.first_name,
           lastname: response.data.last_name,
-          interest: response.data.interest,
-          school: response.data.school,
-          grade: response.data.grade
+          email: response.data.email
         }
       )
 
@@ -59,6 +60,9 @@ class PublicProfile extends Component {
    });
   }
 
+  componentWillReceiveProps(prop){
+    this.setState(prop.user)
+  }
   render() {
     return (
       <div className="wrapper">
@@ -70,18 +74,17 @@ class PublicProfile extends Component {
               <CardContent className="profileInfo">
                 <img className="profilePicture" src={profilepic} alt="profilepic"/>
                 <h3>{this.state.firstname} {this.state.lastname}</h3>
+                <p><b>Email:</b> {this.state.email}</p>
+                <Divider/>
                 <Scrollspy items={ ['summary', 'education', 'interest'] } currentClassName="is-current">
                   <li>
                     <a href="#summary"><h4>Summary</h4></a>
-                    {this.state.summary}
                   </li>
                   <li>
                     <a href="#education"><h4>Education</h4></a>
-                    {this.state.education}
                   </li>
                   <li>
                     <a href="#interest"><h4>Interest</h4></a>
-                    {this.state.interest}
                   </li>
                 </Scrollspy>
               </CardContent>
@@ -94,33 +97,24 @@ class PublicProfile extends Component {
 
                   <section id="summary" className="editSection">
                   <div>
-                      <h1>Summary</h1>
-                        <p>
-                          {this.state.summary}
-                        </p>
+                      <Summary/>
                   </div>
                   </section>
                   <section id="education" className="editSection">
                   <div>
-                  <div>
-
-                    <h1>Education</h1>
-                    <h4>Education Level</h4>
-                    {this.state.education}
-                    <h4>School</h4>
-                    {this.state.school}
-                    <h4>Grade</h4>
-                    {this.state.grade}
-                  </div>
+                      <Education/>
 
                   </div>
                   </section>
 
                   <section id="interest" className="editSection">
-                    <h1>Interests</h1>
-                    {this.state.interest}
+                      <Interest/>
                   </section>
-
+                  <br/>
+                  <br/>
+                  <div>
+                      <CreateProfile/>
+                  </div>
                 </div>
               </CardContent>
               </Card>
@@ -132,4 +126,10 @@ class PublicProfile extends Component {
   }
 }
 
-export default PublicProfile;
+const mapStateToProps = (state, props) => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(Profile);

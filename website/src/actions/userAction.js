@@ -22,5 +22,19 @@ export const editEducation = (educationlevel, grade, school) => ({
   educationlevel: educationlevel,
   grade: grade,
   school: school
+})
 
+export const editInterest = (interestField) => ({
+  type: 'INTEREST',
+  interestField: interestField
+})
+
+export const editProfile = (firstname, lastname, phonenumber, city, country, age) => ({
+  type: 'EDITPROFILE',
+  firstName: firstname,
+  lastName: lastname,
+  phonenumber: phonenumber,
+  city: city,
+  country: country,
+  age: age,
 })

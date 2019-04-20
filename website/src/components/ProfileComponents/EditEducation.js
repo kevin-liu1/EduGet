@@ -12,10 +12,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import Dialog from '@material-ui/core/Dialog';
 import CloseIcon from '@material-ui/icons/Close';
 import { connect } from 'react-redux';
-import { editEducation } from '../actions/userAction';
+import { editEducation } from '../../actions/userAction';
 import axios from 'axios'
-import '../styles/App.css'
-
+import GLOBALS from "../../config/common";
+import '../../styles/App.css'
 
 //options for selection
 const education = [
@@ -45,8 +45,6 @@ const education = [
   }
 ];
 
-
-
 class EditEducation extends Component {
   constructor(props){
     super(props);
@@ -64,7 +62,7 @@ class EditEducation extends Component {
   //functions for user input profile information
   componentDidMount(){
     axios.get(
-      "http://localhost:8000/api/users/details/",
+      GLOBALS.API_ROOT + "/api/users/details/",
       {
         headers: { Authorization: "Token " + localStorage.getItem("token") }
       })
@@ -91,27 +89,23 @@ class EditEducation extends Component {
   handleSave(e){
     e.preventDefault();
     this.props.editEducation(this.state.educationlevel, this.state.grade, this.state.school);
-
       axios.put(
-        "http://localhost:8000/api/users/details/",
+        GLOBALS.API_ROOT + "/api/users/details/",
         {
           education_level: this.state.educationlevel,
           grade: this.state.grade,
           school: this.state.school
-
         },
         {
           headers: { Authorization: "Token " + localStorage.getItem("token") }
         })
       .then((response) => {
         console.log(response);
+        this.setState({educationOpen: false})
       })
       .catch((error) => {
        console.log(error);
      });
-
-     window.location.reload()
-
   }
 
   handleOpen(e){
@@ -180,7 +174,6 @@ class EditEducation extends Component {
                   </Button>
                 </div>
               </MuiThemeProvider>
-
             </CardContent>
           </Card>
         </div>
@@ -190,7 +183,6 @@ class EditEducation extends Component {
     );
   }
 }
-
 
 const mapActionsToProps = (dispatch) => ({
   editEducation: (educationlevel, grade, school) => dispatch(editEducation(educationlevel, grade, school))

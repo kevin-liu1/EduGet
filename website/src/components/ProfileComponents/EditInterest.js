@@ -9,18 +9,19 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { connect } from 'react-redux';
-import { editSummary } from '../actions/userAction';
+import { editInterest } from '../../actions/userAction';
 import EditIcon from '@material-ui/icons/Edit';
 import Dialog from '@material-ui/core/Dialog';
 import axios from 'axios'
-import '../styles/App.css';
+import GLOBALS from "../../config/common";
+import '../../styles/App.css';
 
-class EditSummary extends Component {
+class EditInterest extends Component {
   constructor(props){
     super(props);
     this.state = {
-      summaryField: "",
-      summaryOpen: false,
+      interestField: "",
+      interestOpen: false,
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -30,46 +31,40 @@ class EditSummary extends Component {
 
   handleClose(e){
     this.setState({
-      summaryField: "",
-      summaryOpen: false,
+      interestField: "",
+      interestOpen: false,
     })
   }
 
   handleChange(e){
-    this.setState({summaryField: e.target.value})
+    this.setState({interestField: e.target.value})
   }
 
   handleSave(e){
-
-    this.setState({
-      summaryField: "",
-      summaryOpen: false,
-      }
-    )
-
     axios.put(
-      "http://localhost:8000/api/users/details/",
+      GLOBALS.API_ROOT + "/api/users/details/",
       {
-        summary: this.state.summaryField
-
+        interest: this.state.interestField
       },
       {
         headers: { Authorization: "Token " + localStorage.getItem("token") }
       })
     .then((response) => {
       console.log(response);
+      this.props.editInterest(this.state.interestField)
+      this.setState({
+        interestOpen: false,
+        }
+      )
     })
     .catch((error) => {
      console.log(error);
    });
-
-   window.location.reload()
-
   }
 
   handleOpen(e){
     this.setState({
-      summaryOpen: true
+      interestOpen: true
     })
   }
   render() {
@@ -85,7 +80,7 @@ class EditSummary extends Component {
         </IconButton>
         <Dialog
             onClose={this.handleClose}
-            open={this.state.summaryOpen}
+            open={this.state.interestOpen}
             onExiting={this.handleClose}
         >
         <div className="dialog">
@@ -93,12 +88,12 @@ class EditSummary extends Component {
             <IconButton color="inherit" aria-label="Close" className="closeEdit" onClick={this.handleClose}>
               <CloseIcon/>
             </IconButton>
-            <CardHeader title="Edit Summary" />
+            <CardHeader title="Edit Interest" />
             <Divider/>
             <MuiThemeProvider theme={theme}>
               <CardContent >
                   <TextField
-                    label="Summary"
+                    label="Interests"
                     multiline
                     onChange={this.handleChange}
                     fullWidth
@@ -122,7 +117,7 @@ class EditSummary extends Component {
 }
 
 const mapActionsToProps = (dispatch) => ({
-  editSummary: (summary, summaryOpen) => dispatch(editSummary(summary, summaryOpen))
+  editInterest: (interestField) => dispatch(editInterest(interestField))
 })
 
 const mapStateToProps = (state, props) => {
@@ -131,4 +126,4 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(EditSummary);
+export default connect(mapStateToProps, mapActionsToProps)(EditInterest);

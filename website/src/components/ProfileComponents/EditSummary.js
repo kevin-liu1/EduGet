@@ -9,13 +9,14 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { connect } from 'react-redux';
-import { editSummary } from '../actions/userAction';
+import { editSummary } from '../../actions/userAction';
 import EditIcon from '@material-ui/icons/Edit';
 import Dialog from '@material-ui/core/Dialog';
 import axios from 'axios'
-import '../styles/App.css';
+import '../../styles/App.css';
+import GLOBALS from "../../config/common";
 
-class EditInterest extends Component {
+class EditSummary extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -40,17 +41,10 @@ class EditInterest extends Component {
   }
 
   handleSave(e){
-
-    this.setState({
-      summaryField: "",
-      summaryOpen: false,
-      }
-    )
-
     axios.put(
-      "http://localhost:8000/api/users/details/",
+      GLOBALS.API_ROOT + "/api/users/details/",
       {
-        interest: this.state.summaryField
+        summary: this.state.summaryField
 
       },
       {
@@ -58,13 +52,15 @@ class EditInterest extends Component {
       })
     .then((response) => {
       console.log(response);
+      this.props.editSummary(this.state.summaryField);
+      this.setState({
+        summaryOpen: false,
+        }
+      )
     })
     .catch((error) => {
      console.log(error);
    });
-
-   window.location.reload()
-
   }
 
   handleOpen(e){
@@ -93,12 +89,12 @@ class EditInterest extends Component {
             <IconButton color="inherit" aria-label="Close" className="closeEdit" onClick={this.handleClose}>
               <CloseIcon/>
             </IconButton>
-            <CardHeader title="Edit Interest" />
+            <CardHeader title="Edit Summary" />
             <Divider/>
             <MuiThemeProvider theme={theme}>
               <CardContent >
                   <TextField
-                    label="Interests"
+                    label="Summary"
                     multiline
                     onChange={this.handleChange}
                     fullWidth
@@ -131,4 +127,4 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(EditInterest);
+export default connect(mapStateToProps, mapActionsToProps)(EditSummary);
