@@ -1,20 +1,31 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/info.css'
+import Grid from '@material-ui/core/Grid';
+import Header from './Header';
 
 class ResetPassword extends Component {
   render() {
     return (
-      <div>
-        <p>Follow these steps to reset your password</p>
-        <p>Please enter your email</p>
-        <p>*Ask the user for email</p>
-        <p>We have sent you a password reset link, please check your email</p>
-        <p>*Send the the email an email for password reset link</p>
-        <p>Dont see your email? click <Link to="/new-password"> <u>here</u></Link> to resend.</p>
-        <p>link currently set to set new password</p>
-
-
-      </div>
+        <div id="Page">
+          <Header/>
+            <div id="Content">
+              <Grid container direction="column" justify="center" alignItems="center">
+                <Grid item>
+                  <img src={require('../assets/eduget-logo.png')} alt="Eduget Logo"/>
+                </Grid>
+                <Grid item>
+                  <h2>Reset password</h2>
+                </Grid>
+                <Grid item>
+                  <h2>Please contact customer support</h2>
+                </Grid>
+                <Grid item>
+                  <h2>Click <Link to="/"><u>here</u></Link> to return to home page</h2>
+                </Grid>
+              </Grid>
+            </div>
+          </div>
     );
   }
 }

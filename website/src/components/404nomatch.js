@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import '../styles/info.css'
 import Grid from '@material-ui/core/Grid';
 import Header from './Header';
-import Footer from './Footer';
 
 class Nomatch extends Component {
 
@@ -30,7 +29,6 @@ class Nomatch extends Component {
               </Grid>
             </Grid>
           </div>
-          <Footer/>
         </div>
     );
   }

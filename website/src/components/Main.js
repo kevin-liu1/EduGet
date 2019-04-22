@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import SignUp from './SignUp';
 import Header from './Header';
-import Footer from './Footer';
 import Grid from '@material-ui/core/Grid';
 import '../styles/App.css';
 import Fab from '@material-ui/core/Fab';

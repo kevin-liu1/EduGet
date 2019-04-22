@@ -10,8 +10,6 @@ import UserAgreement from '../components/UserAgreement';
 import ResetPassword from '../components/ResetPassword';
 import Register from '../components/SignUp';
 import Login from '../components/SignIn';
-import NewPassword from '../components/NewPassword'; //change user password
-import Thankyou from '../components/Thankyou'; //thank you for creating a new account
 import Nomatch from '../components/404nomatch'; //404 page not found
 import School from '../components/SchoolComponents/School.js';
 import SchoolPage from '../components/SchoolComponents/SchoolPage.js';
@@ -36,8 +34,6 @@ export const AppRouter = () => (
         <PublicRoute path='/login' component={Login} exact={true} />
         <PublicRoute path='/user-agreement' component={UserAgreement} exact={true}/>
         <PublicRoute path='/password-reset' component={ResetPassword} exact={true}/>
-        <PublicRoute path="/new-password" component={NewPassword} exact={true} />
-        <PublicRoute path="/thank-you" component={Thankyou} exact={true} />
         <PublicRoute path="/schools" component={School} exact={true}/>
         <PublicRoute path="/schools/:uid" component={SchoolPage} exact={true} />
         <PublicRoute path="/programs" component={Program} exact={true}/>

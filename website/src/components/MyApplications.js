@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Header from "./Header";
-import Footer from "./Footer";
 import axios from "axios";
 import "../styles/School.css";
 
@@ -21,19 +20,19 @@ import Check from '@material-ui/icons/CheckCircleOutline';
 import Close from '@material-ui/icons/Close';
 import People from '@material-ui/icons/People';
 
-const redbutton = createMuiTheme({ 
+const redbutton = createMuiTheme({
   root: {
       padding: "none"
   },
-  palette: { primary: red } 
+  palette: { primary: red }
 })
-const bluebutton = createMuiTheme({ 
+const bluebutton = createMuiTheme({
   root: {
       padding: "none"
   },
-  palette: { primary: blue } 
+  palette: { primary: blue }
 })
-const greenbutton = createMuiTheme({ 
+const greenbutton = createMuiTheme({
   root :{
       padding: "none"
   },
@@ -115,7 +114,7 @@ class MyApplications extends Component {
                 <Close color="primary" />
               </IconButton>
             </MuiThemeProvider>
-          </TableCell> 
+          </TableCell>
       )
     }
     else{
