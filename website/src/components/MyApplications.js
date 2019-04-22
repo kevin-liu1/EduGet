@@ -120,7 +120,13 @@ class MyApplications extends Component {
     else{
       return(
         <TableCell>
-          <p>None</p>
+            <MuiThemeProvider theme={redbutton}>
+              <IconButton
+                onClick={() => this.handleReject(row.uid)}
+              >
+                <Close color="primary" />
+              </IconButton>
+            </MuiThemeProvider>
         </TableCell>
       )
     }
