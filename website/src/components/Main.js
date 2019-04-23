@@ -52,7 +52,7 @@ class Main extends Component {
               </Grid>
               <Grid>
                 <MuiThemeProvider theme={theme}>
-                  <Fab component={Link} to="/register" variant="extended" className="getStarted" color="primary">Get started</Fab>
+                  <Fab component={Link} to="/schools" variant="extended" className="getStarted" color="primary">Get started</Fab>
                 </MuiThemeProvider>
               </Grid>
             </Grid>

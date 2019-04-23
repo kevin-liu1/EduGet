@@ -143,8 +143,6 @@ class InstitutionListView(generics.ListAPIView):
 
 class InstitutionDetailView(generics.GenericAPIView):
     serializer_class = InstitutionDetailSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
 
     def get_object(self, request, uid):
         return get_object_or_404(Institution, uid=uid)
@@ -176,8 +174,6 @@ class RecommendedProgramListView(ProgramListView):
 
 class ProgramDetailView(generics.GenericAPIView):
     serializer_class = ProgramSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
 
     def get_object(self, request, uid):
         return get_object_or_404(Program, uid=uid)

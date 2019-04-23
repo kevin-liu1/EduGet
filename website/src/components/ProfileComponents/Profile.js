@@ -15,7 +15,6 @@ import GLOBALS from "../../config/common";
 import { connect } from 'react-redux';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
-import concat from 'concat-stream';
 
 class Profile extends Component {
   constructor(props){
@@ -37,6 +36,7 @@ class Profile extends Component {
       uid: null,
       transcript: "",
       profile_pic: null,
+      upload_error: "",
     }
     this.fileSelectHandler = this.fileSelectHandler.bind(this)
     this.fileUploadHandler = this.fileUploadHandler.bind(this)
@@ -74,14 +74,12 @@ class Profile extends Component {
   }
 
   fileSelectHandler(e){
-    console.log(e.target)
-    console.log(e.target.files[0])
+
     this.setState({selectedFile: e.target.files[0]})
   }
 
   fileUploadHandler(e){
     const fd = new FormData()
-    console.log(this.state.selectedFile.name)
     fd.append('transcript', this.state.selectedFile)
     axios.put(GLOBALS.API_ROOT + "/api/users/details/",fd,
     {
@@ -91,10 +89,14 @@ class Profile extends Component {
       }
     }).then((response) => {
       console.log(response);
-      this.setState({transcript: response.data.transcript})
+      this.setState({
+        transcript: response.data.transcript,
+        upload_error: ""
+      })
     })
     .catch((error) => {
      console.log(error);
+     this.setState({upload_error: "File not found"})
    });
   }
 
@@ -201,6 +203,7 @@ class Profile extends Component {
                   <Button variant="contained" component="span" type="submit" style={{marginLeft: "20px"}} onClick={this.fileUploadHandler}>
                       Upload
                   </Button>
+                  {this.state.upload_error == "" ? <div></div> : <p styles={{color: 'red'}}>{this.state.upload_error}</p>}
                   </section>
               </div>
               </CardContent>

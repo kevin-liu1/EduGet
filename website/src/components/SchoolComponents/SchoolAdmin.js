@@ -132,6 +132,10 @@ class SchoolAdmin extends Component {
                 className="program-description"
                 dangerouslySetInnerHTML={{ __html: program.description }}
               />
+              {program.average_applicant_grade ?
+                <p><b>Average Grade: </b> {program.average_applicant_grade} %</p> : <div></div>
+              }
+              <p><b>Application Fee: </b> ${program.application_fee} (CAD) </p>
             </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -339,7 +343,7 @@ class SchoolAdmin extends Component {
                          <TableBody>
                             {stableSort(this.state.applicants,getSorting(this.state.order, this.state.orderBy)).map((row) => (
                                 <TableRow key={row.uid}>
-                                    <TableCell padding="none" size="medium">{row.program.name}</TableCell>
+                                    <TableCell padding="none" size="medium"><Link to={"/programs/"+row.program.uid}>{row.program.name}</Link></TableCell>
                                     <TableCell padding="none" size="medium"><Link to={"/profile/"+row.user.uid}>{row.user.email}</Link></TableCell>
                                     <TableCell padding="none" size="medium">{row.created.substring(0,10)}</TableCell>
                                     <TableCell padding="none" size="medium">{row.applicant_status}</TableCell>

@@ -73,6 +73,8 @@ class WTUserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         for field, value in validated_data.items():
             setattr(instance, field, value)
+        if 'password' in validated_data:
+            instance.set_password(validated_data['password'])
         instance.save()
         return instance
 
