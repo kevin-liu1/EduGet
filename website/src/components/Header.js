@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Grid from '@material-ui/core/Grid';
-import { connect } from 'react-redux';
 import { login } from '../actions/userAction';
 import { Link } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -18,8 +17,13 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import '../styles/App.css'
 import logo from '../assets/eduget-logo.png'
-
 import '@material-ui/icons/AccountCircle';
+import '../styles/App.css'
+import '../styles/CreateProfile.css'
+import Settings from './Settings'
+import Avatar from '@material-ui/core/Avatar';
+import profilepic from '../assets/profilepic.png'
+
 
 const styles = theme => ({
   input: {
@@ -39,6 +43,9 @@ class Header extends Component {
       password:"",
       auth: false,
       window: null,
+      applications: null,
+      notificationWindow: null,
+      profile_pic: null
     }
     this.handleLogOut = this.handleLogOut.bind(this);
     this.toggleWindow = this.toggleWindow.bind(this);
@@ -50,6 +57,11 @@ class Header extends Component {
       this.setState({auth: false})
     }else{
       this.setState({auth: true})
+    }
+    if (localStorage.getItem('user_info') != null){
+      this.setState({
+        profile_pic: JSON.parse(localStorage.getItem('user_info')).profilepic
+      })
     }
   }
 
@@ -66,7 +78,6 @@ class Header extends Component {
   }
 
   render() {
-    const { classes } = this.props;
 
     const theme = createMuiTheme({
       palette: {
@@ -88,9 +99,19 @@ class Header extends Component {
             <Link className="headerTitle" to="/programs/recommended"><img className="logo" src={logo}/></Link>
           }
         </Grid>
-        {/* <Grid item className="searchContainer">
-          <InputBase className="search" placeholder="Search..." classes={{input: classes.input}}/>
-        </Grid> */}
+        <Grid item>
+          <Grid container spacing={24} justify="space-between" alignItems="center">
+            <Grid item>
+              <Button className="button" component={Link} to='/schools' color="inherit" fullWidth>Schools</Button>
+            </Grid>
+            <Grid item>
+              <Button className="button" component={Link} to='/programs' color="inherit" fullWidth>Search Programs</Button>             
+            </Grid>
+            <Grid item>
+              <Button className="button" component={Link} to='/applications' color="inherit" fullWidth>My Applications</Button>             
+            </Grid>
+          </Grid>
+        </Grid>
         <Grid item className="headerLayout">
             <Grid container spacing ={8} justify="space-between" alignItems="center">
               <Grid item>
@@ -105,7 +126,8 @@ class Header extends Component {
               </Grid>
               <Grid item>
                 <Button color="inherit" aria-label="More" aria-owns={open ? 'menu' : undefined} aria-haspopup="true" onClick={this.toggleWindow}>
-                  <AccountCircle/>
+                  <Avatar src={this.state.profile_pic == null ? profilepic : this.state.profile_pic}>
+                  </Avatar>
                 </Button>
               </Grid>
               <Menu id='menu' anchorEl={window} open={open} onClose={this.closeWindow}>
@@ -113,6 +135,7 @@ class Header extends Component {
                 {user_info && user_info.admin_institution ? "" :
                 <MenuItem component={Link} to='/applications'>My Applications</MenuItem>
                 }
+                <Settings/>
                 <MenuItem onClick={this.handleLogOut} component={Link} to='/login'>Log out</MenuItem>
               </Menu>
             </Grid>
@@ -155,4 +178,4 @@ class Header extends Component {
   }
 }
 
-export default withStyles(styles)(Header);
+export default (Header);

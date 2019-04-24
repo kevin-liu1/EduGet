@@ -28,7 +28,7 @@ class School extends Component {
       query: "",
       typing: false,
       typingTimeout: 0,
-      orderBy: ""
+      orderBy: "",
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -46,10 +46,14 @@ class School extends Component {
           "&search=" +
           this.state.query +
           "&ordering=" +
+<<<<<<< HEAD
           this.state.orderBy,
         (localStorage.getItem("token") ? {
           headers: { Authorization: "Token " + localStorage.getItem("token") }
         } : {})
+=======
+          this.state.orderBy
+>>>>>>> 4a529131ef7a6e9727f2541861b1a1cef07f512f
       )
       .then(response => {
         let schools = this.state.schools.slice();

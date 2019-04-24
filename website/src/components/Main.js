@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import SignUp from './SignUp';
 import Header from './Header';
-import Footer from './Footer';
 import Grid from '@material-ui/core/Grid';
 import '../styles/App.css';
 import Fab from '@material-ui/core/Fab';
@@ -53,7 +52,7 @@ class Main extends Component {
               </Grid>
               <Grid>
                 <MuiThemeProvider theme={theme}>
-                  <Fab component={Link} to="/register" variant="extended" className="getStarted" color="primary">Get started</Fab>
+                  <Fab component={Link} to="/schools" variant="extended" className="getStarted" color="primary">Get started</Fab>
                 </MuiThemeProvider>
               </Grid>
             </Grid>

@@ -92,8 +92,8 @@ class ProgramRecommended extends Component {
         <Header />
         <div className="body-wrapper">
           <CardContent className="searchContent">
-            <h1>Discover Your Perfect Program</h1>
-            
+            <h1>Here are your personalized recommandations</h1>
+
             <TextField
               id="filled-search"
               label="Search"
@@ -158,7 +158,7 @@ class List extends Component {
             <Card className="program-card">
               <CardContent>
                 <div>
-                  <img 
+                  <img
                     src={program.institution.logo}
                     alt="profilepic"
                     className="program-logo"

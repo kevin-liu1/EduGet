@@ -17,6 +17,9 @@ import GLOBALS from "../../config/common";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import { Link, NavLink} from 'react-router-dom';
+import { Redirect } from 'react-router';
+
 
 class SchoolPage extends Component {
   constructor(props) {
@@ -67,9 +70,11 @@ class SchoolPage extends Component {
                 dangerouslySetInnerHTML={{ __html: program.description }}
               />
               {program.average_applicant_grade ?
-                <p><b>Average Grade: </b> {program.average_applicant_grade}</p> :
-                <p></p>
+                <p><b>Average Grade: </b> {program.average_applicant_grade} %</p> : <div></div>
               }
+              <p><b>Application Fee: </b> ${program.application_fee} (CAD) </p>
+              {
+                localStorage.getItem("token") ?
               <Button
                 variant="contained"
                 color="primary"
@@ -77,7 +82,16 @@ class SchoolPage extends Component {
                 onClick={e => this.submitApplication(program.uid, e)}
               >
                 Apply
+              </Button> :
+              <Button 
+              variant="contained"
+              color="primary"
+              style={{ alignSelf: "flex-end", backgroundColor: "#4384AB" }}>
+                <Link to="/login">
+                  Apply
+                </Link>
               </Button>
+              }
             </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -88,9 +102,10 @@ class SchoolPage extends Component {
     const { match } = this.props;
     const id = match.params.uid;
     axios
-      .get(GLOBALS.API_ROOT + "/api/institutions/" + id, {
-        headers: { Authorization: "Token " + localStorage.getItem("token") }
-      })
+      .get(
+        GLOBALS.API_ROOT +
+          "/api/institutions/"+id
+      )
       .then(response => {
         console.log(response.data);
         this.setState({

@@ -14,7 +14,6 @@ import '../styles/App.css'
 import axios from 'axios';
 import Header from './Header';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Thankyou from './Thankyou';
 import { Redirect } from 'react-router';
 
 
@@ -77,7 +76,7 @@ class SignUp extends Component {
   render() {
     const user_info = JSON.parse(localStorage.getItem('user_info'));
     const token = localStorage.getItem('token');
-    
+
     const theme = createMuiTheme({
       palette: {
         primary: { main: '#4384AB' }, // change color of AppBar
@@ -86,7 +85,7 @@ class SignUp extends Component {
     return (
       <div className="signUpContainer">
         { token ? (
-          user_info && user_info.admin_institution ? 
+          user_info && user_info.admin_institution ?
             <Redirect to="/school-admin" /> :
             <Redirect to="/programs/recommended" />
         ) : "" }
@@ -112,7 +111,7 @@ class SignUp extends Component {
                 </Grid>
                 <div className="SignUpSpacing" onClick={this.handleSubmit}>
                   <MuiThemeProvider theme={theme}>
-                    <Button className="button" component={Link} to="/Submit" variant="contained" size="large" type="submit" color="primary">Join Now</Button>
+                    <Button className="button" component={Link} to="/login" variant="contained" size="large" type="submit" color="primary">Join Now</Button>
                   </MuiThemeProvider>
                 </div>
                 <div className="signUpSpacing">

@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Header from "./Header";
-import Footer from "./Footer";
 import axios from "axios";
 import "../styles/School.css";
-
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -19,21 +17,22 @@ import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/red';
 import Check from '@material-ui/icons/CheckCircleOutline';
 import Close from '@material-ui/icons/Close';
-import People from '@material-ui/icons/People';
+import Snackbar from "@material-ui/core/Snackbar";
+import CloseIcon from "@material-ui/icons/Close";
 
-const redbutton = createMuiTheme({ 
+const redbutton = createMuiTheme({
   root: {
       padding: "none"
   },
-  palette: { primary: red } 
+  palette: { primary: red }
 })
-const bluebutton = createMuiTheme({ 
+const bluebutton = createMuiTheme({
   root: {
       padding: "none"
   },
-  palette: { primary: blue } 
+  palette: { primary: blue }
 })
-const greenbutton = createMuiTheme({ 
+const greenbutton = createMuiTheme({
   root :{
       padding: "none"
   },
@@ -51,12 +50,15 @@ class MyApplications extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      applications: []
+      applications: [],
+      open: false,
+      msg: "",
     };
     this.handleScroll = this.handleScroll.bind(this);
     this.handleAccept = this.handleAccept.bind(this);
     this.handleRejct = this.handleReject.bind(this);
     this.renderActions = this.renderActions.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   handleAccept(id){
@@ -72,7 +74,11 @@ class MyApplications extends Component {
           applicant[i].applicant_status = 'Accepted'
         }
       })
-      this.setState({applicants: applicant})
+      this.setState({
+        applicants: applicant,
+        open: true,
+        msg: "Accepted Offer!"
+      })
     }).catch((error)=>{
       console.log(error.response);
     })
@@ -91,7 +97,11 @@ class MyApplications extends Component {
           applicant[i].applicant_status = 'Withdrawn'
         }
       })
-      this.setState({applicants: applicant})
+      this.setState({
+        applicants: applicant,
+        open: true,
+        msg: "Withdrew Offer"
+      })
     }).catch((error)=>{
       console.log(error.response);
     })
@@ -115,13 +125,19 @@ class MyApplications extends Component {
                 <Close color="primary" />
               </IconButton>
             </MuiThemeProvider>
-          </TableCell> 
+          </TableCell>
       )
     }
     else{
       return(
         <TableCell>
-          <p>None</p>
+            <MuiThemeProvider theme={redbutton}>
+              <IconButton
+                onClick={() => this.handleReject(row.uid)}
+              >
+                <Close color="primary" />
+              </IconButton>
+            </MuiThemeProvider>
         </TableCell>
       )
     }
@@ -178,6 +194,13 @@ class MyApplications extends Component {
     });
   }
 
+  handleClose(event, reason){
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ open: false });
+  }
+
   render() {
     return (
       <div>
@@ -206,10 +229,10 @@ class MyApplications extends Component {
                   {this.state.applications.map(row => (
                     <TableRow key={row.uid}>
                       <TableCell padding="none" size="medium">
-                        {row.program.institution.name}
+                        <Link to={"/schools/"+row.program.institution.uid}>{row.program.institution.name}</Link>
                       </TableCell>
                       <TableCell padding="none" size="medium">
-                        {row.program.name}
+                      <Link to={"/programs/"+row.program.uid}>{row.program.name}</Link>
                       </TableCell>
                       <TableCell padding="none" size="medium">
                         {row.created.substring(0, 10)}
@@ -228,6 +251,27 @@ class MyApplications extends Component {
             </Grid>
           </Grid>
         </div>
+        <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center"
+            }}
+            open={this.state.open}
+            onClose={this.handleClose}
+            message={
+              <span id="message-id">{this.state.msg}</span>
+            }
+            action={[
+              <IconButton
+                key="close"
+                aria-label="Close"
+                color="inherit"
+                onClick={this.handleClose}
+              >
+                <CloseIcon />
+              </IconButton>
+            ]}
+          />
       </div>
     );
   }
