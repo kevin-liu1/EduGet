@@ -72,6 +72,8 @@ urlpatterns = [
     url(r'^api/programs/$', ProgramListView.as_view()),
     url(r'^api/programs/recommended/$', RecommendedProgramListView.as_view()),
     url(r'^api/programs/(?P<uid>\w+)/$', ProgramDetailView.as_view()),
+    url(r'^api/programs/(?P<uid>\w+)/accepted-applicants/$', ProgramAcceptedApplicantsView.as_view()),
+    url(r'^api/programs/(?P<uid>\w+)/comments/$', ProgramCommentsView.as_view()),
 
     # Applications
     url(r'^api/applications/programs/$', ProgramApplicationListView.as_view()),

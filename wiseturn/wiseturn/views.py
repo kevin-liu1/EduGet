@@ -72,7 +72,6 @@ class ProgramSerializer(serializers.ModelSerializer):
         if l:
             return sum(l) / len(l) 
 
-
 class ProgramField(serializers.SlugRelatedField):
     def to_representation(self, value):
         serializer = ProgramSerializer(value)
@@ -123,6 +122,13 @@ class ProgramApplicationSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class ProgramCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgramComment
+        fields = '__all__'
+        read_only_fields = ('uid',)
+
+    user = WTUserField(slug_field="uid", read_only=True, default=serializers.CurrentUserDefault())
 
 """
 VIEWS
@@ -187,6 +193,27 @@ class ProgramDetailView(generics.GenericAPIView):
         serializer = ProgramSerializer(program)
         return Response(serializer.data)
 
+class ProgramAcceptedApplicantsView(generics.ListAPIView):
+    model = WTUser
+    permission_classes = (IsAuthenticated,)
+
+    def get_serializer_class(self):
+        return WiseturnAuth.views.WTUserSerializer
+        
+    def get_queryset(self):
+        uid = self.kwargs.get("uid")
+        return WTUser.objects.filter(
+            pk__in=[app.user.pk for app in ProgramApplication.objects.filter(program__uid=uid, applicant_status='ACC').prefetch_related('user')]
+        )
+
+class ProgramCommentsView(generics.ListAPIView):
+    model = ProgramComment
+    serializer_class = ProgramCommentSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        uid = self.kwargs.get("uid")
+        return ProgramComment.objects.filter(program__uid=uid).order_by('created')
 
 class ProgramApplicationListView(generics.ListAPIView):
     model = ProgramApplication

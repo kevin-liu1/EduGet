@@ -47,9 +47,9 @@ class School extends Component {
           this.state.query +
           "&ordering=" +
           this.state.orderBy,
-        {
+        (localStorage.getItem("token") ? {
           headers: { Authorization: "Token " + localStorage.getItem("token") }
-        }
+        } : {})
       )
       .then(response => {
         let schools = this.state.schools.slice();

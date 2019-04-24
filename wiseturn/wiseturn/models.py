@@ -231,6 +231,18 @@ class Program(WtModel):
         return self.name
 
 
+class Comment(WtModel):
+    class Meta:
+        abstract = True
+
+    user = models.ForeignKey('WtUser', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+
+    message = models.TextField()
+
+class ProgramComment(Comment):
+    program = models.ForeignKey('Program', on_delete=models.CASCADE)
+
 class Company(WtModel):
     name = models.CharField(max_length=255, blank=False)
     size = models.IntegerField(null=True)
