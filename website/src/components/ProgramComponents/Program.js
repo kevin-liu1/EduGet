@@ -46,9 +46,6 @@ class Program extends Component {
           this.state.query +
           "&ordering=" +
           this.state.orderBy,
-        {
-          headers: { Authorization: "Token " + localStorage.getItem("token") }
-        }
       )
       .then(response => {
         let programs = this.state.programs.slice();

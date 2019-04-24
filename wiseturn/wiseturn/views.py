@@ -195,9 +195,10 @@ class ProgramAcceptedApplicantsView(generics.ListAPIView):
 
     def get_serializer_class(self):
         return WiseturnAuth.views.WTUserSerializer
-        
+
     def get_queryset(self):
         uid = self.kwargs.get("uid")
+        print(ProgramApplication.objects.filter(program__uid=uid, applicant_status='ACC'))
         return WTUser.objects.filter(
             pk__in=[app.user.pk for app in ProgramApplication.objects.filter(program__uid=uid, applicant_status='ACC').prefetch_related('user')]
         )
@@ -210,6 +211,14 @@ class ProgramCommentsView(generics.ListAPIView):
     def get_queryset(self):
         uid = self.kwargs.get("uid")
         return ProgramComment.objects.filter(program__uid=uid).order_by('created')
+
+    def post(self, request, format=None):
+        serializer = ProgramCommentSerializer(
+            data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ProgramApplicationListView(generics.ListAPIView):
     model = ProgramApplication
@@ -254,10 +263,9 @@ class ProgramApplicationDetailView(generics.GenericAPIView):
 
         try:
             if request.user.institutionadmin.institution == application.program.institution:
-                data['status'] = request.data.get('status', "")
+                data = request.data
             else:
-                data['applicant_status'] = request.data.get(
-                    'applicant_status', "")
+                raise AttributeError
         except AttributeError:
             data['applicant_status'] = request.data.get('applicant_status', "")
 
