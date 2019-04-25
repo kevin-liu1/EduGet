@@ -48,7 +48,7 @@ class Main extends Component {
           <div className="headlineContainer">
             <Grid container direction="column" justify="center" alignItems="center">
               <Grid item>
-                <h1 className="headline">Apply to the top universities in the world today!</h1>
+                <h1 className="headline">Discover your perfect program and apply to top schools</h1>
               </Grid>
               <Grid>
                 <MuiThemeProvider theme={theme}>
