@@ -103,7 +103,18 @@ header.body-wrapper{
 
 .signInSpacing{
   margin-top: 30px;
+  display: flex;
+  clear: both;
+  align-items: center;
+  justify-content: center;
+
 }
+
+.signInSpacing p{
+  margin: 0;
+
+}
+
 .signInLinks{
   width: 100%;
 }

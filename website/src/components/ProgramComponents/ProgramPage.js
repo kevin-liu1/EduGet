@@ -122,9 +122,7 @@ class ProgramPage extends Component {
     const { match } = this.props;
     const id = match.params.uid;
     axios
-      .get(GLOBALS.API_ROOT + "/api/programs/" + id, {
-        headers: { Authorization: "Token " + localStorage.getItem("token") }
-      })
+      .get(GLOBALS.API_ROOT + "/api/programs/" + id)
       .then(response => {
         this.setState({
           info: response.data,

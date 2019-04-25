@@ -73,17 +73,7 @@ class SchoolPage extends Component {
                 <p><b>Average Grade: </b> {program.average_applicant_grade} %</p> : <div></div>
               }
               <p><b>Application Fee: </b> ${program.application_fee} (CAD) </p>
-              {
-                localStorage.getItem("token") ? <div style={{ alignSelf: "flex-end" }}>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ backgroundColor: "#4384AB", float: "right" }}
-                onClick={e => this.submitApplication(program.uid, e)}
-              >
-                Apply
-              </Button>
-
+              <div style={{ alignSelf: "flex-end" }}>
               <Button
                 variant="contained"
                 color="primary"
@@ -92,23 +82,26 @@ class SchoolPage extends Component {
               >
                 Details
               </Button>
-              </div> :
-              <div style={{ alignSelf: "flex-end", float: "right" }}><Button 
-              variant="contained"
-              color="primary"
-              style={{backgroundColor: "#4384AB", marginRight: "10px" }}>
-                <Link to="/login">
-                  Apply
-                </Link>
-              </Button><Button
+              {
+                localStorage.getItem("token") ? 
+              <Button
                 variant="contained"
                 color="primary"
-                style={{backgroundColor: "#4384AB" }}
+                style={{ backgroundColor: "#4384AB", float: "right" }}
                 onClick={e => this.submitApplication(program.uid, e)}
               >
                 Apply
-              </Button></div>
+              </Button> :
+              <Button 
+              variant="contained"
+              color="primary"
+              style={{backgroundColor: "#4384AB", float: "right" }}>
+                <Link to="/login">
+                  Apply
+                </Link>
+              </Button>
               }
+              </div>
             </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
