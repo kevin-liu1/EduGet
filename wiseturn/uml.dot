@@ -1,6 +1,6 @@
 digraph model_graph {
   // Dotfile by Django-Extensions graph_models
-  // Created: 2019-04-22 16:18
+  // Created: 2019-04-24 23:32
   // Cli Options: wiseturn -e --dot -o uml.dot
 
   fontname = "helvetica"
@@ -21,6 +21,12 @@ digraph model_graph {
   // Labels
 
 
+  django_contrib_auth_base_user_AbstractBaseUser [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>AbstractBaseUser</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">last_login</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">DateTimeField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">password</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR>
+    </TABLE>
+    >]
+
   wiseturn_models_WtModel [label=<
     <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>WtModel</b></FONT></TD></TR>
   <TR><TD><FONT point-size="8">uid</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR>
@@ -33,9 +39,9 @@ digraph model_graph {
     </TABLE>
     >]
 
-  django_contrib_auth_base_user_AbstractBaseUser [label=<
-    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>AbstractBaseUser</b></FONT></TD></TR>
-  <TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">last_login</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">DateTimeField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">password</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR>
+  wiseturn_models_Comment [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>Comment</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><b>user</b></FONT></TD><TD><FONT point-size="8"><b>ForeignKey (None)</b></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">created</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">DateTimeField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">message</FONT></TD><TD><FONT point-size="8">TextField</FONT></TD></TR><TR><TD><FONT point-size="8"><i>uid</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR>
     </TABLE>
     >]
 
@@ -75,6 +81,12 @@ digraph model_graph {
     </TABLE>
     >]
 
+  wiseturn_models_ProgramComment [label=<
+    <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>ProgramComment</b></FONT></TD></TR>
+  <TR><TD><FONT point-size="8"><b>id</b></FONT></TD><TD><FONT point-size="8"><b>AutoField</b></FONT></TD></TR><TR><TD><FONT point-size="8"><b>program</b></FONT></TD><TD><FONT point-size="8"><b>ForeignKey (id)</b></FONT></TD></TR><TR><TD><FONT point-size="8"><i><b>user</b></i></FONT></TD><TD><FONT point-size="8"><i><b>ForeignKey (id)</b></i></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>created</i></FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B"><i>DateTimeField</i></FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><i>message</i></FONT></TD><TD><FONT point-size="8"><i>TextField</i></FONT></TD></TR><TR><TD><FONT point-size="8"><i>uid</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR>
+    </TABLE>
+    >]
+
   wiseturn_models_Company [label=<
     <TABLE BGCOLOR="#eeeeee" BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="#1792be"><FONT COLOR="white"><b>Company</b></FONT></TD></TR>
   <TR><TD><FONT point-size="8"><b>id</b></FONT></TD><TD><FONT point-size="8"><b>AutoField</b></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">city</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">cost_of_living</FONT></TD><TD><FONT point-size="8">DecimalField</FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">country</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">description</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">TextField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">latitude</FONT></TD><TD><FONT point-size="8">FloatField</FONT></TD></TR><TR><TD><FONT point-size="8">logo</FONT></TD><TD><FONT point-size="8">ImageField</FONT></TD></TR><TR><TD><FONT point-size="8">longitude</FONT></TD><TD><FONT point-size="8">FloatField</FONT></TD></TR><TR><TD><FONT point-size="8">name</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">postal</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">province</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8">size</FONT></TD><TD><FONT point-size="8">IntegerField</FONT></TD></TR><TR><TD><FONT point-size="8">slug</FONT></TD><TD><FONT point-size="8">CharField</FONT></TD></TR><TR><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">street</FONT></FONT></TD><TD><FONT point-size="8"><FONT COLOR="#7B7B7B">CharField</FONT></FONT></TD></TR><TR><TD><FONT point-size="8"><i>uid</i></FONT></TD><TD><FONT point-size="8"><i>CharField</i></FONT></TD></TR>
@@ -106,6 +118,10 @@ wiseturn_models_Application -> wiseturn_models_WTUser
   [label=""] [arrowhead=none, arrowtail=dot, dir=both];
 wiseturn_models_Application -> wiseturn_models_WtModel
   [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+wiseturn_models_Comment -> wiseturn_models_WTUser
+  [label=""] [arrowhead=none, arrowtail=dot, dir=both];
+wiseturn_models_Comment -> wiseturn_models_WtModel
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
 wiseturn_models_WTUser -> django_contrib_auth_models_Group
   [label=""] [arrowhead=dot arrowtail=dot, dir=both];
 wiseturn_models_WTUser -> django_contrib_auth_models_Permission
@@ -129,6 +145,10 @@ wiseturn_models_Institution -> wiseturn_models_WtModel
 wiseturn_models_Program -> wiseturn_models_Institution
   [label=""] [arrowhead=none, arrowtail=dot, dir=both];
 wiseturn_models_Program -> wiseturn_models_WtModel
+  [label=""] [arrowhead=empty, arrowtail=none, dir=both];
+wiseturn_models_ProgramComment -> wiseturn_models_Program
+  [label=""] [arrowhead=none, arrowtail=dot, dir=both];
+wiseturn_models_ProgramComment -> wiseturn_models_Comment
   [label=""] [arrowhead=empty, arrowtail=none, dir=both];
 wiseturn_models_Company -> wiseturn_models_WtModel
   [label=""] [arrowhead=empty, arrowtail=none, dir=both];

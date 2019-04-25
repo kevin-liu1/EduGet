@@ -128,8 +128,15 @@ class ProgramCommentSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('uid',)
 
+    program = serializers.SlugRelatedField(slug_field='uid', queryset=Program.objects.all())
     user = WTUserField(slug_field="uid", read_only=True, default=serializers.CurrentUserDefault())
 
+    def create(self, validated_data):
+        return ProgramComment.objects.create(
+            user=self.context['request'].user,
+            message=validated_data['message'],
+            program=validated_data['program'],
+        )
 """
 VIEWS
 """
@@ -212,9 +219,9 @@ class ProgramCommentsView(generics.ListAPIView):
         uid = self.kwargs.get("uid")
         return ProgramComment.objects.filter(program__uid=uid).order_by('created')
 
-    def post(self, request, format=None):
+    def post(self, request, uid, format=None):
         serializer = ProgramCommentSerializer(
-            data=request.data, context={'request': request})
+            data={'message': request.data['message'], 'program': uid}, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
