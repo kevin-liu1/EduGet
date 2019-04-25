@@ -74,23 +74,40 @@ class SchoolPage extends Component {
               }
               <p><b>Application Fee: </b> ${program.application_fee} (CAD) </p>
               {
-                localStorage.getItem("token") ?
+                localStorage.getItem("token") ? <div style={{ alignSelf: "flex-end" }}>
               <Button
                 variant="contained"
                 color="primary"
-                style={{ alignSelf: "flex-end", backgroundColor: "#4384AB" }}
+                style={{ backgroundColor: "#4384AB", float: "right" }}
                 onClick={e => this.submitApplication(program.uid, e)}
               >
                 Apply
-              </Button> :
-              <Button 
+              </Button>
+
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ backgroundColor: "#4384AB", marginRight: "10px"}}
+                component={Link} to={"/programs/"+program.uid}
+              >
+                Details
+              </Button>
+              </div> :
+              <div style={{ alignSelf: "flex-end", float: "right" }}><Button 
               variant="contained"
               color="primary"
-              style={{ alignSelf: "flex-end", backgroundColor: "#4384AB" }}>
+              style={{backgroundColor: "#4384AB", marginRight: "10px" }}>
                 <Link to="/login">
                   Apply
                 </Link>
-              </Button>
+              </Button><Button
+                variant="contained"
+                color="primary"
+                style={{backgroundColor: "#4384AB" }}
+                onClick={e => this.submitApplication(program.uid, e)}
+              >
+                Apply
+              </Button></div>
               }
             </Grid>
           </ExpansionPanelDetails>
