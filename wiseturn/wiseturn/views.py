@@ -217,7 +217,7 @@ class ProgramCommentsView(generics.ListAPIView):
 
     def get_queryset(self):
         uid = self.kwargs.get("uid")
-        return ProgramComment.objects.filter(program__uid=uid).order_by('created')
+        return ProgramComment.objects.filter(program__uid=uid).order_by('-created')
 
     def post(self, request, uid, format=None):
         serializer = ProgramCommentSerializer(
