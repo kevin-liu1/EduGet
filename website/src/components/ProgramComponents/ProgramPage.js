@@ -184,7 +184,7 @@ class ProgramPage extends Component {
                     }}
                   />
                   {this.state.info.average_applicant_grade ?
-                    <p><b>Average Grade: </b> {this.state.info.average_applicant_grade} %</p> :
+                    <p><b>Average Grade: </b> {this.state.info.average_applicant_grade.toFixed(2)} %</p> :
                     <div></div>
                   }
                   <p><b>Application Fee: </b> ${this.state.info.application_fee} (CAD) </p>

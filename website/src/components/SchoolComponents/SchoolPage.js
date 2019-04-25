@@ -70,7 +70,7 @@ class SchoolPage extends Component {
                 dangerouslySetInnerHTML={{ __html: program.description }}
               />
               {program.average_applicant_grade ?
-                <p><b>Average Grade: </b> {program.average_applicant_grade} %</p> : <div></div>
+                <p><b>Average Grade: </b> {program.average_applicant_grade.toFixed(2)} %</p> : <div></div>
               }
               <p><b>Application Fee: </b> ${program.application_fee} (CAD) </p>
               <div style={{ alignSelf: "flex-end" }}>
