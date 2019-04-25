@@ -200,6 +200,7 @@ class ProgramPage extends Component {
                   <br/>
                   <h1>Comments</h1>
                     <List>
+                    {localStorage.getItem('token') ? <div>
                     <ListItem alignItems="flex-start">
                             <Divider/>
                             <ListItemText
@@ -222,7 +223,8 @@ class ProgramPage extends Component {
                         onClick={this.handlePost}
                       >
                         Post
-                      </Button>
+                      </Button></div>
+                      : "" }
                     {this.renderComments()}
                     </List>
                 </CardContent>
