@@ -106,7 +106,7 @@ class WTUser(AbstractBaseUser, PermissionsMixin, WtModel):
     )
     summary = models.CharField(max_length=400, blank=True)
     zippostal = models.CharField(max_length=255, blank=True)
-    phonenumber = models.IntegerField(null=True)
+    phonenumber = models.BigIntegerField(null=True)
     city = models.CharField(max_length=255, blank=True)
     birthday = models.DateField(null=True)
     country_of_origin = models.CharField(max_length=255, blank=True)
