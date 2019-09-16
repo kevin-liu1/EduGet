@@ -5,7 +5,7 @@ Eudget is a networking platform that aids its users by finding university progra
 # Installation
 ### Acquire source files
 
-    git clone https://github.com/jamesmili/Capstone.git
+    git clone https://github.com/jamesmili/EduGet.git
 
 ### Set up Django environment
 install python and virtual env
