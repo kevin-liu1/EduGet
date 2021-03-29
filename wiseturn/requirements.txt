@@ -50,7 +50,7 @@ ptyprocess==0.6.0
 pyasn1==0.4.5
 pyasn1-modules==0.2.3
 pydotplus==2.0.2
-Pygments==2.3.0
+Pygments==2.7.4
 pyparsing==2.3.1
 python-dateutil==2.7.5
 python3-openid==3.1.0
