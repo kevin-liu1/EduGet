@@ -9,7 +9,7 @@ defusedxml==0.5.0
 Django==1.11.17
 django-allauth==0.38.0
 django-cors-headers==2.4.0
-django-debug-toolbar==1.11
+django-debug-toolbar==1.11.1
 django-extensions==2.1.4
 django-filter==2.0.0
 django-neomodel==0.0.4
