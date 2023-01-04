@@ -23,7 +23,7 @@
     "serve": "^10.1.2"
   },
   "devDependencies": {
-    "react-scripts": "^2.1.8"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
